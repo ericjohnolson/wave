@@ -1,0 +1,230 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="wavepoetry2Model" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityContainer Name="wavepoetry2Entities1" p1:LazyLoadingEnabled="true">
+    <EntitySet Name="awards" EntityType="wavepoetry2Model.award" />
+    <EntitySet Name="award_categories" EntityType="wavepoetry2Model.award_categories" />
+    <EntitySet Name="award_to_category" EntityType="wavepoetry2Model.award_to_category" />
+    <EntitySet Name="award_to_contact" EntityType="wavepoetry2Model.award_to_contact" />
+    <EntitySet Name="contacts" EntityType="wavepoetry2Model.contact" />
+    <EntitySet Name="contact_categories" EntityType="wavepoetry2Model.contact_categories" />
+    <EntitySet Name="contact_to_category" EntityType="wavepoetry2Model.contact_to_category" />
+    <EntitySet Name="reviews" EntityType="wavepoetry2Model.review" />
+    <EntitySet Name="shipments" EntityType="wavepoetry2Model.shipment" />
+    <EntitySet Name="shipment_to_award" EntityType="wavepoetry2Model.shipment_to_award" />
+    <EntitySet Name="titles" EntityType="wavepoetry2Model.title" />
+    <EntitySet Name="title_to_review" EntityType="wavepoetry2Model.title_to_review" />
+    <EntitySet Name="users" EntityType="wavepoetry2Model.user" />
+    <AssociationSet Name="FK_title_contact" Association="wavepoetry2Model.FK_title_contact">
+      <End Role="Title" EntitySet="titles" />
+      <End Role="Contact" EntitySet="contacts" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="award">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="name" Type="String" Nullable="false" />
+    <Property Name="organization" Type="String" />
+    <Property Name="date_deadline" Type="DateTime" />
+    <Property Name="date_announced" Type="DateTime" />
+    <Property Name="website" Type="String" />
+    <Property Name="notes" Type="String" />
+    <Property Name="addressline1" Type="String" />
+    <Property Name="addressline2" Type="String" />
+    <Property Name="city" Type="String" />
+    <Property Name="state" Type="String" />
+    <Property Name="zip" Type="String" />
+    <Property Name="country" Type="String" />
+    <Property Name="createdby" Type="Int32" Nullable="false" />
+    <Property Name="createdat" Type="DateTime" Nullable="false" />
+    <Property Name="updatedby" Type="Int32" Nullable="false" />
+    <Property Name="updatedat" Type="DateTime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="award_categories">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="name" Type="String" Nullable="false" />
+  </EntityType>
+  <EntityType Name="award_to_category">
+    <Key>
+      <PropertyRef Name="award_id" />
+      <PropertyRef Name="award_category_id" />
+    </Key>
+    <Property Name="award_id" Type="Int32" Nullable="false" />
+    <Property Name="award_category_id" Type="Int32" Nullable="false" />
+  </EntityType>
+  <EntityType Name="award_to_contact">
+    <Key>
+      <PropertyRef Name="award_id" />
+      <PropertyRef Name="contact_id" />
+    </Key>
+    <Property Name="award_id" Type="Int32" Nullable="false" />
+    <Property Name="contact_id" Type="Int32" Nullable="false" />
+  </EntityType>
+  <EntityType Name="contact">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="firstname" Type="String" />
+    <Property Name="lastname" Type="String" />
+    <Property Name="website" Type="String" />
+    <Property Name="email1" Type="String" />
+    <Property Name="is_email1_primary" Type="Boolean" Nullable="false" />
+    <Property Name="email2" Type="String" />
+    <Property Name="is_email2_primary" Type="Boolean" Nullable="false" />
+    <Property Name="notes" Type="String" />
+    <Property Name="is_subscriber" Type="Boolean" Nullable="false" />
+    <Property Name="sub_startdate" Type="DateTime" />
+    <Property Name="sub_enddate" Type="DateTime" />
+    <Property Name="sub_number" Type="Int32" />
+    <Property Name="galley_all" Type="Boolean" Nullable="false" />
+    <Property Name="galley_pos" Type="Boolean" Nullable="false" />
+    <Property Name="galley_copies" Type="Int32" />
+    <Property Name="review_all" Type="Boolean" Nullable="false" />
+    <Property Name="review_pos" Type="Boolean" Nullable="false" />
+    <Property Name="review_copies" Type="Int32" />
+    <Property Name="desk_all" Type="Boolean" Nullable="false" />
+    <Property Name="desk_pos" Type="Boolean" Nullable="false" />
+    <Property Name="desk_copies" Type="Int32" />
+    <Property Name="comp_all" Type="Boolean" Nullable="false" />
+    <Property Name="comp_pos" Type="Boolean" Nullable="false" />
+    <Property Name="comp_copies" Type="Int32" />
+    <Property Name="addressline1" Type="String" />
+    <Property Name="addressline2" Type="String" />
+    <Property Name="city" Type="String" />
+    <Property Name="state" Type="String" />
+    <Property Name="zip" Type="String" />
+    <Property Name="country" Type="String" />
+    <Property Name="title" Type="String" />
+    <Property Name="organization" Type="String" />
+    <Property Name="is_primary" Type="Boolean" Nullable="false" />
+    <Property Name="is_bad" Type="Boolean" Nullable="false" />
+    <Property Name="addressline1_alt" Type="String" />
+    <Property Name="addressline2_alt" Type="String" />
+    <Property Name="city_alt" Type="String" />
+    <Property Name="state_alt" Type="String" />
+    <Property Name="zip_alt" Type="String" />
+    <Property Name="country_alt" Type="String" />
+    <Property Name="organization_alt" Type="String" />
+    <Property Name="title_alt" Type="String" />
+    <Property Name="is_primary_alt" Type="Boolean" Nullable="false" />
+    <Property Name="is_bad_alt" Type="Boolean" Nullable="false" />
+    <Property Name="sub_type" Type="String" />
+    <Property Name="createdby" Type="Int32" Nullable="false" />
+    <Property Name="createdat" Type="DateTime" Nullable="false" />
+    <Property Name="updatedby" Type="Int32" Nullable="false" />
+    <Property Name="updatedat" Type="DateTime" Nullable="false" />
+    <NavigationProperty Name="contact_title" Relationship="wavepoetry2Model.FK_title_contact" FromRole="Contact" ToRole="Title" />
+  </EntityType>
+  <EntityType Name="contact_categories">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="name" Type="String" Nullable="false" />
+  </EntityType>
+  <EntityType Name="contact_to_category">
+    <Key>
+      <PropertyRef Name="contact_id" />
+      <PropertyRef Name="contact_category_id" />
+    </Key>
+    <Property Name="contact_id" Type="Int32" Nullable="false" />
+    <Property Name="contact_category_id" Type="Int32" Nullable="false" />
+  </EntityType>
+  <EntityType Name="review">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" />
+    <Property Name="original_link" Type="String" />
+    <Property Name="copy_link" Type="String" />
+    <Property Name="review_text" Type="String" />
+    <Property Name="date_reviewed" Type="DateTime" Nullable="false" />
+    <Property Name="venue" Type="String" />
+    <Property Name="createdby" Type="Int32" Nullable="false" />
+    <Property Name="createdat" Type="DateTime" Nullable="false" />
+    <Property Name="updatedby" Type="Int32" Nullable="false" />
+    <Property Name="updatedat" Type="DateTime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="shipment">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="title_id" Type="Int32" Nullable="false" />
+    <Property Name="contact_id" Type="Int32" Nullable="false" />
+    <Property Name="status" Type="String" Nullable="false" />
+    <Property Name="type" Type="String" Nullable="false" />
+    <Property Name="date_sent" Type="DateTime" />
+    <Property Name="quantity" Type="Int32" Nullable="false" />
+    <Property Name="should_followup" Type="Boolean" Nullable="false" />
+    <Property Name="createdby" Type="Int32" Nullable="false" />
+    <Property Name="createdat" Type="DateTime" Nullable="false" />
+    <Property Name="updatedby" Type="Int32" Nullable="false" />
+    <Property Name="updatedat" Type="DateTime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="shipment_to_award">
+    <Key>
+      <PropertyRef Name="shipment_id" />
+      <PropertyRef Name="award_id" />
+    </Key>
+    <Property Name="shipment_id" Type="Int32" Nullable="false" />
+    <Property Name="award_id" Type="Int32" Nullable="false" />
+  </EntityType>
+  <EntityType Name="title">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="title1" Type="String" Nullable="false" />
+    <Property Name="subtitle" Type="String" />
+    <Property Name="author" Type="Int32" Nullable="false" />
+    <Property Name="edition" Type="String" Nullable="false" />
+    <Property Name="isbn" Type="String" Nullable="false" />
+    <Property Name="date_published" Type="DateTime" Nullable="false" />
+    <Property Name="notes" Type="String" />
+    <Property Name="createdby" Type="Int32" Nullable="false" />
+    <Property Name="createdat" Type="DateTime" Nullable="false" />
+    <Property Name="updatedby" Type="Int32" Nullable="false" />
+    <Property Name="updatedat" Type="DateTime" Nullable="false" />
+    <NavigationProperty Name="author_contact" Relationship="wavepoetry2Model.FK_title_contact" FromRole="Title" ToRole="Contact" />
+  </EntityType>
+  <EntityType Name="title_to_review">
+    <Key>
+      <PropertyRef Name="title_id" />
+      <PropertyRef Name="review_id" />
+    </Key>
+    <Property Name="title_id" Type="Int32" Nullable="false" />
+    <Property Name="review_id" Type="Int32" Nullable="false" />
+  </EntityType>
+  <EntityType Name="user">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="username" Type="String" Nullable="false" />
+    <Property Name="password" Type="String" Nullable="false" />
+    <Property Name="is_admin" Type="Boolean" Nullable="false" />
+    <Property Name="is_deleted" Type="Boolean" Nullable="false" />
+    <Property Name="createdby" Type="Int32" />
+    <Property Name="createdat" Type="DateTime" />
+    <Property Name="updatedby" Type="Int32" />
+    <Property Name="updatedat" Type="DateTime" />
+  </EntityType>
+  <Association Name="FK_title_contact">
+    <End Type="wavepoetry2Model.title" Role="Title" Multiplicity="*" />
+    <End Type="wavepoetry2Model.contact" Role="Contact" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Contact">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Title">
+        <PropertyRef Name="author" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

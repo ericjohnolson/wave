@@ -1,0 +1,11 @@
+C:\DevelopmentAws\WavePoetry\WavePoetry.DataAccess\bin\Debug\WavePoetry.DataAccess.dll.config
+C:\DevelopmentAws\WavePoetry\WavePoetry.DataAccess\bin\Debug\WavePoetry.DataAccess.dll
+C:\DevelopmentAws\WavePoetry\WavePoetry.DataAccess\bin\Debug\WavePoetry.DataAccess.pdb
+C:\DevelopmentAws\WavePoetry\WavePoetry.DataAccess\bin\Debug\EntityFramework.dll
+C:\DevelopmentAws\WavePoetry\WavePoetry.DataAccess\bin\Debug\System.Data.dll
+C:\DevelopmentAws\WavePoetry\WavePoetry.DataAccess\bin\Debug\WavePoetry.Model.dll
+C:\DevelopmentAws\WavePoetry\WavePoetry.DataAccess\bin\Debug\WavePoetry.Model.pdb
+C:\DevelopmentAws\WavePoetry\WavePoetry.DataAccess\bin\Debug\EntityFramework.xml
+C:\DevelopmentAws\WavePoetry\WavePoetry.DataAccess\obj\Debug\WavePoetry.DataAccess.csprojResolveAssemblyReference.cache
+C:\DevelopmentAws\WavePoetry\WavePoetry.DataAccess\obj\Debug\WavePoetry.DataAccess.dll
+C:\DevelopmentAws\WavePoetry\WavePoetry.DataAccess\obj\Debug\WavePoetry.DataAccess.pdb

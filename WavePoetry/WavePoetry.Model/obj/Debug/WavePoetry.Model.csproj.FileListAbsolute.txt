@@ -1,0 +1,5 @@
+C:\DevelopmentAws\WavePoetry\WavePoetry.Model\bin\Debug\WavePoetry.Model.dll
+C:\DevelopmentAws\WavePoetry\WavePoetry.Model\bin\Debug\WavePoetry.Model.pdb
+C:\DevelopmentAws\WavePoetry\WavePoetry.Model\obj\Debug\WavePoetry.Model.dll
+C:\DevelopmentAws\WavePoetry\WavePoetry.Model\obj\Debug\WavePoetry.Model.pdb
+C:\DevelopmentAws\WavePoetry\WavePoetry.Model\obj\Debug\WavePoetry.Model.csprojResolveAssemblyReference.cache

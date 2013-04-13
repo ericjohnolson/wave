@@ -1,0 +1,53 @@
+﻿@model WavePoetry.Model.AdminUser
+
+@{
+    ViewBag.Title = "Edit User";
+}
+
+<h2>Edit User</h2>
+
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend></legend>
+            @Html.HiddenFor(model => model.UserId)
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Username)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Username)
+            @Html.ValidationMessageFor(model => model.Username)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Password)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Password)
+            @Html.ValidationMessageFor(model => model.Password)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.IsAdmin)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.IsAdmin)
+            @Html.ValidationMessageFor(model => model.IsAdmin)
+        </div>
+        
+        <div class="form-actions">
+            <div class=" pull-right">
+                <button class="btn btn-primary" name="cmdSave" type="submit">Save</button>
+                <a href="/Admin/ListUsers/" class="btn">Cancel</a>
+            </div>
+        </div>
+    </fieldset>
+}
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

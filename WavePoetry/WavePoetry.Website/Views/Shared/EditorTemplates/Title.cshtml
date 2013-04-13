@@ -1,0 +1,213 @@
+﻿@model WavePoetry.Model.Title
+
+
+<div class="tabbable">
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="#tab1" data-toggle="tab">Details</a></li>
+        <li><a href="#tab2" data-toggle="tab" id="reviews-link">Reviews</a></li>
+        <li><a href="#tab3" data-toggle="tab" id="awards-link">Awards</a></li>
+    </ul>
+    <div class="tab-content">
+        <div class="tab-pane active" id="tab1">
+
+            <fieldset>
+                <legend></legend>
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.Name)
+                </div>
+                <div class="editor-field">
+                    @Html.EditorFor(model => model.Name)
+                    @Html.ValidationMessageFor(model => model.Name)
+                </div>
+
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.Subtitle)
+                </div>
+                <div class="editor-field">
+                    @Html.EditorFor(model => model.Subtitle)
+                    @Html.ValidationMessageFor(model => model.Subtitle)
+                </div>
+
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.Author)
+                </div>
+                <div class="editor-field">
+                    @Html.EditorFor(model => model.Author)
+                    @Html.ValidationMessageFor(model => model.Author)
+                </div>
+
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.Edition)
+                </div>
+                <div class="editor-field">
+                    @Html.EditorFor(model => model.Edition)
+                    @Html.ValidationMessageFor(model => model.Edition)
+                </div>
+
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.ISBN)
+                </div>
+                <div class="editor-field">
+                    @Html.EditorFor(model => model.ISBN)
+                    @Html.ValidationMessageFor(model => model.ISBN)
+                </div>
+
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.PubDate)
+                </div>
+                <div class="editor-field">
+                    @Html.EditorFor(model => model.PubDate)
+                    @Html.ValidationMessageFor(model => model.PubDate)
+                </div>
+
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.Notes)
+                </div>
+                <div class="editor-field">
+                    @Html.EditorFor(model => model.Notes)
+                    @Html.ValidationMessageFor(model => model.Notes)
+                </div>
+
+
+                <div class="form-actions">
+                    <div class=" pull-right">
+                        <button class="btn btn-primary" name="cmdSave" type="submit">Save</button>
+                        <a href="/Title/Search/" class="btn">Cancel</a>
+                    </div>
+                </div>
+            </fieldset>
+
+        </div>
+        <div class="tab-pane" id="tab2">
+            <p>reviews</p>
+        </div>
+        <div class="tab-pane" id="tab3">
+            <p>awards</p>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    //$(document).ready(function () {
+    //    // Init items
+    //    $('#StartDateTime').datetimepicker();
+    //    $('#EndDateTime').datetimepicker();
+    //    $("#Event_Description").cleditor();
+    //    $(".chzn-select").chosen();
+
+    //    $("#Event_OrganiserEmail")
+    //    // don't navigate away from the field on tab when selecting an item
+    //    .bind("keydown", function (event) {
+    //        if (event.keyCode === $.ui.keyCode.TAB &&
+    //        $(this).data("autocomplete").menu.active) {
+    //            event.preventDefault();
+    //        }
+    //    })
+    //    .autocomplete({
+    //        minLength: 1,
+    //        source: function (request, response) {
+    //            $.ajax({
+    //                url: "/User/LookupUser", type: "POST", dataType: "json",
+    //                data: { searchText: request.term, maxResults: 10 },
+    //                success: function (data) {
+    //                    response($.map(data, function (item) {
+    //                        return { label: item.Name + ' (' + item.Email + ')', value: item.Name + ' (' + item.Email + ')', id: item.Id }
+    //                    }))
+    //                }
+    //            })
+    //        },
+    //        focus: function () {
+    //            // prevent value inserted on focus
+    //            return false;
+    //        },
+    //        select: function (event, ui) {
+    //            $("#Event_OrganiserUserId").val(ui.item.id);
+    //        }
+    //    });
+
+    //    $("#Event_FacilitatorEmail")
+    //    // don't navigate away from the field on tab when selecting an item
+    //    .bind("keydown", function (event) {
+    //        if (event.keyCode === $.ui.keyCode.TAB &&
+    //        $(this).data("autocomplete").menu.active) {
+    //            event.preventDefault();
+    //        }
+    //    })
+    //    .autocomplete({
+    //        minLength: 1,
+    //        source: function (request, response) {
+    //            $.ajax({
+    //                url: "/User/LookupUser", type: "POST", dataType: "json",
+    //                data: { searchText: request.term, maxResults: 10 },
+    //                success: function (data) {
+    //                    response($.map(data, function (item) {
+    //                        return { label: item.Name + ' (' + item.Email + ')', value: item.Name + ' (' + item.Email + ')', id: item.Id }
+    //                    }))
+    //                }
+    //            })
+    //        },
+    //        focus: function () {
+    //            // prevent value inserted on focus
+    //            return false;
+    //        },
+    //        select: function (event, ui) {
+    //            $("#Event_FacilitatorUserId").val(ui.item.id);
+    //        }
+    //    });
+
+    //    $("#Event_VenueDisplayName")
+    //    // don't navigate away from the field on tab when selecting an item
+    //    .bind("keydown", function (event) {
+    //        if (event.keyCode === $.ui.keyCode.TAB &&
+    //        $(this).data("autocomplete").menu.active) {
+    //            event.preventDefault();
+    //        }
+    //    })
+    //    .autocomplete({
+    //        minLength: 1,
+    //        source: function (request, response) {
+    //            $.ajax({
+    //                url: "/Venue/LookupVenue", type: "POST", dataType: "json",
+    //                data: { searchText: request.term, maxResults: 10 },
+    //                success: function (data) {
+    //                    response($.map(data, function (item) {
+    //                        return { label: item.DisplayName, value: item.DisplayName, id: item.Id }
+    //                    }))
+    //                }
+    //            })
+    //        },
+    //        focus: function () {
+    //            // prevent value inserted on focus
+    //            return false;
+    //        },
+    //        select: function (event, ui) {
+    //            $("#Event_VenueId").val(ui.item.id);
+    //        }
+    //    });
+
+    //    $("#Event_Website").focus(function () {
+    //        if ($(this).val() == "") {
+    //            $(this).val("http://");
+    //        }
+    //    });
+
+    //    $("#Event_Website").focusout(function () {
+    //        if ($(this).val() == "http://") {
+    //            $(this).val("");
+    //        }
+    //    });
+    //});
+
+    //$(window).load(function () {
+    //    var intervalFunc = function () {
+    //        $('#file-name').html($('#file-type').val().replace("C:\\fakepath\\", ""));
+    //    };
+    //    $('#browse-click').live('click', function () {
+    //        $('#file-type').click();
+    //        $('#file-display').hide();
+    //        setInterval(intervalFunc, 1);
+    //        return false;
+    //    });
+    //});
+</script>

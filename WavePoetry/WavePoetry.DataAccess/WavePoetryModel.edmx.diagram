@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="4dbdd0677fa642488e2ec61884ed1702" Name="Diagram1">
+        <EntityTypeShape EntityType="wavepoetry2Model.award" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="false" />
+        <EntityTypeShape EntityType="wavepoetry2Model.award_categories" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="false" />
+        <EntityTypeShape EntityType="wavepoetry2Model.award_to_category" Width="1.5" PointX="2.75" PointY="3.75" IsExpanded="false" />
+        <EntityTypeShape EntityType="wavepoetry2Model.award_to_contact" Width="1.5" PointX="4.75" PointY="0.75" IsExpanded="false" />
+        <EntityTypeShape EntityType="wavepoetry2Model.contact" Width="1.5" PointX="4.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="wavepoetry2Model.contact_categories" Width="1.5" PointX="6.75" PointY="0.75" IsExpanded="false" />
+        <EntityTypeShape EntityType="wavepoetry2Model.contact_to_category" Width="1.5" PointX="2.875" PointY="2.875" IsExpanded="false" />
+        <EntityTypeShape EntityType="wavepoetry2Model.review" Width="1.5" PointX="9.25" PointY="3.25" IsExpanded="false" />
+        <EntityTypeShape EntityType="wavepoetry2Model.shipment" Width="1.5" PointX="5" PointY="2.25" IsExpanded="false" />
+        <EntityTypeShape EntityType="wavepoetry2Model.shipment_to_award" Width="1.5" PointX="8.75" PointY="0.75" IsExpanded="false" />
+        <EntityTypeShape EntityType="wavepoetry2Model.title" Width="1.5" PointX="6.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="wavepoetry2Model.title_to_review" Width="1.5" PointX="0.75" PointY="5.5" IsExpanded="false" />
+        <EntityTypeShape EntityType="wavepoetry2Model.user" Width="1.5" PointX="2.625" PointY="4.75" IsExpanded="true" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
