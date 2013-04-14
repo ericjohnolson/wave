@@ -80,7 +80,8 @@
     <div class="container" style="margin-top: 90px;">
         @RenderSection("featured", required: false)
 
-
+        
+        @Html.Partial("StatusNotification")
         @RenderBody()
 
         <!-- Footer

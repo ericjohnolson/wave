@@ -158,7 +158,6 @@
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\AwardController.cs" />
     <Compile Include="Controllers\ContactController.cs" />
-    <Compile Include="Controllers\Default1Controller.cs" />
     <Compile Include="Controllers\ReviewController.cs" />
     <Compile Include="Controllers\ShippingController.cs" />
     <Compile Include="Controllers\TitleController.cs" />
@@ -280,7 +279,6 @@
     <Content Include="Views\Account\ExternalLoginConfirmation.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
-    <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Web.config" />
     <Content Include="Views\Shared\_PageLayout.cshtml" />
     <Content Include="Views\Title\Create.cshtml" />
@@ -298,6 +296,7 @@
     <Content Include="Views\Admin\EditAward.cshtml" />
     <Content Include="Views\Admin\CreateContact.cshtml" />
     <Content Include="Views\Admin\EditContact.cshtml" />
+    <Content Include="Views\Shared\StatusNotification.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

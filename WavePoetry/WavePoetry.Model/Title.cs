@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,12 +11,18 @@ namespace WavePoetry.Model
     public class Title
     {
         public int Id { get; set; }
+        [Required]
         public string Name { get; set; }
         public string Subtitle { get; set; }
+        [Required]
         public int Author { get; set; }
+        [Required]
         public string AuthorName { get; set; }
+        [Required]
         public string Edition { get; set; }
+        [Required]
         public string ISBN { get; set; }
+        [Required, DisplayName("Published Date")]
         public DateTime PubDate { get; set; }
         public string Notes { get; set; }
         public List<Review> Reviews { get; set; }

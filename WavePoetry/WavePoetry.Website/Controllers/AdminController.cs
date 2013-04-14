@@ -33,8 +33,12 @@ namespace WavePoetry.Website.Controllers
         [HttpPost]
         public ActionResult CreateUser(AdminUser user)
         {
-            data.CreateUser(user, (Session["LoggedInUser"] as user).id);
-            return RedirectToAction("ListUsers");
+            if (ModelState.IsValid)
+            {
+                data.CreateUser(user, (Session["LoggedInUser"] as user).id);
+                return RedirectToAction("ListUsers");
+            }
+            return View(user);
         }
         public ActionResult EditUser(int id)
         {
@@ -44,8 +48,12 @@ namespace WavePoetry.Website.Controllers
         [HttpPost]
         public ActionResult EditUser(AdminUser user)
         {
+            if (ModelState.IsValid)
+            {
             data.UpdateUser(user, (Session["LoggedInUser"] as user).id);
             return RedirectToAction("ListUsers");
+            }
+            return View(user);
         }
         public ActionResult DeleteUser(int id)
         {
@@ -69,6 +77,9 @@ namespace WavePoetry.Website.Controllers
         [HttpPost]
         public ActionResult CreateAward(Category cat)
         {
+            if (!ModelState.IsValid)
+                return View(cat);
+
             data.CreateAwardCat(cat, (Session["LoggedInUser"] as user).id);
             return RedirectToAction("ListAwardCats");
         }
@@ -80,6 +91,8 @@ namespace WavePoetry.Website.Controllers
         [HttpPost]
         public ActionResult EditAward(Category cat)
         {
+            if (!ModelState.IsValid)
+                return View(cat);
             data.UpdateAwardCat(cat, (Session["LoggedInUser"] as user).id);
             return RedirectToAction("ListAwardCats");
         }
@@ -100,6 +113,8 @@ namespace WavePoetry.Website.Controllers
         [HttpPost]
         public ActionResult CreateContact(Category cat)
         {
+            if (!ModelState.IsValid)
+                return View(cat);
             data.CreateContactCat(cat, (Session["LoggedInUser"] as user).id);
             return RedirectToAction("ListContactCats");
         }
@@ -111,6 +126,8 @@ namespace WavePoetry.Website.Controllers
         [HttpPost]
         public ActionResult EditContact(Category cat)
         {
+            if (!ModelState.IsValid)
+                return View(cat);
             data.UpdateContactCat(cat, (Session["LoggedInUser"] as user).id);
             return RedirectToAction("ListContactCats");
         }
