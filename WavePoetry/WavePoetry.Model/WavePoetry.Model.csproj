@@ -33,6 +33,7 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -42,10 +43,9 @@
   <ItemGroup>
     <Compile Include="AdminViewModel.cs" />
     <Compile Include="Award.cs" />
-    <Compile Include="AwardDetails.cs" />
     <Compile Include="Contact.cs" />
     <Compile Include="Review.cs" />
-    <Compile Include="ReviewDetails.cs" />
+    <Compile Include="Shipment.cs" />
     <Compile Include="Title.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

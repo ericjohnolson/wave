@@ -69,7 +69,12 @@ namespace WavePoetry.DataAccess
         public System.DateTime createdat { get; set; }
         public int updatedby { get; set; }
         public System.DateTime updatedat { get; set; }
-    
+
         public virtual ICollection<title> contact_title { get; set; }
+        public virtual ICollection<review> contact_review { get; set; }
+        public virtual ICollection<shipment> contact_shipment { get; set; }
+        public virtual ICollection<contact_to_category> contact_contact_category { get; set; }
+        public virtual user contact_user { get; set; }
+
     }
 }

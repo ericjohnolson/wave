@@ -133,6 +133,8 @@
           <ScalarProperty Name="createdat" ColumnName="createdat" />
           <ScalarProperty Name="updatedby" ColumnName="updatedby" />
           <ScalarProperty Name="updatedat" ColumnName="updatedat" />
+          <ScalarProperty Name="reviewedby" ColumnName="reviewedby" />
+          <ScalarProperty Name="title_id" ColumnName="title_id" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -151,13 +153,6 @@
           <ScalarProperty Name="createdat" ColumnName="createdat" />
           <ScalarProperty Name="updatedby" ColumnName="updatedby" />
           <ScalarProperty Name="updatedat" ColumnName="updatedat" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="shipment_to_award">
-      <EntityTypeMapping TypeName="wavepoetry2Model.shipment_to_award">
-        <MappingFragment StoreEntitySet="shipment_to_award">
-          <ScalarProperty Name="shipment_id" ColumnName="shipment_id" />
           <ScalarProperty Name="award_id" ColumnName="award_id" />
         </MappingFragment>
       </EntityTypeMapping>
@@ -177,14 +172,6 @@
           <ScalarProperty Name="createdat" ColumnName="createdat" />
           <ScalarProperty Name="updatedby" ColumnName="updatedby" />
           <ScalarProperty Name="updatedat" ColumnName="updatedat" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="title_to_review">
-      <EntityTypeMapping TypeName="wavepoetry2Model.title_to_review">
-        <MappingFragment StoreEntitySet="title_to_review">
-          <ScalarProperty Name="title_id" ColumnName="title_id" />
-          <ScalarProperty Name="review_id" ColumnName="review_id" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

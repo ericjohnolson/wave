@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace WavePoetry.DataAccess
 {
-    class AwardData
+    public class AwardData
     {
     }
 }

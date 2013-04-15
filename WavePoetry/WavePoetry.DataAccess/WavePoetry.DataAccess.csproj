@@ -84,16 +84,10 @@
       <DependentUpon>WavePoetryModel.tt</DependentUpon>
     </Compile>
     <Compile Include="ShipmentData.cs" />
-    <Compile Include="shipment_to_award.cs">
-      <DependentUpon>WavePoetryModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="title.cs">
       <DependentUpon>WavePoetryModel.tt</DependentUpon>
     </Compile>
     <Compile Include="TitleData.cs" />
-    <Compile Include="title_to_review.cs">
-      <DependentUpon>WavePoetryModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="user.cs">
       <DependentUpon>WavePoetryModel.tt</DependentUpon>
     </Compile>

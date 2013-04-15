@@ -16,5 +16,7 @@ namespace WavePoetry.DataAccess
     {
         public int id { get; set; }
         public string name { get; set; }
+
+        public virtual ICollection<contact_to_category> category_contact_category { get; set; }
     }
 }

@@ -1,0 +1,29 @@
+﻿body {
+  color: #333333;
+}
+
+h1, h2 {
+    font-size: 30px;
+}
+
+.field-validation-error {
+    color: #ff0000;
+}
+
+.navbar .nav > li > a:hover {
+  color: #E78B24;
+}
+
+.body-content {
+    margin-top:80px;
+}
+
+.input-small2 {
+        width: 105px;
+}
+
+.form-inline.aligntop input,  .form-inline.aligntop select,  .form-inline.aligntop label {
+  display: inline-block;
+  margin-bottom: 0;
+  vertical-align: top;
+}

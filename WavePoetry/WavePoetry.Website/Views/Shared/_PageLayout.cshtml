@@ -9,16 +9,18 @@
     <!-- THEME Styles -->
     <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.2/themes/smoothness/jquery-ui.css">
     <link rel="stylesheet" href="~/css/bootstrap.min.css">
+    <link rel="stylesheet" href="~/css/dataTables-bootstrap.css">
+    <link rel="stylesheet" href="~/Content/jquery.cleditor.css">
+    <link rel="stylesheet" href="~/css/wave.css">
 
     <!-- Scripts -->
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.0/jquery.min.js"></script>
+    @Scripts.Render("~/bundles/jquery")
+    @RenderSection("scripts", required: false)
     <script src="http://code.jquery.com/ui/1.10.2/jquery-ui.js"></script>
     <script src="~/js/bootstrap.min.js"></script>
-    <style>
-        h1, h2 {
-            font-size:30px;
-        }
-    </style>
+    <script src="~/js/jquery.dataTables.min.js"></script>
+    <script src="~/js/dataTables-bootstrap.js"></script>
+    <script src="~/js/jquery.cleditor.min.js"></script>
 </head>
 <body>
 
@@ -43,10 +45,9 @@
 
                             <li><a href="/Contact/">Contacts</a></li>
                             <li><a href="/Title/Search">Titles</a></li>
-                            <li><a href="/Shipping/">Shipments</a></li>
-                            <li><a href="/Award/">Awards</a></li>
-                            <li><a href="/Review/">Reviews</a></li>
-
+                            <li><a href="/Shipment/">Shipments</a></li>
+                            <li><a href="/Review/Search">Reviews</a></li>
+                            <li><a href="/Award/Search">Awards</a></li>
 
                             <li class="dropdown">
                                 <a class="dropdown-toggle" data-toggle="dropdown" href="#">User <b class="caret"></b></a>
@@ -77,7 +78,7 @@
         </div>
     </div>
 
-    <div class="container" style="margin-top: 90px;">
+    <div class="container body-content">
         @RenderSection("featured", required: false)
 
         
@@ -98,8 +99,6 @@
 
     </div>
     <!-- /container -->
-    @Scripts.Render("~/bundles/jquery")
-    @RenderSection("scripts", required: false)
 </body>
 </html>
 

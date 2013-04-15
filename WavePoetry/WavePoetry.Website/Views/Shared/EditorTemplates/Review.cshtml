@@ -1,0 +1,152 @@
+﻿@model WavePoetry.Model.Review
+
+
+<div class="tabbable">
+
+    <fieldset>
+        <legend></legend>
+        @Html.HiddenFor(model => model.Id)
+        @Html.HiddenFor(model => model.Redirect)
+        
+        <div class="editor-label">
+            @Html.DisplayNameFor(model => model.TitleName)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.TitleName)
+            @Html.ValidationMessageFor(model => model.TitleName)
+        </div>
+        @Html.HiddenFor(model => model.TitleId)
+
+        <div class="editor-label">
+            @Html.DisplayNameFor(model => model.ReviewerName)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.ReviewerName)
+            @Html.ValidationMessageFor(model => model.ReviewerName)
+        </div>
+        @Html.HiddenFor(model => model.ReviewerId)
+
+        
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Venue)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Venue)
+            @Html.ValidationMessageFor(model => model.Venue)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.OriginalLink)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.OriginalLink)
+            @Html.ValidationMessageFor(model => model.OriginalLink)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.CopyLink)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.CopyLink)
+            @Html.ValidationMessageFor(model => model.CopyLink)
+        </div>
+
+        <div class="editor-label">
+            @Html.DisplayNameFor(model => model.DateReviewed)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.DateReviewed)
+            @Html.ValidationMessageFor(model => model.DateReviewed)
+        </div>
+
+        <div class="editor-label">
+            Review Text
+        </div>
+        <div class="editor-field">
+            @Html.TextAreaFor(model => model.ReviewText)
+            @Html.ValidationMessageFor(model => model.ReviewText)
+        </div>
+
+        <div class="form-actions">
+            <div class=" pull-right">
+                <a href="/Review/Search/" class="btn">Back to Review List</a>
+                <button class="btn btn-primary" name="cmdSave" type="submit">Save</button>
+            </div>
+        </div>
+    </fieldset>
+
+</div>
+
+<script>
+
+    $(document).ready(function () {
+        // Init items
+        $('#DateReviewed').datepicker();
+        $("#ReviewText").cleditor({
+            controls:     // controls to add to the toolbar
+                          "undo redo | cut copy paste pastetext | print source"
+        });
+
+        $("#ReviewerName")
+        // don't navigate away from the field on tab when selecting an item
+        .bind("keydown", function (event) {
+            if (event.keyCode === $.ui.keyCode.TAB &&
+            $(this).data("autocomplete").menu.active) {
+                event.preventDefault();
+            }
+        })
+        .autocomplete({
+            minLength: 1,
+            source: function (request, response) {
+                $.ajax({
+                    url: "/Contact/LookupAuthor", type: "POST", dataType: "json",
+                    data: { searchText: request.term, maxResults: 10 },
+                    success: function (data) {
+                        response($.map(data, function (item) {
+                            return { label: item.DisplayName, id: item.Id }
+                        }))
+                    }
+                })
+            },
+            focus: function () {
+                // prevent value inserted on focus
+                return false;
+            },
+            select: function (event, ui) {
+                $("#ReviewerId").val(ui.item.id);
+            }
+        });
+
+        $("#TitleName")
+        // don't navigate away from the field on tab when selecting an item
+        .bind("keydown", function (event) {
+            if (event.keyCode === $.ui.keyCode.TAB &&
+            $(this).data("autocomplete").menu.active) {
+                event.preventDefault();
+            }
+        })
+        .autocomplete({
+            minLength: 1,
+            source: function (request, response) {
+                $.ajax({
+                    url: "/Title/LookupTitle", type: "POST", dataType: "json",
+                    data: { searchText: request.term, maxResults: 10 },
+                    success: function (data) {
+                        response($.map(data, function (item) {
+                            return { label: item.Title, id: item.TitleId }
+                        }))
+                    }
+                })
+            },
+            focus: function () {
+                // prevent value inserted on focus
+                return false;
+            },
+            select: function (event, ui) {
+                $("#TitleId").val(ui.item.id);
+            }
+        });
+
+    });
+
+</script>

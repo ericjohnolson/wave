@@ -34,9 +34,7 @@ namespace WavePoetry.DataAccess
         public DbSet<contact_to_category> contact_to_category { get; set; }
         public DbSet<review> reviews { get; set; }
         public DbSet<shipment> shipments { get; set; }
-        public DbSet<shipment_to_award> shipment_to_award { get; set; }
         public DbSet<title> titles { get; set; }
-        public DbSet<title_to_review> title_to_review { get; set; }
         public DbSet<user> users { get; set; }
     }
 }

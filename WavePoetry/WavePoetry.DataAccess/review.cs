@@ -24,5 +24,10 @@ namespace WavePoetry.DataAccess
         public System.DateTime createdat { get; set; }
         public int updatedby { get; set; }
         public System.DateTime updatedat { get; set; }
+        public int reviewedby { get; set; }
+        public int title_id { get; set; }
+
+        public virtual contact review_contact { get; set; }
+        public virtual title review_title { get; set; }
     }
 }

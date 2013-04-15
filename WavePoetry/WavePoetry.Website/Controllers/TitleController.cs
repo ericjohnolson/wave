@@ -18,50 +18,68 @@ namespace WavePoetry.Web.Controllers
             data = new TitleData();
         }
 
+        [AllowAnonymous]
+        [HttpPost]
+        public JsonResult LookupTitle(string searchText, string maxResults)
+        {
+            int take = Convert.ToInt32(maxResults);
+            IEnumerable<TitleDetails> titles = data.LookupTitle(searchText, take);
+            return Json(titles);
+        }
+
+        [AllowAnonymous]
+        public JsonResult LookupTitle(string term)
+        {
+            int take = 20;
+            IEnumerable<TitleDetails> titles = data.LookupTitle(term, take);
+
+            return Json(titles.Select(t => new TitleDetails
+            {
+                Title = t.Title + " (" + t.PubDate.ToShortDateString() + ")",
+                TitleId = t.TitleId,
+                PubDate = t.PubDate
+            }), JsonRequestBehavior.AllowGet);
+        }
+
         public ActionResult Create()
         {
-            var model = new Title();
+            var model = new Title { PubDate = DateTime.Now.Date };
             return View(model);
         }
 
         [HttpPost]
         public ActionResult Create(Title model)
         {
+            Validate(model);
             if (ModelState.IsValid)
             {
-                data.Insert(model, 1);
+                data.Insert(model, (Session["LoggedInUser"] as user).id);
                 TempData["SuccessMessage"] = string.Format("\"{0}\" was created.", model.Name);
                 return RedirectToAction("Search");
             }
+
             return View(model);
         }
 
         public ActionResult Edit(int id)
         {
-            var model = data.GetById(id); 
+            var model = data.GetById(id);
             return View(model);
         }
 
         [HttpPost]
         public ActionResult Edit(Title model)
         {
+            Validate(model);
+
             if (ModelState.IsValid)
             {
-                data.Update(model, 1);
+                data.Update(model, (Session["LoggedInUser"] as user).id);
                 TempData["SuccessMessage"] = string.Format("\"{0}\" was updated.", model.Name);
                 return RedirectToAction("Search");
             }
             return View(model);
         }
-
-        //[AllowAnonymous]
-        //[HttpPost]
-        //public JsonResult LookupVenue(string searchText, string maxResults)
-        //{
-        //    int take = Convert.ToInt32(maxResults);
-        //    IEnumerable<VenueDetails> venues = venueData.LookupVenue(searchText, take);
-        //    return Json(venues);
-        //}
 
         public ActionResult Search(TitleSearch search)
         {
@@ -70,5 +88,13 @@ namespace WavePoetry.Web.Controllers
             return View(search);
         }
 
+        private void Validate(Title model)
+        {
+            if (model.Author < 1)
+            {
+                ModelState.AddModelError("AuthorName", "Please select a valid Author from the auto complete choices");
+                ModelState.AddModelError(string.Empty, "Please fix the errors below.");
+            }
+        }
     }
 }

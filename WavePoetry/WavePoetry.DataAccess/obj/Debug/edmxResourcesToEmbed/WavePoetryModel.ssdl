@@ -10,9 +10,7 @@
     <EntitySet Name="contact_to_category" EntityType="wavepoetry2Model.Store.contact_to_category" store:Type="Tables" Schema="wavepoetry2" />
     <EntitySet Name="review" EntityType="wavepoetry2Model.Store.review" store:Type="Tables" Schema="wavepoetry2" />
     <EntitySet Name="shipment" EntityType="wavepoetry2Model.Store.shipment" store:Type="Tables" Schema="wavepoetry2" />
-    <EntitySet Name="shipment_to_award" EntityType="wavepoetry2Model.Store.shipment_to_award" store:Type="Tables" Schema="wavepoetry2" />
     <EntitySet Name="title" EntityType="wavepoetry2Model.Store.title" store:Type="Tables" Schema="wavepoetry2" />
-    <EntitySet Name="title_to_review" EntityType="wavepoetry2Model.Store.title_to_review" store:Type="Tables" Schema="wavepoetry2" />
     <EntitySet Name="user" EntityType="wavepoetry2Model.Store.user" store:Type="Tables" Schema="wavepoetry2" />
   </EntityContainer>
   <EntityType Name="award">
@@ -144,6 +142,8 @@
     <Property Name="createdat" Type="datetime" Nullable="false" />
     <Property Name="updatedby" Type="int" Nullable="false" />
     <Property Name="updatedat" Type="datetime" Nullable="false" />
+    <Property Name="reviewedby" Type="int" Nullable="false" />
+    <Property Name="title_id" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="shipment">
     <Key>
@@ -161,14 +161,7 @@
     <Property Name="createdat" Type="datetime" Nullable="false" />
     <Property Name="updatedby" Type="int" Nullable="false" />
     <Property Name="updatedat" Type="datetime" Nullable="false" />
-  </EntityType>
-  <EntityType Name="shipment_to_award">
-    <Key>
-      <PropertyRef Name="shipment_id" />
-      <PropertyRef Name="award_id" />
-    </Key>
-    <Property Name="shipment_id" Type="int" Nullable="false" />
-    <Property Name="award_id" Type="int" Nullable="false" />
+    <Property Name="award_id" Type="int" Nullable="true" />
   </EntityType>
   <EntityType Name="title">
     <Key>
@@ -186,14 +179,6 @@
     <Property Name="createdat" Type="datetime" Nullable="false" />
     <Property Name="updatedby" Type="int" Nullable="false" />
     <Property Name="updatedat" Type="datetime" Nullable="false" />
-  </EntityType>
-  <EntityType Name="title_to_review">
-    <Key>
-      <PropertyRef Name="title_id" />
-      <PropertyRef Name="review_id" />
-    </Key>
-    <Property Name="title_id" Type="int" Nullable="false" />
-    <Property Name="review_id" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="user">
     <Key>

@@ -1,9 +1,9 @@
 ﻿@model WavePoetry.Model.Title
 
-
 <div class="tabbable">
     <ul class="nav nav-tabs">
         <li class="active"><a href="#tab1" data-toggle="tab">Details</a></li>
+        <li><a href="#tabShipments" data-toggle="tab" id="shipments-link">Shipments</a></li>
         <li><a href="#tab2" data-toggle="tab" id="reviews-link">Reviews</a></li>
         <li><a href="#tab3" data-toggle="tab" id="awards-link">Awards</a></li>
     </ul>
@@ -11,7 +11,8 @@
         <div class="tab-pane active" id="tab1">
 
             <fieldset>
-                <legend></legend>
+                @Html.HiddenFor(model => model.Id)  
+
                 <div class="editor-label">
                     @Html.LabelFor(model => model.Name)
                 </div>
@@ -29,18 +30,19 @@
                 </div>
 
                 <div class="editor-label">
-                    @Html.LabelFor(model => model.Author)
+                    @Html.DisplayNameFor(model => model.AuthorName)
                 </div>
                 <div class="editor-field">
-                    @Html.EditorFor(model => model.Author)
-                    @Html.ValidationMessageFor(model => model.Author)
+                    @Html.EditorFor(model => model.AuthorName)
+                    @Html.ValidationMessageFor(model => model.AuthorName)
                 </div>
+                @Html.HiddenFor(model => model.Author)
 
                 <div class="editor-label">
                     @Html.LabelFor(model => model.Edition)
                 </div>
                 <div class="editor-field">
-                    @Html.EditorFor(model => model.Edition)
+                    @Html.DropDownListFor(model => model.Edition, Model.Editions, new { @class = "test" })
                     @Html.ValidationMessageFor(model => model.Edition)
                 </div>
 
@@ -53,7 +55,7 @@
                 </div>
 
                 <div class="editor-label">
-                    @Html.LabelFor(model => model.PubDate)
+                    @Html.DisplayNameFor(model => model.PubDate)
                 </div>
                 <div class="editor-field">
                     @Html.EditorFor(model => model.PubDate)
@@ -64,22 +66,86 @@
                     @Html.LabelFor(model => model.Notes)
                 </div>
                 <div class="editor-field">
-                    @Html.EditorFor(model => model.Notes)
+                    @Html.TextAreaFor(model => model.Notes)
                     @Html.ValidationMessageFor(model => model.Notes)
                 </div>
 
-
                 <div class="form-actions">
                     <div class=" pull-right">
-                        <button class="btn btn-primary" name="cmdSave" type="submit">Save</button>
                         <a href="/Title/Search/" class="btn">Cancel</a>
+                        <button class="btn btn-primary" name="cmdSave" type="submit">Save</button>
                     </div>
                 </div>
             </fieldset>
 
         </div>
+        <div class="tab-pane" id="tabShipments">
+
+            @if (Model.Shipments != null && Model.Shipments.Count() > 0)
+            {
+                <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered table-condensed" id="shipmentsTable" style="font-size: 0.8em;">
+                    <thead>
+                        <tr>
+                            <td>Contact</td>
+                            <td>Type</td>
+                            <td>Quantity</td>
+                            <td>Status</td>
+                            <td>Date Sent</td>
+                            <td>Follow Up</td>
+                            <td>Date Created</td>
+                            <td></td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var shipment in Model.Shipments)
+                        {
+                            <tr>
+                                <td><a href="/Contact/Edit/@shipment.ContactId">@shipment.ContactName</a></td>
+                                <td>@shipment.Type</td>
+                                <td>@shipment.Quantity</td>
+                                <td>@shipment.Status</td>
+                                <td>@shipment.DateSent</td>
+                                <td>@shipment.ShouldFollowUp</td>
+                                <td>@shipment.DateCreated.ToString("MM/dd/yyyy")</td>
+                                <td><a href="/Shipment/Edit/@shipment.Id?title=@Model.Id">View/Edit</a></td>
+                            </tr>
+                        }
+
+                    </tbody>
+                </table>
+            }
+            else
+            {
+                <p>There are no shipments for this title.</p>
+            }
+            <hr />
+            <p style="text-align:right;"><a href="/Shipment/Create?title=@Model.Id" class="btn btn-primary">Add Shipment</a></p>
+ 
+        </div>
         <div class="tab-pane" id="tab2">
-            <p>reviews</p>
+            <p style="text-align:right;"><a href="/Review/Create?title=@Model.Id" class="btn btn-primary">Add Review</a></p>
+
+            @if (Model.Reviews != null && Model.Reviews.Count() > 0)
+            {
+                foreach (var review in Model.Reviews)
+                {
+                <div class="well">
+                <p>@Html.Raw(review.ReviewText)</p>
+                <hr />
+                <span>Review by <a href="/Contact/Edit/@review.ReviewerId">@review.ReviewerName</a></span><span>, for @(review.Venue).</span>
+                    <span> Published on @review.DateReviewed.ToShortDateString()</span>
+                <span class="pull-right">
+                    <a href="/Review/Edit/@review.Id?title=@Model.Id">View/Edit</a>
+                </span>
+                
+                </div>
+                <hr />
+                }
+            }
+            else
+            {
+                <p>There are no reviews for this title.</p>
+            }
         </div>
         <div class="tab-pane" id="tab3">
             <p>awards</p>
@@ -89,125 +155,61 @@
 
 <script>
 
-    //$(document).ready(function () {
-    //    // Init items
-    //    $('#StartDateTime').datetimepicker();
-    //    $('#EndDateTime').datetimepicker();
-    //    $("#Event_Description").cleditor();
-    //    $(".chzn-select").chosen();
+    $(document).ready(function () {
+        // Init items
+        $('#PubDate').datepicker();
+        $("#Notes").addClass("input-xxlarge");
 
-    //    $("#Event_OrganiserEmail")
-    //    // don't navigate away from the field on tab when selecting an item
-    //    .bind("keydown", function (event) {
-    //        if (event.keyCode === $.ui.keyCode.TAB &&
-    //        $(this).data("autocomplete").menu.active) {
-    //            event.preventDefault();
-    //        }
-    //    })
-    //    .autocomplete({
-    //        minLength: 1,
-    //        source: function (request, response) {
-    //            $.ajax({
-    //                url: "/User/LookupUser", type: "POST", dataType: "json",
-    //                data: { searchText: request.term, maxResults: 10 },
-    //                success: function (data) {
-    //                    response($.map(data, function (item) {
-    //                        return { label: item.Name + ' (' + item.Email + ')', value: item.Name + ' (' + item.Email + ')', id: item.Id }
-    //                    }))
-    //                }
-    //            })
-    //        },
-    //        focus: function () {
-    //            // prevent value inserted on focus
-    //            return false;
-    //        },
-    //        select: function (event, ui) {
-    //            $("#Event_OrganiserUserId").val(ui.item.id);
-    //        }
-    //    });
+        $("#AuthorName")
+        // don't navigate away from the field on tab when selecting an item
+        .bind("keydown", function (event) {
+            if (event.keyCode === $.ui.keyCode.TAB &&
+            $(this).data("autocomplete").menu.active) {
+                event.preventDefault();
+            }
+        })
+        .autocomplete({
+            minLength: 1,
+            source: function (request, response) {
+                $.ajax({
+                    url: "/Contact/LookupAuthor", type: "POST", dataType: "json",
+                    data: { searchText: request.term, maxResults: 10 },
+                    success: function (data) {
+                        response($.map(data, function (item) {
+                            return { label: item.DisplayName, id: item.Id }
+                        }))
+                    }
+                })
+            },
+            focus: function () {
+                // prevent value inserted on focus
+                return false;
+            },
+            select: function (event, ui) {
+                $("#Author").val(ui.item.id);
+            }
+        });
 
-    //    $("#Event_FacilitatorEmail")
-    //    // don't navigate away from the field on tab when selecting an item
-    //    .bind("keydown", function (event) {
-    //        if (event.keyCode === $.ui.keyCode.TAB &&
-    //        $(this).data("autocomplete").menu.active) {
-    //            event.preventDefault();
-    //        }
-    //    })
-    //    .autocomplete({
-    //        minLength: 1,
-    //        source: function (request, response) {
-    //            $.ajax({
-    //                url: "/User/LookupUser", type: "POST", dataType: "json",
-    //                data: { searchText: request.term, maxResults: 10 },
-    //                success: function (data) {
-    //                    response($.map(data, function (item) {
-    //                        return { label: item.Name + ' (' + item.Email + ')', value: item.Name + ' (' + item.Email + ')', id: item.Id }
-    //                    }))
-    //                }
-    //            })
-    //        },
-    //        focus: function () {
-    //            // prevent value inserted on focus
-    //            return false;
-    //        },
-    //        select: function (event, ui) {
-    //            $("#Event_FacilitatorUserId").val(ui.item.id);
-    //        }
-    //    });
+        $('#shipmentsTable').dataTable({
+            "aoColumns": [
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null
+            ],
+            "sDom": "<'row'<'span6'l><'span6'f>r>t<'row'<'span6'i><'span6'p>>",
+            "sPaginationType": "bootstrap",
+            "oLanguage": {
+                "sLengthMenu": "_MENU_ records per page"
+            },
+            "aaSorting": [[3, 'asc']],
+            "iDisplayLength": 25,
+        });
+   
+    });
 
-    //    $("#Event_VenueDisplayName")
-    //    // don't navigate away from the field on tab when selecting an item
-    //    .bind("keydown", function (event) {
-    //        if (event.keyCode === $.ui.keyCode.TAB &&
-    //        $(this).data("autocomplete").menu.active) {
-    //            event.preventDefault();
-    //        }
-    //    })
-    //    .autocomplete({
-    //        minLength: 1,
-    //        source: function (request, response) {
-    //            $.ajax({
-    //                url: "/Venue/LookupVenue", type: "POST", dataType: "json",
-    //                data: { searchText: request.term, maxResults: 10 },
-    //                success: function (data) {
-    //                    response($.map(data, function (item) {
-    //                        return { label: item.DisplayName, value: item.DisplayName, id: item.Id }
-    //                    }))
-    //                }
-    //            })
-    //        },
-    //        focus: function () {
-    //            // prevent value inserted on focus
-    //            return false;
-    //        },
-    //        select: function (event, ui) {
-    //            $("#Event_VenueId").val(ui.item.id);
-    //        }
-    //    });
-
-    //    $("#Event_Website").focus(function () {
-    //        if ($(this).val() == "") {
-    //            $(this).val("http://");
-    //        }
-    //    });
-
-    //    $("#Event_Website").focusout(function () {
-    //        if ($(this).val() == "http://") {
-    //            $(this).val("");
-    //        }
-    //    });
-    //});
-
-    //$(window).load(function () {
-    //    var intervalFunc = function () {
-    //        $('#file-name').html($('#file-type').val().replace("C:\\fakepath\\", ""));
-    //    };
-    //    $('#browse-click').live('click', function () {
-    //        $('#file-type').click();
-    //        $('#file-display').hide();
-    //        setInterval(intervalFunc, 1);
-    //        return false;
-    //    });
-    //});
 </script>
