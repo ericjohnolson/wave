@@ -1,0 +1,15 @@
+C:\Users\Eric Olson\Documents\GitHub\wave\WavePoetry\WavePoetry.DataAccess\bin\Release\WavePoetry.DataAccess.dll.config
+C:\Users\Eric Olson\Documents\GitHub\wave\WavePoetry\WavePoetry.DataAccess\bin\Release\WavePoetry.DataAccess.dll
+C:\Users\Eric Olson\Documents\GitHub\wave\WavePoetry\WavePoetry.DataAccess\bin\Release\WavePoetry.DataAccess.pdb
+C:\Users\Eric Olson\Documents\GitHub\wave\WavePoetry\WavePoetry.DataAccess\bin\Release\EntityFramework.dll
+C:\Users\Eric Olson\Documents\GitHub\wave\WavePoetry\WavePoetry.DataAccess\bin\Release\LINQtoCSV.dll
+C:\Users\Eric Olson\Documents\GitHub\wave\WavePoetry\WavePoetry.DataAccess\bin\Release\MySql.Data.dll
+C:\Users\Eric Olson\Documents\GitHub\wave\WavePoetry\WavePoetry.DataAccess\bin\Release\MySql.Data.Entity.dll
+C:\Users\Eric Olson\Documents\GitHub\wave\WavePoetry\WavePoetry.DataAccess\bin\Release\System.Data.dll
+C:\Users\Eric Olson\Documents\GitHub\wave\WavePoetry\WavePoetry.DataAccess\bin\Release\WavePoetry.Model.dll
+C:\Users\Eric Olson\Documents\GitHub\wave\WavePoetry\WavePoetry.DataAccess\bin\Release\WavePoetry.Model.pdb
+C:\Users\Eric Olson\Documents\GitHub\wave\WavePoetry\WavePoetry.DataAccess\bin\Release\EntityFramework.xml
+C:\Users\Eric Olson\Documents\GitHub\wave\WavePoetry\WavePoetry.DataAccess\bin\Release\LINQtoCSV.pdb
+C:\Users\Eric Olson\Documents\GitHub\wave\WavePoetry\WavePoetry.DataAccess\obj\Release\WavePoetry.DataAccess.csprojResolveAssemblyReference.cache
+C:\Users\Eric Olson\Documents\GitHub\wave\WavePoetry\WavePoetry.DataAccess\obj\Release\WavePoetry.DataAccess.dll
+C:\Users\Eric Olson\Documents\GitHub\wave\WavePoetry\WavePoetry.DataAccess\obj\Release\WavePoetry.DataAccess.pdb

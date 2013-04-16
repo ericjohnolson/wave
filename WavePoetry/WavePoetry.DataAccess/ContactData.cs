@@ -110,7 +110,8 @@ namespace WavePoetry.DataAccess
                     TitleName = r.review_title.title1 + " (" + r.review_title.date_published.ToShortDateString() + ")",
                     DateReviewed = r.date_reviewed,
                     Venue = r.venue
-                })
+                }),
+                
             };
 
             return vm;
@@ -118,11 +119,20 @@ namespace WavePoetry.DataAccess
 
         public IEnumerable<ContactDetails> Search(ContactSearch search)
         {
+            if (string.IsNullOrEmpty(search.LastName) && string.IsNullOrEmpty(search.FirstName) && string.IsNullOrEmpty(search.Organization) && string.IsNullOrEmpty(search.City) &&
+                search.SelectedCats.Count() == 0 && !search.NeedsFollowUp)
+                return new List<ContactDetails>();
+
             wavepoetry2Entities1 dbContext = new wavepoetry2Entities1();
-            return dbContext.contacts.Where(x => (x.lastname.Contains(search.LastName) || x.firstname.Contains(search.FirstName) ||
-                x.city.Contains(search.City) || x.city_alt.Contains(search.City)) &&
-                (search.SelectedCats.Count() == 0 || x.contact_contact_category.Where(c => search.SelectedCats.Contains(c.contact_category_id)).Count() > 0) &&
-                (!search.NeedsFollowUp || x.contact_shipment.Where(s => s.should_followup).Count() > 0))
+            return dbContext.contacts.Where(x => 
+                // OR Search
+                ((string.IsNullOrEmpty(search.LastName) && string.IsNullOrEmpty(search.FirstName) && string.IsNullOrEmpty(search.Organization) && string.IsNullOrEmpty(search.City)) ||
+                 x.lastname.Contains(search.LastName) || x.firstname.Contains(search.FirstName) || x.organization.Contains(search.Organization) || x.organization_alt.Contains(search.Organization) || x.city.Contains(search.City) || x.city_alt.Contains(search.City)) 
+                 // Cat search
+                 && (search.SelectedCats.Count() == 0 || x.contact_contact_category.Where(c => search.SelectedCats.Contains(c.contact_category_id)).Count() > 0) 
+                 // Follow up search
+                 && (!search.NeedsFollowUp || x.contact_shipment.Where(s => s.should_followup).Count() > 0)
+                )
                 .Select(s => new ContactDetails
                 {
                     City = s.is_primary ? s.city : s.city_alt,
@@ -184,7 +194,10 @@ namespace WavePoetry.DataAccess
                 c.updatedat = DateTime.Now;
                 dbContext.SaveChanges();
             }
+
+            InsertCategories(c2, dbContext);
         }
+
 
         public void Insert(Contact c2, int createdBy)
         {
@@ -240,8 +253,24 @@ namespace WavePoetry.DataAccess
                 updatedby = createdBy
             };
 
-            dbContext.contacts.Add(newContact);
+            var savedContact = dbContext.contacts.Add(newContact);
             dbContext.SaveChanges();
+            c2.Id = savedContact.id;
+            InsertCategories(c2, dbContext);
+        }
+
+        private void InsertCategories(Contact contact, wavepoetry2Entities1 dbContext)
+        {
+            var existingCats = dbContext.contact_to_category.Where(c => c.contact_id == contact.Id);
+            foreach (var cat in existingCats)
+                dbContext.contact_to_category.Remove(cat);
+
+
+
+            foreach (var id in contact.SelectedCats)
+                dbContext.contact_to_category.Add(new contact_to_category { contact_id = contact.Id, contact_category_id = id });
+            dbContext.SaveChanges();
+
         }
     }
 }

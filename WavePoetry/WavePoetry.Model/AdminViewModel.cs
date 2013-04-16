@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Mvc;
 
 namespace WavePoetry.Model
 {
@@ -24,4 +25,30 @@ namespace WavePoetry.Model
         [Required]
         public string Name { get; set; }
     }
+
+    public static class AdminLists
+    { 
+        public static List<KeyValuePair<string, string>> GetShipmentTypes()
+        {
+            return new List<KeyValuePair<string, string>>
+            {
+                new KeyValuePair<string, string>("Galleys", "Galleys"),
+                new KeyValuePair<string, string>("Review", "Review"),
+                new KeyValuePair<string, string>("Desk", "Desk"),
+                new KeyValuePair<string, string>("Comp", "Comp"),
+                new KeyValuePair<string, string>("Donation", "Donation")
+            };
+        }
+
+        public static List<KeyValuePair<string, string>> GetShipmentStatuses()
+        {
+            return new List<KeyValuePair<string, string>>
+            {
+                new KeyValuePair<string, string>("Pending", "Pending"),
+                new KeyValuePair<string, string>("Sent", "Sent")
+            };
+        }
+        
+    }
+
 }

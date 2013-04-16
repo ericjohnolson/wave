@@ -12,8 +12,13 @@ namespace WavePoetry.Model
     {
         public Contact()
         {
+            SelectedCats = new List<int>().ToArray();
             Is_email1_primary = true;
             Is_primary = true;
+            Galley_copies = 1;
+            Desk_copies = 1;
+            Comp_copies = 1;
+            Review_copies = 1;
             var subtypes = new List<SelectListItem>
             {
                 new SelectListItem { Text = "Softcover", Value = "Softcover" },

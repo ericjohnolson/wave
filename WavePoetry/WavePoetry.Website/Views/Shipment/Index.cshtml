@@ -7,9 +7,9 @@
 <h2>Shipments</h2>
 <div class="box">
     <div class="accordion-heading">
-        <span class="accordion-toggle">Search Options
-        <a class="pull-right" data-toggle="collapse" href="#collapseOne"><i class="icon-chevron-up"></i><i class="icon-chevron-down"></i></a>
-        </span>
+        <a class="accordion-toggle" data-toggle="collapse" href="#collapseOne">Search Options 
+            <span class="pull-right"><i class="icon-chevron-up"></i><i class="icon-chevron-down"></i></span>
+        </a>
     </div>
     <div id="collapseOne" class="accordion-body collapse in">
         <div class="accordion-inner">
@@ -19,21 +19,19 @@
             <fieldset>
                 <div class="row">
                     <div class="span4">
-
-                        <div class="editor-label">
-                            Titles
-                        </div>
-                        <div class="editor-field">
-                            @Html.ListBoxFor(model => model.SelectedTitles, Model.AvailableTitles, new { @class = "chzn-select" })
-                        </div>
-                    </div>
-                    <div class="span5">
-
                         <div class="editor-label">
                             Marking Type
                         </div>
                         <div class="editor-field">
                             @Html.DropDownListFor(model => model.SelectedType, Model.Types, new { @class = "tst" })
+                        </div>
+                    </div>
+                    <div class="span5">
+                        <div class="editor-label">
+                            Titles
+                        </div>
+                        <div class="editor-field">
+                            @Html.ListBoxFor(model => model.SelectedTitles, Model.AvailableTitles, new { @class = "chzn-select" })
                         </div>
                     </div>
                 </div>
@@ -48,23 +46,12 @@
         </div>
     </div>
 </div>
+@Html.HiddenFor(model => model.HideOptions)
 <hr />
 
-@if (Model.ResultsToMarkSent != null && Model.ResultsToMarkSent.Count() > 0)
+@if (Model.ShipmentResults != null && Model.ShipmentResults.Count() > 0)
 {
-
-    
     <h3>Pending Shipments</h3>
-    <div class="well">
-        @using (Html.BeginForm("CreateCsv", "Shipment", FormMethod.Post, new { @class = "form-inline" }))
-        {
-            <button type="submit" class="btn btn-inverse">Export CSV</button>
-        }
-        @using (Html.BeginForm("MarkSent", "Shipment", FormMethod.Post, new { @class = "form-inline" }))
-        {
-            <button type="submit" class="btn btn-danger">Mark Shipments Sent</button>
-        }
-    </div>
     <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered table-condensed" id="sentTable" style="font-size: 0.8em;">
         <thead>
             <tr>
@@ -75,7 +62,7 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (var result in Model.ResultsToMarkSent)
+            @foreach (var result in Model.ShipmentResults)
             {
                 <tr>
                     <td><a href="/Contact/Edit/@result.ContactId" >@result.SortName</a></td>
@@ -91,17 +78,32 @@
             }
         </tbody>
     </table>
+    
+    <hr />
+    <div class="well" style="height:36px;">
+        @using (Html.BeginForm("CreateCsv", "Shipment", FormMethod.Post, new { @class = "form-inline pull-right" }))
+        {
+            @Html.HiddenFor(model => model.SelectedTitlesCsv)
+            @Html.HiddenFor(model => model.SelectedType)
+            <button type="submit" style="margin-left:10px;" class="btn btn-inverse">Export CSV</button>
+        }
+        @using (Html.BeginForm("MarkSent", "Shipment", FormMethod.Post, new { @class = "form-inline pull-right" }))
+        {
+            @Html.HiddenFor(model => model.SelectedTitlesCsv)
+            @Html.HiddenFor(model => model.SelectedType)
+            <label class="help-inline">
+                Mark For Follow Up 
+            </label>
+            @Html.EditorFor(model => model.MarkAsFollowUp)
+            <span style="padding-left:10px;">&nbsp;</span>
+            <button type="submit" class="btn btn-danger">Mark Shipments Sent</button>
+        }
+    </div>
 }
 
-@if (Model.ResultsToMarkPending != null && Model.ResultsToMarkPending.Count() > 0)
+@if (Model.ContactResults != null && Model.ContactResults.Count() > 0)
 {
     <h3>Marked Contacts</h3>
-    using (Html.BeginForm("CreatePending", "Shipment", FormMethod.Post, new { @class = "form-inline" }))
-    {
-    <div class="well">
-        <button type="submit" class="btn btn-danger">Create Pending Shipments</button>
-    </div>
-    }
             
     <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered table-condensed" id="pendingTable" style="font-size: 0.8em;">
         <thead>
@@ -109,26 +111,36 @@
                 <td>Contact</td>
                 <td>Organization</td>
                 <td>City</td>
-                <td>Titles</td>
             </tr>
         </thead>
         <tbody>
-            @foreach (var result in Model.ResultsToMarkPending)
+            @foreach (var result in Model.ContactResults)
             {
                 <tr>
                     <td><a href="/Contact/Edit/@result.ContactId" >@result.SortName</a></td>
                     <td>@result.Organization</td>
                     <td>@result.City</td>
-                    <td>
-                        @foreach (var title in result.Titles)
-                        {
-                            <span>@title.TitleName (@title.Quantity),</span> 
-                        }
-                    </td>
                 </tr>
             }
         </tbody>
     </table>
+    <hr />
+    using (Html.BeginForm("CreatePending", "Shipment", FormMethod.Post, new { @class = "form-inline", @id = "creatependingform" }))
+    {
+    @Html.HiddenFor(model => model.SelectedType)
+    <div class="well">
+        <div class="editor-label">
+            Titles To Create Shipments For
+        </div>
+        <div class="pull-right">
+            <button type="submit" class="btn btn-danger">Create Pending Shipments</button>
+        </div>
+        <div class="editor-field">
+            @Html.ListBoxFor(model => model.TitlesToCreateShipmentsFor, Model.AvailableTitles, new { @class = "chzn-select" }) <br />
+            <span class="field-validation-error" id="titles-error" style="display:none;">You must select at least one title.</span>
+        </div>
+    </div>
+    }
 }
 
 <p>
@@ -161,6 +173,18 @@
 <link href="@Url.Content("~/Scripts/chosen/chosen.css")" rel="stylesheet"  type="text/css" />
 <script>
     $(document).ready(function () {
+
+        $('#creatependingform').on('submit', function (e) {
+            var total = $('#TitlesToCreateShipmentsFor option').length;
+            if (total == 0) {
+                $("#titles-error").show();
+                e.preventDefault();
+            }
+        });
+
+        if ($("#HideOptions").val() == "True")
+            $("#collapseOne").collapse();
+
         $(".chzn-select").ajaxChosen({
             type: 'GET',
             url: '/Title/LookupTitle',
@@ -174,24 +198,9 @@
 
             return results;
         });
-        //$('.chzn-choices input').autocomplete({
-        //    source: function (request, response) {
-        //        $.ajax({
-        //            url: "/Title/LookupTitle", type: "POST", dataType: "json",
-        //            data: { searchText: request.term, maxResults: 10 },
-        //            beforeSend: function () { $('ul.chzn-results').empty(); },
-        //            success: function (data) {
-        //                response($.map(data, function (item) {
-        //                  $('ul.chzn-results').append('<li class="active-result" id="' + item.TitleId + '">' + item.Title + '</li>');
-        //                }));
-        //            }
-        //        })
-        //    }
-        //});
 
         $('#pendingTable').dataTable({
             "aoColumns": [
-                null,
                 null,
                 null,
                 null
@@ -204,6 +213,7 @@
             "aaSorting": [[0, 'asc']],
             "iDisplayLength": 25,
         });
+
         $('#sentTable').dataTable({
             "aoColumns": [
                 null,

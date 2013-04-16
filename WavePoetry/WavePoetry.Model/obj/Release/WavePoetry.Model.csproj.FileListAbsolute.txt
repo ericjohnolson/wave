@@ -1,0 +1,6 @@
+C:\Users\Eric Olson\Documents\GitHub\wave\WavePoetry\WavePoetry.Model\bin\Release\WavePoetry.Model.dll
+C:\Users\Eric Olson\Documents\GitHub\wave\WavePoetry\WavePoetry.Model\bin\Release\WavePoetry.Model.pdb
+C:\Users\Eric Olson\Documents\GitHub\wave\WavePoetry\WavePoetry.Model\bin\Release\LINQtoCSV.dll
+C:\Users\Eric Olson\Documents\GitHub\wave\WavePoetry\WavePoetry.Model\bin\Release\LINQtoCSV.pdb
+C:\Users\Eric Olson\Documents\GitHub\wave\WavePoetry\WavePoetry.Model\obj\Release\WavePoetry.Model.dll
+C:\Users\Eric Olson\Documents\GitHub\wave\WavePoetry\WavePoetry.Model\obj\Release\WavePoetry.Model.pdb

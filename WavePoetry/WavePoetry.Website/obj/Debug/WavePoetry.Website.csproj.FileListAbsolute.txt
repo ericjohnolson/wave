@@ -77,6 +77,7 @@ C:\Users\Eric Olson\Documents\GitHub\wave\WavePoetry\WavePoetry.Website\bin\Wave
 C:\Users\Eric Olson\Documents\GitHub\wave\WavePoetry\WavePoetry.Website\bin\WavePoetry.Website.pdb
 C:\Users\Eric Olson\Documents\GitHub\wave\WavePoetry\WavePoetry.Website\bin\Antlr3.Runtime.dll
 C:\Users\Eric Olson\Documents\GitHub\wave\WavePoetry\WavePoetry.Website\bin\EntityFramework.dll
+C:\Users\Eric Olson\Documents\GitHub\wave\WavePoetry\WavePoetry.Website\bin\LINQtoCSV.dll
 C:\Users\Eric Olson\Documents\GitHub\wave\WavePoetry\WavePoetry.Website\bin\Microsoft.Data.Edm.dll
 C:\Users\Eric Olson\Documents\GitHub\wave\WavePoetry\WavePoetry.Website\bin\Microsoft.Data.OData.dll
 C:\Users\Eric Olson\Documents\GitHub\wave\WavePoetry\WavePoetry.Website\bin\Microsoft.Web.Infrastructure.dll
@@ -101,6 +102,7 @@ C:\Users\Eric Olson\Documents\GitHub\wave\WavePoetry\WavePoetry.Website\bin\WebM
 C:\Users\Eric Olson\Documents\GitHub\wave\WavePoetry\WavePoetry.Website\bin\WebMatrix.WebData.dll
 C:\Users\Eric Olson\Documents\GitHub\wave\WavePoetry\WavePoetry.Website\bin\WavePoetry.DataAccess.pdb
 C:\Users\Eric Olson\Documents\GitHub\wave\WavePoetry\WavePoetry.Website\bin\WavePoetry.Model.pdb
+C:\Users\Eric Olson\Documents\GitHub\wave\WavePoetry\WavePoetry.Website\bin\LINQtoCSV.pdb
 C:\Users\Eric Olson\Documents\GitHub\wave\WavePoetry\WavePoetry.Website\bin\EntityFramework.xml
 C:\Users\Eric Olson\Documents\GitHub\wave\WavePoetry\WavePoetry.Website\bin\Newtonsoft.Json.xml
 C:\Users\Eric Olson\Documents\GitHub\wave\WavePoetry\WavePoetry.Website\bin\System.Net.Http.Formatting.xml

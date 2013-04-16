@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using LINQtoCSV;
 
 namespace WavePoetry.Model
 {
@@ -14,30 +15,19 @@ namespace WavePoetry.Model
         public Shipment()
         {
             Quantity = 1;
-            var statuses = new List<SelectListItem>
-            {
-                new SelectListItem { Text = "Pending", Value = "Pending" },
-                new SelectListItem { Text = "Sent", Value = "Sent" }
-            };
+            var statuses = AdminLists.GetShipmentStatuses();
             StatusTypes = new SelectList(
                 statuses,
-                "Text",
-                "Text",
+                "Key",
+                "Value",
                 null
                );
 
-            var types = new List<SelectListItem>
-            {
-                new SelectListItem { Text = "Galleys", Value = "Galleys" },
-                new SelectListItem { Text = "Review", Value = "Review" },
-                new SelectListItem { Text = "Desk", Value = "Desk" },
-                new SelectListItem { Text = "Comp", Value = "Comp" },
-                new SelectListItem { Text = "Donation", Value = "Donation" }
-            };
+            var types = AdminLists.GetShipmentTypes();
             Types = new SelectList(
                 types,
-                "Text",
-                "Text",
+                "Key",
+                "Value",
                 null
                );
         }
@@ -71,35 +61,50 @@ namespace WavePoetry.Model
 
     }
 
-
     public class ShipmentCsvLine
     {
-
+        [CsvColumn(FieldIndex = 1)]
+        public string FirstName { get; set; }
+        [CsvColumn(FieldIndex = 2)]
+        public string LastName { get; set; }
+        [CsvColumn(FieldIndex = 3)]
+        public string Organization { get; set; }
+        [CsvColumn(FieldIndex = 4)]
+        public string Title { get; set; }
+        [CsvColumn(FieldIndex = 5)]
+        public string AddressLine1 { get; set; }
+        [CsvColumn(FieldIndex = 6)]
+        public string AddressLine2 { get; set; }
+        [CsvColumn(FieldIndex = 7)]
+        public string City { get; set; }
+        [CsvColumn(FieldIndex = 8)]
+        public string State { get; set; }
+        [CsvColumn(FieldIndex = 9)]
+        public string Zip { get; set; }
+        [CsvColumn(FieldIndex = 10)]
+        public string Country { get; set; }
+        [CsvColumn(FieldIndex = 11)]
+        public string SubscriberNumber { get; set; }
+        [CsvColumn(FieldIndex = 12)]
+        public string Titles { get; set; }
+        
+        public IEnumerable<TitleToSend> TitleList { get; set; }
+        public Nullable<int> SubNumber { get; set; }
     }
 
     public class ShipmentSearch
     {
         public ShipmentSearch()
         {
-            var types = new List<SelectListItem>
-            {
-                new SelectListItem { Text = "Galleys", Value = "Galleys" },
-                new SelectListItem { Text = "Review", Value = "Review" },
-                new SelectListItem { Text = "Desk", Value = "Desk" },
-                new SelectListItem { Text = "Comp", Value = "Comp" },
-                new SelectListItem { Text = "Donation", Value = "Donation" }
-            };
+            var types = AdminLists.GetShipmentTypes();
             Types = new SelectList(
                 types,
-                "Text",
-                "Text",
+                "Key",
+                "Value",
                 null
                );
 
-            var titles = new List<SelectListItem>
-            {
-                new SelectListItem { Text = "Type to find", Value = "Type to find" }
-            };
+            var titles = new List<SelectListItem>();
             AvailableTitles = new MultiSelectList(
                 titles,
                 "Text",
@@ -107,14 +112,19 @@ namespace WavePoetry.Model
                 null
                );
         }
+        public bool HideOptions { get; set; }
         public string SearchType { get; set; }
-        public IEnumerable<ShipmentDetails> ResultsToMarkSent { get; set; }
-        public IEnumerable<ShipmentDetails> ResultsToMarkPending { get; set; }
+        public IEnumerable<ShipmentDetails> ShipmentResults { get; set; }
+        public IEnumerable<ShipmentDetails> ContactResults { get; set; }
+        [Required]
         public string SelectedType { get; set; }
         public SelectList Types { get; set; }
         public int[] SelectedTitles { get; set; }
+        public string SelectedTitlesCsv { get; set; }
+        public int[] TitlesToCreateShipmentsFor { get; set; }
         public MultiSelectList AvailableTitles { get; set; }
         public string Message { get; set; }
+        public bool MarkAsFollowUp { get; set; }
     }
 
     public class ShipmentDetails
@@ -123,11 +133,12 @@ namespace WavePoetry.Model
         public int ContactId { get; set; }
         public string Organization { get; set; }
         public string City { get; set; }
-        public List<TitleToSend> Titles { get; set; }
+        public IEnumerable<TitleToSend> Titles { get; set; }
     }
 
     public class TitleToSend
     {
+        public int TitleId { get; set; }
         public string TitleName { get; set; }
         public int Quantity { get; set; }
     }

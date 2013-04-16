@@ -9,11 +9,146 @@ namespace WavePoetry.DataAccess
 {
     public class ShipmentData
     {
-        public IEnumerable<ShipmentDetails> Search(ShipmentSearch search)
+        /// <summary>
+        /// GET CONTACTS MARK PENDING 
+        /// </summary>
+        public IEnumerable<ShipmentDetails> SearchForContacts(ShipmentSearch search)
         {
-            throw new NotImplementedException();
+            wavepoetry2Entities1 dbContext = new wavepoetry2Entities1();
+            return dbContext.contacts.Where(c =>
+                    (search.SelectedType != "Galleys" || c.galley_all) &&
+                    (search.SelectedType != "Review" || c.review_all) &&
+                    (search.SelectedType != "Desk" || c.desk_all) &&
+                    (search.SelectedType != "Comp" || c.comp_all)
+                )
+                .Select(c => new ShipmentDetails
+                {
+                    SortName = c.lastname + ", " + c.firstname,
+                    City = c.is_primary ? c.city : c.city_alt,
+                    ContactId = c.id,
+                    Organization = c.is_primary ? c.organization : c.organization_alt
+                });
         }
 
+        public int CreatePendingShipments(ShipmentSearch search, int userid)
+        {
+            int shipments = 0;
+            wavepoetry2Entities1 dbContext = new wavepoetry2Entities1();
+            var contacts = dbContext.contacts.Where(c =>
+                    (search.SelectedType != "Galleys" || c.galley_all) &&
+                    (search.SelectedType != "Review" || c.review_all) &&
+                    (search.SelectedType != "Desk" || c.desk_all) &&
+                    (search.SelectedType != "Comp" || c.comp_all)
+                );
+
+            foreach (int titleId in search.TitlesToCreateShipmentsFor)
+            {
+                foreach (contact c in contacts)
+                {
+                    shipment ship = new shipment
+                    {
+                        contact_id = c.id,
+                        title_id = titleId,
+                        quantity = GetQuantityForSearchType(c, search),
+                        status = "Pending",
+                        type = search.SelectedType,
+                        createdat = DateTime.Now,
+                        createdby = userid,
+                        updatedat = DateTime.Now,
+                        updatedby = userid
+                    };
+                    dbContext.shipments.Add(ship);
+                    shipments++;
+                }
+            }
+            dbContext.SaveChanges();
+            return shipments;
+        }
+
+        /// <summary>
+        /// GET SHIPMENTS MARK SENT
+        /// </summary>
+        public IEnumerable<ShipmentDetails> SearchForShipments(ShipmentSearch search)
+        {
+            if (search.SelectedTitles.Count() == 0)
+                return new List<ShipmentDetails>();
+
+            wavepoetry2Entities1 dbContext = new wavepoetry2Entities1();
+            return dbContext.contacts.Where(c => c.contact_shipment.Where(
+                s => search.SelectedTitles.Contains(s.title_id) && s.status == "Pending" && s.type == search.SelectedType).Count() > 0)
+                .Select(c => new ShipmentDetails
+                {
+                    SortName = c.lastname + ", " + c.firstname,
+                    City = c.is_primary ? c.city : c.city_alt,
+                    ContactId = c.id,
+                    Organization = c.is_primary ? c.organization : c.organization_alt,
+                    Titles = c.contact_shipment.Where(
+                        s => search.SelectedTitles.Contains(s.title_id) && s.status == "Pending" && s.type == search.SelectedType)
+                    .Select(s => new TitleToSend
+                    {
+                        TitleId = s.title_id,
+                        TitleName = s.shipment_title.title1,
+                        Quantity = s.quantity
+                    })
+                });
+        }
+
+        public List<ShipmentCsvLine> GetPendingShipments(ShipmentSearch search)
+        {
+            if (search.SelectedTitles.Count() == 0)
+                throw new ArgumentNullException();
+
+            wavepoetry2Entities1 dbContext = new wavepoetry2Entities1();
+            return dbContext.contacts.Where(c => c.contact_shipment.Where(
+                s => search.SelectedTitles.Contains(s.title_id) && s.status == "Pending" && s.type == search.SelectedType).Count() > 0)
+                .Select(c => new ShipmentCsvLine
+                {
+                    FirstName = c.firstname,
+                    LastName = c.lastname,
+                    SubNumber = c.is_subscriber ? c.sub_number : null,
+                    AddressLine1 = c.is_primary ? c.addressline1 : c.addressline1_alt,
+                    AddressLine2 = c.is_primary ? c.addressline2 : c.addressline2_alt,
+                    State = c.is_primary ? c.state : c.state_alt,
+                    Zip = c.is_primary ? c.zip : c.zip_alt,
+                    Country = c.is_primary ? c.country : c.country_alt,
+                    Title = c.is_primary ? c.title : c.title_alt,
+                    City = c.is_primary ? c.city : c.city_alt,
+                    Organization = c.is_primary ? c.organization : c.organization_alt,
+                    TitleList = c.contact_shipment.Where(
+                        s => search.SelectedTitles.Contains(s.title_id) && s.status == "Pending" && s.type == search.SelectedType)
+                        .Select(s => new TitleToSend
+                        {
+                            TitleId = s.title_id,
+                            TitleName = s.shipment_title.title1,
+                            Quantity = s.quantity
+                        })
+                }).ToList();
+        }
+
+        public int MarkShipmentsSent(ShipmentSearch search, int userid)
+        {
+            int count = 0;
+            if (search.SelectedTitles.Count() == 0)
+                throw new ArgumentNullException();
+
+            wavepoetry2Entities1 dbContext = new wavepoetry2Entities1();
+            var ships = dbContext.shipments.Where(s => search.SelectedTitles.Contains(s.title_id) && s.status == "Pending" && s.type == search.SelectedType);
+
+            foreach (shipment s in ships)
+            {
+                s.date_sent = DateTime.Now;
+                s.should_followup = search.MarkAsFollowUp;
+                s.updatedat = DateTime.Now;
+                s.updatedby = userid;
+                s.status = "Sent";
+                count++;
+            }
+            dbContext.SaveChanges();
+            return count;
+        }
+        /// <summary>
+        /// CRUD 
+        /// </summary>
         public Shipment GetById(int id)
         {
             wavepoetry2Entities1 dbContext = new wavepoetry2Entities1();
@@ -63,7 +198,7 @@ namespace WavePoetry.DataAccess
             wavepoetry2Entities1 dbContext = new wavepoetry2Entities1();
             var obj = new shipment
             {
-                
+
                 title_id = model.TitleId,
                 contact_id = model.ContactId,
                 date_sent = model.DateSent,
@@ -81,6 +216,18 @@ namespace WavePoetry.DataAccess
             dbContext.SaveChanges();
         }
 
+        private int GetQuantityForSearchType(contact c, ShipmentSearch search)
+        {
+            if (search.SelectedType == "Galleys")
+                return c.galley_copies ?? 1;
+            if (search.SelectedType == "Review")
+                return c.review_copies ?? 1;
+            if (search.SelectedType == "Desk")
+                return c.desk_copies ?? 1;
+            if (search.SelectedType == "Comp")
+                return c.comp_copies ?? 1;
+            throw new ArgumentNullException();
+        }
 
     }
 }
