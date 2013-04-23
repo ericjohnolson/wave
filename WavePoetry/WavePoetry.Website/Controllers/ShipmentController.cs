@@ -29,7 +29,6 @@ namespace WavePoetry.Web.Controllers
         [HttpPost]
         public ActionResult Index(ShipmentSearch search, string btnValue)
         {
-            search.SelectedTitlesCsv = String.Join(",", search.SelectedTitles);
             search.HideOptions = false;
             if (btnValue == "Find Marked Contacts")
             {
@@ -41,6 +40,7 @@ namespace WavePoetry.Web.Controllers
             }
             else if (btnValue == "Find Pending Shipments")
             {
+                search.SelectedTitlesCsv = String.Join(",", search.SelectedTitles);
                 search.ShipmentResults = data.SearchForShipments(search);
                 if (search.ShipmentResults.Count() == 0)
                     search.Message = "No pending shipments matching your search found.";
@@ -56,7 +56,6 @@ namespace WavePoetry.Web.Controllers
         [HttpPost]
         public ActionResult CreatePending(ShipmentSearch search)
         {
-            //TODO: ask about validation/protection?
             int total = data.CreatePendingShipments(search, (Session["LoggedInUser"] as user).id);
             TempData["SuccessMessage"] = string.Format("\"{0}\" pending shipments were created.", total);
             return RedirectToAction("Index");
@@ -108,12 +107,14 @@ namespace WavePoetry.Web.Controllers
         {
             var model = new Shipment();
             ParseQueryString(Request, model, true);
+            LoadLists(model);
             return View(model);
         }
 
         [HttpPost]
         public ActionResult Create(Shipment model)
         {
+            LoadLists(model);
             Validate(model);
 
             if (ModelState.IsValid)
@@ -135,12 +136,14 @@ namespace WavePoetry.Web.Controllers
         {
             var model = data.GetById(id);
             ParseQueryString(Request, model, false);
+            LoadLists(model);
             return View(model);
         }
 
         [HttpPost]
         public ActionResult Edit(Shipment model)
         {
+            LoadLists(model);
             Validate(model);
 
             if (ModelState.IsValid)
@@ -157,13 +160,23 @@ namespace WavePoetry.Web.Controllers
             return View(model);
         }
 
+        public ActionResult DeleteShipment(int id, string type, int contactid, int titleid)
+        {
+            data.Delete(id);
+            if (type == "title")
+                return RedirectToAction("Edit", "Title", new { id = titleid });
+            if (type == "contact")
+                return RedirectToAction("Edit", "Contact", new { id = contactid });
+            return RedirectToAction("Index", "Contact");
+        }
+
         private void Validate(Shipment model)
         {
             if (model.ContactId < 1)
-                ModelState.AddModelError("ContactName", "Please select a valid Contact from the auto complete choices");
+                ModelState.AddModelError("ContactId", "Please select a valid Contact from the auto complete choices");
 
             if (model.TitleId < 1)
-                ModelState.AddModelError("TitleName", "Please select a valid Title from the auto complete choices");
+                ModelState.AddModelError("TitleId", "Please select a valid Title from the auto complete choices");
 
             if (!ModelState.IsValid)
                 ModelState.AddModelError(string.Empty, "Please fix the errors below.");
@@ -184,13 +197,24 @@ namespace WavePoetry.Web.Controllers
             else if (!string.IsNullOrEmpty(Request.QueryString["contact"]))
             {
                 model.Redirect = "contact";
-
                 if (isCreate)
                 {
                     model.ContactId = Convert.ToInt32(Request.QueryString["contact"]);
                     model.ContactName = reviewData.GetContactDisplayNameById(model.ContactId);
                 }
             }
+        }
+
+        private void LoadLists(Shipment model)
+        {
+            var titleId = model.TitleId.ToString();
+            var titleName = string.IsNullOrEmpty(model.TitleName) ? "Search for a Title" : model.TitleName;
+            var contactId = model.ContactId.ToString();
+            var contactName = string.IsNullOrEmpty(model.ContactName) ? "Search for a Contact" : model.ContactName;
+            var contacts = new List<SelectListItem> { new SelectListItem { Text = contactName, Value = contactId } };
+            var titles = new List<SelectListItem> { new SelectListItem { Text = titleName, Value = titleId } };
+            model.Contacts = new SelectList(contacts, "Value", "Text", null);
+            model.Titles = new SelectList(titles, "Value", "Text", null);
         }
     }
 }

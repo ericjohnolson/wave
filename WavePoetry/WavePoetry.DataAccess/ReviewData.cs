@@ -23,7 +23,8 @@ namespace WavePoetry.DataAccess
         public string GetContactDisplayNameById(int id)
         {
             wavepoetry2Entities1 dbContext = new wavepoetry2Entities1();
-            return dbContext.contacts.Where(c => c.id == id).Select(c2 => c2.firstname + " " + c2.lastname).FirstOrDefault();
+            return dbContext.contacts.Where(c => c.id == id).Select(c2 => c2.firstname + " " + c2.lastname + " (" +
+                    (c2.is_primary ? c2.organization : c2.organization_alt) + ")").FirstOrDefault();
         }
 
         public Review GetById(int id)
@@ -41,12 +42,13 @@ namespace WavePoetry.DataAccess
                 ReviewText = model.review_text,
                 Venue = model.venue,
                 ReviewerId = model.reviewedby,
-                ReviewerName = model.review_contact.firstname + " " + model.review_contact.lastname,
+                ReviewerName = model.review_contact.firstname + " " + model.review_contact.lastname + " (" +
+                    (model.review_contact.is_primary ? model.review_contact.organization : model.review_contact.organization_alt) + ")",
                 TitleId = model.title_id,
                 TitleName = model.review_title.title1,
                 TitlePubDate = model.review_title.date_published
             };
-            review.TitleName = review.TitleName + "(" + review.TitlePubDate.ToShortDateString() + ")";
+            review.TitleName = review.TitleName + " (" + review.TitlePubDate.ToShortDateString() + ")";
             return review;
         }
 

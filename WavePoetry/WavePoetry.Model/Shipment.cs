@@ -31,14 +31,13 @@ namespace WavePoetry.Model
                 null
                );
         }
+
         public int Id { get; set; }
-        [Required, Range(1, Int32.MaxValue)]
-        public int TitleId { get; set; }
         [Required, DisplayName("Title")]
+        public int TitleId { get; set; }
         public string TitleName { get; set; }
-        [Required, Range(1, Int32.MaxValue)]
-        public int ContactId { get; set; }
         [Required, DisplayName("Contact")]
+        public int ContactId { get; set; }
         public string ContactName { get; set; }
         [Required]
         public string Status { get; set; }
@@ -58,7 +57,9 @@ namespace WavePoetry.Model
         public SelectList StatusTypes { get; set; }
         public SelectList Types { get; set; }
         public DateTime TitlePubDate { get; set; }
-
+        public string FollowUpText { get; set; }
+        public SelectList Contacts { get; set; }
+        public SelectList Titles { get; set; }
     }
 
     public class ShipmentCsvLine

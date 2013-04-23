@@ -1,0 +1,20 @@
+﻿@model WavePoetry.Model.Contact
+
+@{
+    ViewBag.Title = Model.DisplayName;
+}
+
+<h2>@Model.DisplayName</h2>
+
+@using (Html.BeginForm("Edit", "Contact", FormMethod.Post, new { enctype = "multipart/form-data"}))
+{
+    @Html.ValidationSummary(true)
+
+    @Html.EditorForModel()
+}
+<p style="text-align:right;"><em>Last Updated: @Model.LastUpdated</em></p>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+

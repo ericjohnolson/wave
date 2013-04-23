@@ -38,8 +38,13 @@ namespace WavePoetry.DataAccess
                     (search.SelectedType != "Galleys" || c.galley_all) &&
                     (search.SelectedType != "Review" || c.review_all) &&
                     (search.SelectedType != "Desk" || c.desk_all) &&
-                    (search.SelectedType != "Comp" || c.comp_all)
+                    (search.SelectedType != "Comp" || c.comp_all) &&
+                    c.contact_shipment.Where(s => search.TitlesToCreateShipmentsFor.Contains(s.title_id) && 
+                        s.type == search.SelectedType && s.status == "Pending").FirstOrDefault() == null
                 );
+
+            if (contacts == null || contacts.Count() == 0)
+                return shipments;
 
             foreach (int titleId in search.TitlesToCreateShipmentsFor)
             {
@@ -162,7 +167,8 @@ namespace WavePoetry.DataAccess
                 TitleName = model.shipment_title.title1,
                 TitlePubDate = model.shipment_title.date_published,
                 ContactId = model.contact_id,
-                ContactName = model.shipment_contact.firstname + " " + model.shipment_contact.lastname,
+                ContactName = model.shipment_contact.firstname + " " + model.shipment_contact.lastname + " (" +
+                    (model.shipment_contact.is_primary ? model.shipment_contact.organization : model.shipment_contact.organization_alt) + ")",
                 DateSent = model.date_sent,
                 Quantity = model.quantity,
                 ShouldFollowUp = model.should_followup,
@@ -170,7 +176,7 @@ namespace WavePoetry.DataAccess
                 Type = model.type,
                 LastUpdated = string.Format("{0} at {1}", model.shipment_user.username, model.updatedat.ToShortDateString())
             };
-            shipment.TitleName = shipment.TitleName + "(" + shipment.TitlePubDate.ToShortDateString() + ")";
+            shipment.TitleName = shipment.TitleName + " (" + shipment.TitlePubDate.ToShortDateString() + ")";
             return shipment;
         }
 
@@ -213,6 +219,17 @@ namespace WavePoetry.DataAccess
             };
 
             dbContext.shipments.Add(obj);
+            dbContext.SaveChanges();
+        }
+
+        public void Delete(int id)
+        {
+            wavepoetry2Entities1 dbContext = new wavepoetry2Entities1();
+            var model = dbContext.shipments.FirstOrDefault(x => x.id == id);
+            if (model == null)
+                return;
+
+            dbContext.shipments.Remove(model);
             dbContext.SaveChanges();
         }
 

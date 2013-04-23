@@ -46,9 +46,21 @@ namespace WavePoetry.DataAccess
                     Status = s.status,
                     Type = s.type,
                     ShouldFollowUp = s.should_followup,
+                    FollowUpText = s.should_followup ? "yes" : "no"
                 }),
                 LastUpdated = string.Format("{0} at {1}", title.title_user.username, title.updatedat.ToShortDateString())
             };
+
+            vm.TotalCompPending = vm.Shipments.Where(s => s.Status == "Pending" && s.Type == "Comp").Sum(s => s.Quantity);
+            vm.TotalCompSent = vm.Shipments.Where(s => s.Status == "Sent" && s.Type == "Comp").Sum(s => s.Quantity);
+            vm.TotalDeskPending = vm.Shipments.Where(s => s.Status == "Pending" && s.Type == "Desk").Sum(s => s.Quantity);
+            vm.TotalDeskSent = vm.Shipments.Where(s => s.Status == "Sent" && s.Type == "Desk").Sum(s => s.Quantity);
+            vm.TotalDonationPending = vm.Shipments.Where(s => s.Status == "Pending" && s.Type == "Donation").Sum(s => s.Quantity);
+            vm.TotalDonationSent = vm.Shipments.Where(s => s.Status == "Sent" && s.Type == "Donation").Sum(s => s.Quantity);
+            vm.TotalGalleyPending = vm.Shipments.Where(s => s.Status == "Pending" && s.Type == "Galleys").Sum(s => s.Quantity);
+            vm.TotalGalleySent = vm.Shipments.Where(s => s.Status == "Sent" && s.Type == "Galleys").Sum(s => s.Quantity);
+            vm.TotalReviewPending = vm.Shipments.Where(s => s.Status == "Pending" && s.Type == "Review").Sum(s => s.Quantity);
+            vm.TotalReviewSent = vm.Shipments.Where(s => s.Status == "Sent" && s.Type == "Review").Sum(s => s.Quantity);
 
             return vm;
         }

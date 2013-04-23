@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using LINQtoCSV;
 using WavePoetry.DataAccess;
 using WavePoetry.Model;
 
@@ -26,7 +28,27 @@ namespace WavePoetry.Web.Controllers
         {
             int take = Convert.ToInt32(maxResults);
             IEnumerable<ContactDetails> authors = data.LookupContact(searchText, take);
-            return Json(authors);
+            var contacts = authors.Select(t => new ContactDetails
+            {
+                DisplayName = t.DisplayName + " (" + t.Organization + ")",
+                Id = t.Id,
+                Organization = t.Organization
+            });
+            return Json(contacts);
+        }
+
+        [AllowAnonymous]
+        public JsonResult LookupAuthor(string term)
+        {
+            int take = 20;
+            IEnumerable<ContactDetails> authors = data.LookupContact(term, take);
+            var contacts = authors.Select(t => new ContactDetails
+            {
+                DisplayName = t.DisplayName + " (" + t.Organization + ")",
+                Id = t.Id,
+                Organization = t.Organization
+            });
+            return Json(contacts, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult Create()
@@ -39,11 +61,10 @@ namespace WavePoetry.Web.Controllers
         [HttpPost]
         public ActionResult Create(Contact model)
         {
-            Validate(model);
             if (ModelState.IsValid)
             {
                 data.Insert(model, (Session["LoggedInUser"] as user).id);
-                TempData["SuccessMessage"] = string.Format("\"{0}, {1}\" was created.", model.Lastname, model.Firstname );
+                TempData["SuccessMessage"] = string.Format("\"{0}, {1}\" was created.", model.Lastname, model.Firstname);
                 return RedirectToAction("Index");
             }
 
@@ -61,7 +82,6 @@ namespace WavePoetry.Web.Controllers
         [HttpPost]
         public ActionResult Edit(Contact model)
         {
-            Validate(model);
 
             if (ModelState.IsValid)
             {
@@ -74,21 +94,37 @@ namespace WavePoetry.Web.Controllers
             return View(model);
         }
 
-        public ActionResult Index(ContactSearch search)
+        public ActionResult Index(ContactSearch search, string btnValue)
         {
             search.LoadCats(adminData.GetAllContactCats());
+            if (btnValue == "export")
+                return CreateCsv(search);
+
             var results = data.Search(search);
             search.Results = results;
             return View(search);
         }
 
-        private void Validate(Contact model)
+        public FileResult CreateCsv(ContactSearch search)
         {
-            //if (model.Author < 1)
-            //{
-            //    ModelState.AddModelError("AuthorName", "Please select a valid Author from the auto complete choices");
-            //    ModelState.AddModelError(string.Empty, "Please fix the errors below.");
-            //}
+            List<ContactCsvLine> items = data.SearchCsv(search);
+
+            CsvFileDescription outputFileDescription = new CsvFileDescription
+            {
+                EnforceCsvColumnAttribute = true
+            };
+
+            CsvContext cc = new CsvContext();
+            using (MemoryStream ms = new MemoryStream())
+            {
+                using (TextWriter tw = new StreamWriter(ms))
+                {
+                    cc.Write(items, tw, outputFileDescription);
+                }
+
+                return File(ms.ToArray(), "text/csv", "ContactList.csv");
+            }
         }
+
     }
 }

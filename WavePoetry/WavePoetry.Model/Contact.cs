@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using LINQtoCSV;
 
 namespace WavePoetry.Model
 {
@@ -150,5 +151,29 @@ namespace WavePoetry.Model
                 SelectedCats
             );
         }
+    }
+
+    public class ContactCsvLine
+    {
+        [CsvColumn(FieldIndex = 1)]
+        public string FirstName { get; set; }
+        [CsvColumn(FieldIndex = 2)]
+        public string LastName { get; set; }
+        [CsvColumn(FieldIndex = 3)]
+        public string Organization { get; set; }
+        [CsvColumn(FieldIndex = 4)]
+        public string Title { get; set; }
+        [CsvColumn(FieldIndex = 5)]
+        public string AddressLine1 { get; set; }
+        [CsvColumn(FieldIndex = 6)]
+        public string AddressLine2 { get; set; }
+        [CsvColumn(FieldIndex = 7)]
+        public string City { get; set; }
+        [CsvColumn(FieldIndex = 8)]
+        public string State { get; set; }
+        [CsvColumn(FieldIndex = 9)]
+        public string Zip { get; set; }
+        [CsvColumn(FieldIndex = 10)]
+        public string Country { get; set; }
     }
 }

@@ -24,7 +24,13 @@ namespace WavePoetry.Web.Controllers
         {
             int take = Convert.ToInt32(maxResults);
             IEnumerable<TitleDetails> titles = data.LookupTitle(searchText, take);
-            return Json(titles);
+            var titles2 = titles.Select(t => new TitleDetails
+            {
+                Title = t.Title + " (" + t.PubDate.ToShortDateString() + ")",
+                TitleId = t.TitleId,
+                PubDate = t.PubDate
+            });
+            return Json(titles2);
         }
 
         [AllowAnonymous]

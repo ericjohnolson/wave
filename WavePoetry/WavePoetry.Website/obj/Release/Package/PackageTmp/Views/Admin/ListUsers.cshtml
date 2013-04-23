@@ -1,0 +1,39 @@
+﻿@model IEnumerable<WavePoetry.Model.AdminUser>
+
+@{
+    ViewBag.Title = "Users";
+}
+
+<h2>Users</h2>
+
+<p>
+        @Html.ActionLink("Create New", "CreateUser", "Admin", new { @class = "test" })
+</p>
+<table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered table-condensed" id="dataTable" style="font-size: 0.8em;">
+ 
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Username)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IsAdmin)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Username)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IsAdmin)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "EditUser", new {  id=item.UserId  }) | 
+            @Html.ActionLink("Delete", "DeleteUser", new { id=item.UserId })
+        </td>
+    </tr>
+}
+
+</table>

@@ -1,0 +1,23 @@
+﻿@model WavePoetry.Model.Review
+
+@{
+    ViewBag.Title = "Create Review";
+}
+
+<h2>New Review</h2>
+
+@using (Html.BeginForm("Create", "Review", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.ValidationSummary(true)
+
+    @Html.EditorForModel()
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+<script>
+    $(document).ready(function () {
+    });
+</script>

@@ -25,7 +25,8 @@ namespace WavePoetry.DataAccess
                 .Select(c2 => new ContactDetails
                 {
                     DisplayName = c2.firstname + " " + c2.lastname,
-                    Id = c2.id
+                    Id = c2.id,
+                    Organization = c2.is_primary ? c2.organization : c2.organization_alt
                 });
         }
 
@@ -101,6 +102,7 @@ namespace WavePoetry.DataAccess
                     Status = s.status,
                     Type = s.type,
                     ShouldFollowUp = s.should_followup,
+                    FollowUpText = s.should_followup ? "yes" : "no"
                 }),
                 Reviews = c.contact_review.Select(r => new Review
                 {
@@ -140,6 +142,37 @@ namespace WavePoetry.DataAccess
                     Organization = s.is_primary ? s.organization : s.organization_alt,
                     Id = s.id
                 });
+        }
+
+        public List<ContactCsvLine> SearchCsv(ContactSearch search)
+        {
+            if (string.IsNullOrEmpty(search.LastName) && string.IsNullOrEmpty(search.FirstName) && string.IsNullOrEmpty(search.Organization) && string.IsNullOrEmpty(search.City) &&
+                search.SelectedCats.Count() == 0 && !search.NeedsFollowUp)
+                return new List<ContactCsvLine>();
+
+            wavepoetry2Entities1 dbContext = new wavepoetry2Entities1();
+            return dbContext.contacts.Where(x =>
+                // OR Search
+                ((string.IsNullOrEmpty(search.LastName) && string.IsNullOrEmpty(search.FirstName) && string.IsNullOrEmpty(search.Organization) && string.IsNullOrEmpty(search.City)) ||
+                 x.lastname.Contains(search.LastName) || x.firstname.Contains(search.FirstName) || x.organization.Contains(search.Organization) || x.organization_alt.Contains(search.Organization) || x.city.Contains(search.City) || x.city_alt.Contains(search.City))
+                    // Cat search
+                 && (search.SelectedCats.Count() == 0 || x.contact_contact_category.Where(c => search.SelectedCats.Contains(c.contact_category_id)).Count() > 0)
+                    // Follow up search
+                 && (!search.NeedsFollowUp || x.contact_shipment.Where(s => s.should_followup).Count() > 0)
+                )
+                .Select(c => new ContactCsvLine
+                {
+                    FirstName = c.firstname,
+                    LastName = c.lastname,
+                    AddressLine1 = c.is_primary ? c.addressline1 : c.addressline1_alt,
+                    AddressLine2 = c.is_primary ? c.addressline2 : c.addressline2_alt,
+                    State = c.is_primary ? c.state : c.state_alt,
+                    Zip = c.is_primary ? c.zip : c.zip_alt,
+                    Country = c.is_primary ? c.country : c.country_alt,
+                    Title = c.is_primary ? c.title : c.title_alt,
+                    City = c.is_primary ? c.city : c.city_alt,
+                    Organization = c.is_primary ? c.organization : c.organization_alt
+                }).ToList();
         }
 
         public void Update(Contact c2, int updatedby)

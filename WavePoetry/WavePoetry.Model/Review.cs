@@ -23,16 +23,16 @@ namespace WavePoetry.Model
         public string ReviewText { get; set; }
         public string OriginalLink { get; set; }
         public string CopyLink { get; set; }
-        [Required, Range(1, Int32.MaxValue)]
-        public int ReviewerId { get; set; }
         [Required, DisplayName("Reviewed By")]
+        public int ReviewerId { get; set; }
         public string ReviewerName { get; set; }
-        [Required, Range(1, Int32.MaxValue)]
-        public int TitleId { get; set; }
         [Required, DisplayName("Title")]
+        public int TitleId { get; set; }
         public string TitleName { get; set; }
         public string Redirect { get; set; }
         public DateTime TitlePubDate { get; set; }
+        public SelectList Contacts { get; set; }
+        public SelectList Titles { get; set; }
     }
 
     public class ReviewDetails

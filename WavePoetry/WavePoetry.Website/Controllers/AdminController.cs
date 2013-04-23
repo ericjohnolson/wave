@@ -55,6 +55,7 @@ namespace WavePoetry.Website.Controllers
             }
             return View(user);
         }
+
         public ActionResult DeleteUser(int id)
         {
             data.DeleteUser(id, (Session["LoggedInUser"] as user).id);
