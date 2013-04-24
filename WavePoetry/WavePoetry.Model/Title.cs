@@ -29,13 +29,11 @@ namespace WavePoetry.Model
         [Required]
         public string Name { get; set; }
         public string Subtitle { get; set; }
-        [Required, Range(1, Int32.MaxValue)]
-        public int Author { get; set; }
         [Required, DisplayName("Author")]
+        public int Author { get; set; }
         public string AuthorName { get; set; }
         [Required]
         public string Edition { get; set; }
-        [Required]
         public string ISBN { get; set; }
         [Required, DisplayName("Published Date")]
         public DateTime PubDate { get; set; }
@@ -45,6 +43,7 @@ namespace WavePoetry.Model
         public List<Contact> Contacts { get; set; }
         public SelectList Editions { get; set; }
         public string LastUpdated { get; set; }
+        public SelectList ContactSelects { get; set; }
 
         // Shipment Summary
         public int TotalPending { get; set; }

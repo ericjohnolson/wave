@@ -130,6 +130,15 @@ namespace WavePoetry.Model
     {
         public ContactSearch()
         {
+            var types = AdminLists.GetShipmentTypes();
+            types.Remove(new KeyValuePair<string, string>("Donation", "Donation"));
+            types.Insert(0, new KeyValuePair<string,string>("", "Any"));
+            Types = new SelectList(
+                types,
+                "Key",
+                "Value",
+                null
+               );
             SelectedCats = new List<int>().ToArray();
         }
         public string FirstName { get; set; }
@@ -138,8 +147,11 @@ namespace WavePoetry.Model
         public string City { get; set; }
         [DisplayName("Follow Up")]
         public bool NeedsFollowUp { get; set; }
+        public string TypePossible { get; set; }
+        public string TypeAlways { get; set; }
         public MultiSelectList Cats { get; set; }
         public int[] SelectedCats { get; set; }
+        public SelectList Types { get; set; }
         public IEnumerable<ContactDetails> Results { get; set; }
 
         public void LoadCats(List<Category> list)
@@ -175,5 +187,9 @@ namespace WavePoetry.Model
         public string Zip { get; set; }
         [CsvColumn(FieldIndex = 10)]
         public string Country { get; set; }
+        [CsvColumn(FieldIndex = 11)]
+        public string SubscriberNumber { get; set; }
+
+        public Nullable<int> SubNumber { get; set; }
     }
 }

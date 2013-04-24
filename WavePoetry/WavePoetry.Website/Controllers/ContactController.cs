@@ -108,6 +108,9 @@ namespace WavePoetry.Web.Controllers
         public FileResult CreateCsv(ContactSearch search)
         {
             List<ContactCsvLine> items = data.SearchCsv(search);
+            
+            foreach (var item in items)
+                item.SubscriberNumber = item.SubNumber.HasValue ? item.SubNumber.Value.ToString() : "";
 
             CsvFileDescription outputFileDescription = new CsvFileDescription
             {

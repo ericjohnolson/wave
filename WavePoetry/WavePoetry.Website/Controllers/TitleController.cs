@@ -50,12 +50,14 @@ namespace WavePoetry.Web.Controllers
         public ActionResult Create()
         {
             var model = new Title { PubDate = DateTime.Now.Date };
+            LoadLists(model);
             return View(model);
         }
 
         [HttpPost]
         public ActionResult Create(Title model)
         {
+            LoadLists(model);
             Validate(model);
             if (ModelState.IsValid)
             {
@@ -70,12 +72,14 @@ namespace WavePoetry.Web.Controllers
         public ActionResult Edit(int id)
         {
             var model = data.GetById(id);
+            LoadLists(model);
             return View(model);
         }
 
         [HttpPost]
         public ActionResult Edit(Title model)
         {
+            LoadLists(model);
             Validate(model);
 
             if (ModelState.IsValid)
@@ -98,9 +102,17 @@ namespace WavePoetry.Web.Controllers
         {
             if (model.Author < 1)
             {
-                ModelState.AddModelError("AuthorName", "Please select a valid Author from the auto complete choices");
+                ModelState.AddModelError("Author", "Please select a valid Author from the auto complete choices");
                 ModelState.AddModelError(string.Empty, "Please fix the errors below.");
             }
+        }
+
+        private void LoadLists(Title model)
+        {
+            var contactId = model.Author.ToString();
+            var contactName = string.IsNullOrEmpty(model.AuthorName) ? "Search for a Contact" : model.AuthorName;
+            var contacts = new List<SelectListItem> { new SelectListItem { Text = contactName, Value = contactId } };
+            model.ContactSelects = new SelectList(contacts, "Value", "Text", null);
         }
     }
 }

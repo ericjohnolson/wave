@@ -23,13 +23,25 @@
         </p>
         <p>
             <div id="collapseOne" class="accordion-body collapse">
-                <div class="accordion-inner" style="border: 1px solid #E5E5E5; background-color: #FFFFFF;">
+                <div class="accordion-inner" style="border: 1px solid #E5E5E5; background-color: #FFFFFF;height:140px;">
+                    <div class="pull-left">
+                        Categories<br />
+                        @Html.ListBoxFor(model => model.SelectedCats, Model.Cats, new { style = "height:100px" })
+                    </div>
+                    
+                    <div class="pull-left" style="margin-left:15px;">
+                        Marked for Always<br />
+                        @Html.DropDownListFor(model => model.TypeAlways, Model.Types, new { @class = "input-medium" })
+                        <br />
+                        Marked for Possible<br />
+                        @Html.DropDownListFor(model => model.TypePossible, Model.Types, new { @class = "input-medium" })
+                    </div>
+                    
+                    <div class="pull-left" style="margin-left:15px;">
+                        Follow Up<br /> 
+                        @Html.EditorFor(model => model.NeedsFollowUp)
+                    </div>
 
-                    @Html.ListBoxFor(model => model.SelectedCats, Model.Cats, new { style = "height:100px" })
-                    <label class="help-inline">
-                        Follow Up 
-                    </label>
-                    @Html.EditorFor(model => model.NeedsFollowUp)
                     <button type="submit" class="btn btn-inverse pull-right" name="btnValue" value="export">Export Csv</button>
                 </div>
             </div>

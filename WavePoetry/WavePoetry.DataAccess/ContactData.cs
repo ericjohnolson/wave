@@ -122,7 +122,7 @@ namespace WavePoetry.DataAccess
         public IEnumerable<ContactDetails> Search(ContactSearch search)
         {
             if (string.IsNullOrEmpty(search.LastName) && string.IsNullOrEmpty(search.FirstName) && string.IsNullOrEmpty(search.Organization) && string.IsNullOrEmpty(search.City) &&
-                search.SelectedCats.Count() == 0 && !search.NeedsFollowUp)
+                search.SelectedCats.Count() == 0 && !search.NeedsFollowUp && string.IsNullOrEmpty(search.TypeAlways) && string.IsNullOrEmpty(search.TypePossible))
                 return new List<ContactDetails>();
 
             wavepoetry2Entities1 dbContext = new wavepoetry2Entities1();
@@ -134,6 +134,16 @@ namespace WavePoetry.DataAccess
                  && (search.SelectedCats.Count() == 0 || x.contact_contact_category.Where(c => search.SelectedCats.Contains(c.contact_category_id)).Count() > 0) 
                  // Follow up search
                  && (!search.NeedsFollowUp || x.contact_shipment.Where(s => s.should_followup).Count() > 0)
+                 // Always Search
+                 && (string.IsNullOrEmpty(search.TypeAlways) || ((search.TypeAlways != "Galleys" || x.galley_all) &&
+                    (search.TypeAlways != "Review" || x.review_all) &&
+                    (search.TypeAlways != "Desk" || x.desk_all) &&
+                    (search.TypeAlways != "Comp" || x.comp_all)))
+                 // Possible Search
+                 && (string.IsNullOrEmpty(search.TypePossible) || ((search.TypePossible != "Galleys" || x.galley_pos) &&
+                    (search.TypePossible != "Review" || x.review_pos) &&
+                    (search.TypePossible != "Desk" || x.desk_pos) &&
+                    (search.TypePossible != "Comp" || x.comp_pos)))
                 )
                 .Select(s => new ContactDetails
                 {
@@ -147,7 +157,7 @@ namespace WavePoetry.DataAccess
         public List<ContactCsvLine> SearchCsv(ContactSearch search)
         {
             if (string.IsNullOrEmpty(search.LastName) && string.IsNullOrEmpty(search.FirstName) && string.IsNullOrEmpty(search.Organization) && string.IsNullOrEmpty(search.City) &&
-                search.SelectedCats.Count() == 0 && !search.NeedsFollowUp)
+                search.SelectedCats.Count() == 0 && !search.NeedsFollowUp && string.IsNullOrEmpty(search.TypeAlways) && string.IsNullOrEmpty(search.TypePossible))
                 return new List<ContactCsvLine>();
 
             wavepoetry2Entities1 dbContext = new wavepoetry2Entities1();
@@ -159,6 +169,16 @@ namespace WavePoetry.DataAccess
                  && (search.SelectedCats.Count() == 0 || x.contact_contact_category.Where(c => search.SelectedCats.Contains(c.contact_category_id)).Count() > 0)
                     // Follow up search
                  && (!search.NeedsFollowUp || x.contact_shipment.Where(s => s.should_followup).Count() > 0)
+                    // Always Search
+                 && (string.IsNullOrEmpty(search.TypeAlways) || ((search.TypeAlways != "Galleys" || x.galley_all) &&
+                    (search.TypeAlways != "Review" || x.review_all) &&
+                    (search.TypeAlways != "Desk" || x.desk_all) &&
+                    (search.TypeAlways != "Comp" || x.comp_all)))
+                    // Possible Search
+                 && (string.IsNullOrEmpty(search.TypePossible) || ((search.TypePossible != "Galleys" || x.galley_pos) &&
+                    (search.TypePossible != "Review" || x.review_pos) &&
+                    (search.TypePossible != "Desk" || x.desk_pos) &&
+                    (search.TypePossible != "Comp" || x.comp_pos)))
                 )
                 .Select(c => new ContactCsvLine
                 {
@@ -171,7 +191,8 @@ namespace WavePoetry.DataAccess
                     Country = c.is_primary ? c.country : c.country_alt,
                     Title = c.is_primary ? c.title : c.title_alt,
                     City = c.is_primary ? c.city : c.city_alt,
-                    Organization = c.is_primary ? c.organization : c.organization_alt
+                    Organization = c.is_primary ? c.organization : c.organization_alt,
+                    SubNumber = c.is_subscriber ? c.sub_number : null
                 }).ToList();
         }
 

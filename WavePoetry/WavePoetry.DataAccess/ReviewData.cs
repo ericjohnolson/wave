@@ -23,8 +23,13 @@ namespace WavePoetry.DataAccess
         public string GetContactDisplayNameById(int id)
         {
             wavepoetry2Entities1 dbContext = new wavepoetry2Entities1();
-            return dbContext.contacts.Where(c => c.id == id).Select(c2 => c2.firstname + " " + c2.lastname + " (" +
-                    (c2.is_primary ? c2.organization : c2.organization_alt) + ")").FirstOrDefault();
+            ContactDetails con = dbContext.contacts.Where(t => t.id == id).Select(c2 =>
+                new ContactDetails
+                {
+                    DisplayName = c2.firstname + " " + c2.lastname,
+                    Organization = (c2.is_primary ? c2.organization : c2.organization_alt)
+                }).FirstOrDefault();
+            return con.DisplayName + " (" + con.Organization + ")";
         }
 
         public Review GetById(int id)
