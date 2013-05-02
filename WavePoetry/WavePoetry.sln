@@ -7,6 +7,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WavePoetry.Model", "WavePoe
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WavePoetry.Website", "WavePoetry.Website\WavePoetry.Website.csproj", "{5C14A951-F738-4F6C-99D6-563C792E5DED}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WavePoetry.OldDataAccess", "WavePoetry.OldDataAccess\WavePoetry.OldDataAccess.csproj", "{45129D53-3FE3-4A95-AE2E-02583C9335D9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WavePoetry.Tests", "WavePoetry.Tests\WavePoetry.Tests.csproj", "{632DC814-FF80-4E6A-99DE-D0AA89B1A8F4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -25,6 +29,14 @@ Global
 		{5C14A951-F738-4F6C-99D6-563C792E5DED}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5C14A951-F738-4F6C-99D6-563C792E5DED}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5C14A951-F738-4F6C-99D6-563C792E5DED}.Release|Any CPU.Build.0 = Release|Any CPU
+		{45129D53-3FE3-4A95-AE2E-02583C9335D9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{45129D53-3FE3-4A95-AE2E-02583C9335D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{45129D53-3FE3-4A95-AE2E-02583C9335D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{45129D53-3FE3-4A95-AE2E-02583C9335D9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{632DC814-FF80-4E6A-99DE-D0AA89B1A8F4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{632DC814-FF80-4E6A-99DE-D0AA89B1A8F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{632DC814-FF80-4E6A-99DE-D0AA89B1A8F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{632DC814-FF80-4E6A-99DE-D0AA89B1A8F4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

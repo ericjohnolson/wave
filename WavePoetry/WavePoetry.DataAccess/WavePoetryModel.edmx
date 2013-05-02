@@ -76,6 +76,7 @@
           <Property Name="email2" Type="varchar" MaxLength="255" />
           <Property Name="is_email2_primary" Type="bool" Nullable="false" />
           <Property Name="notes" Type="text" />
+          <Property Name="phone" Type="text" />
           <Property Name="is_subscriber" Type="bool" Nullable="false" />
           <Property Name="sub_startdate" Type="datetime" />
           <Property Name="sub_enddate" Type="datetime" />
@@ -315,6 +316,7 @@
           <Property Name="email2" Type="String" />
           <Property Name="is_email2_primary" Type="Boolean" Nullable="false" />
           <Property Name="notes" Type="String" />
+          <Property Name="phone" Type="String" />
           <Property Name="is_subscriber" Type="Boolean" Nullable="false" />
           <Property Name="sub_startdate" Type="DateTime" />
           <Property Name="sub_enddate" Type="DateTime" />
@@ -642,6 +644,7 @@
                 <ScalarProperty Name="email2" ColumnName="email2" />
                 <ScalarProperty Name="is_email2_primary" ColumnName="is_email2_primary" />
                 <ScalarProperty Name="notes" ColumnName="notes" />
+                <ScalarProperty Name="phone" ColumnName="phone" />
                 <ScalarProperty Name="is_subscriber" ColumnName="is_subscriber" />
                 <ScalarProperty Name="sub_startdate" ColumnName="sub_startdate" />
                 <ScalarProperty Name="sub_enddate" ColumnName="sub_enddate" />

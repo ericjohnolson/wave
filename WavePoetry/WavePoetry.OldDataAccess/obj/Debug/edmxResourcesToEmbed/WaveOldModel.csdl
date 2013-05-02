@@ -1,0 +1,453 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="waveoldModel" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityContainer Name="waveoldEntities" p1:LazyLoadingEnabled="true">
+    <EntitySet Name="admabouts" EntityType="waveoldModel.admabout" />
+    <EntitySet Name="admaudios" EntityType="waveoldModel.admaudio" />
+    <EntitySet Name="admauthors" EntityType="waveoldModel.admauthor" />
+    <EntitySet Name="admcatalogs" EntityType="waveoldModel.admcatalog" />
+    <EntitySet Name="admcontacts" EntityType="waveoldModel.admcontact" />
+    <EntitySet Name="admevents" EntityType="waveoldModel.admevent" />
+    <EntitySet Name="admhomes" EntityType="waveoldModel.admhome" />
+    <EntitySet Name="admlinks" EntityType="waveoldModel.admlink" />
+    <EntitySet Name="atroles" EntityType="waveoldModel.atrole" />
+    <EntitySet Name="authorresources" EntityType="waveoldModel.authorresource" />
+    <EntitySet Name="authors" EntityType="waveoldModel.author" />
+    <EntitySet Name="bedazzlers" EntityType="waveoldModel.bedazzler" />
+    <EntitySet Name="bedazzlets" EntityType="waveoldModel.bedazzlet" />
+    <EntitySet Name="blurbs" EntityType="waveoldModel.blurb" />
+    <EntitySet Name="boundings" EntityType="waveoldModel.bounding" />
+    <EntitySet Name="contactarcs" EntityType="waveoldModel.contactarc" />
+    <EntitySet Name="contactcats" EntityType="waveoldModel.contactcat" />
+    <EntitySet Name="contactfinals" EntityType="waveoldModel.contactfinal" />
+    <EntitySet Name="contactgalleys" EntityType="waveoldModel.contactgalley" />
+    <EntitySet Name="contactnotes" EntityType="waveoldModel.contactnote" />
+    <EntitySet Name="contacts" EntityType="waveoldModel.contact" />
+    <EntitySet Name="contestbooks" EntityType="waveoldModel.contestbook" />
+    <EntitySet Name="lineitems" EntityType="waveoldModel.lineitem" />
+    <EntitySet Name="phones" EntityType="waveoldModel.phone" />
+    <EntitySet Name="reviews" EntityType="waveoldModel.review" />
+    <EntitySet Name="specials" EntityType="waveoldModel.special" />
+    <EntitySet Name="taxships" EntityType="waveoldModel.taxship" />
+    <EntitySet Name="titleresources" EntityType="waveoldModel.titleresource" />
+    <EntitySet Name="titles" EntityType="waveoldModel.title" />
+    <EntitySet Name="users" EntityType="waveoldModel.user" />
+    <EntitySet Name="waveorders" EntityType="waveoldModel.waveorder" />
+  </EntityContainer>
+  <EntityType Name="admabout">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="abouttext" Type="String" />
+    <Property Name="modified_at" Type="DateTime" Nullable="false" />
+    <Property Name="modified_by" Type="String" />
+  </EntityType>
+  <EntityType Name="admaudio">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="rand_audio" Type="String" />
+    <Property Name="rand_audio2" Type="String" />
+    <Property Name="rand_audio3" Type="String" />
+    <Property Name="pagination" Type="String" />
+  </EntityType>
+  <EntityType Name="admauthor">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="rand_author" Type="String" />
+    <Property Name="pagination" Type="String" />
+  </EntityType>
+  <EntityType Name="admcatalog">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="rand_title" Type="String" />
+    <Property Name="pagination" Type="String" />
+    <Property Name="default" Type="String" />
+  </EntityType>
+  <EntityType Name="admcontact">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="contacttext" Type="String" />
+    <Property Name="modified_at" Type="DateTime" Nullable="false" />
+    <Property Name="modified_by" Type="String" />
+  </EntityType>
+  <EntityType Name="admevent">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="event" Type="String" />
+    <Property Name="location" Type="String" />
+    <Property Name="citystate" Type="String" />
+    <Property Name="event_at" Type="DateTime" />
+    <Property Name="heading" Type="String" />
+  </EntityType>
+  <EntityType Name="admhome">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="hometext" Type="String" />
+    <Property Name="modified_at" Type="DateTime" Nullable="false" />
+    <Property Name="modified_by" Type="String" />
+  </EntityType>
+  <EntityType Name="admlink">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="link" Type="String" />
+    <Property Name="linktext" Type="String" />
+    <Property Name="category" Type="String" />
+  </EntityType>
+  <EntityType Name="atrole">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="author_id" Type="Int32" />
+    <Property Name="title_id" Type="Int32" Nullable="false" />
+    <Property Name="role" Type="String" />
+  </EntityType>
+  <EntityType Name="authorresource">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="author_id" Type="Int32" Nullable="false" />
+    <Property Name="av_desc" Type="String" />
+    <Property Name="av_content" Type="String" />
+    <Property Name="public" Type="String" />
+    <Property Name="resdate" Type="DateTime" />
+    <Property Name="restext" Type="String" />
+  </EntityType>
+  <EntityType Name="author">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="fname" Type="String" />
+    <Property Name="lname" Type="String" />
+    <Property Name="bio" Type="String" />
+    <Property Name="aphoto" Type="String" />
+    <Property Name="created_on" Type="DateTime" />
+    <Property Name="modified_at" Type="DateTime" Nullable="false" />
+    <Property Name="modified_by" Type="String" />
+    <Property Name="permalink" Type="String" />
+  </EntityType>
+  <EntityType Name="bedazzler">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="av_content" Type="String" />
+    <Property Name="title" Type="String" />
+    <Property Name="date_on" Type="DateTime" />
+    <Property Name="bgcolor" Type="String" />
+    <Property Name="visible" Type="String" />
+  </EntityType>
+  <EntityType Name="bedazzlet">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="bedazzler_id" Type="Int32" Nullable="false" />
+    <Property Name="lets_body" Type="String" />
+    <Property Name="lets_title" Type="String" />
+  </EntityType>
+  <EntityType Name="blurb">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="title_id" Type="Int32" Nullable="false" />
+    <Property Name="blurb_body" Type="String" />
+    <Property Name="blurb_attr" Type="String" />
+  </EntityType>
+  <EntityType Name="bounding">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="title_id" Type="Int32" Nullable="false" />
+    <Property Name="bounding1" Type="String" />
+    <Property Name="price" Type="Decimal" />
+    <Property Name="isbn" Type="String" />
+    <Property Name="trim" Type="String" />
+    <Property Name="release" Type="DateTime" />
+  </EntityType>
+  <EntityType Name="contactarc">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="contact_id" Type="Int32" Nullable="false" />
+    <Property Name="title_id" Type="Int32" Nullable="false" />
+    <Property Name="contactarc1" Type="String" />
+    <Property Name="number" Type="String" />
+    <Property Name="modified_on" Type="DateTime" />
+  </EntityType>
+  <EntityType Name="contactcat">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="contact_id" Type="Int32" Nullable="false" />
+    <Property Name="contactcat1" Type="String" />
+    <Property Name="number" Type="String" />
+    <Property Name="status" Type="String" />
+    <Property Name="modified_on" Type="DateTime" />
+  </EntityType>
+  <EntityType Name="contactfinal">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="contact_id" Type="Int32" Nullable="false" />
+    <Property Name="title_id" Type="Int32" Nullable="false" />
+    <Property Name="contactfinal1" Type="String" />
+    <Property Name="number" Type="String" />
+    <Property Name="modified_on" Type="DateTime" />
+  </EntityType>
+  <EntityType Name="contactgalley">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="contact_id" Type="Int32" Nullable="false" />
+    <Property Name="title_id" Type="Int32" Nullable="false" />
+    <Property Name="contactgalley1" Type="String" />
+    <Property Name="number" Type="String" />
+    <Property Name="modified_on" Type="DateTime" />
+  </EntityType>
+  <EntityType Name="contactnote">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="contact_id" Type="Int32" Nullable="false" />
+    <Property Name="created_on" Type="DateTime" />
+    <Property Name="contactnote1" Type="String" />
+  </EntityType>
+  <EntityType Name="contact">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="fname" Type="String" />
+    <Property Name="lname" Type="String" />
+    <Property Name="jtitle" Type="String" />
+    <Property Name="organization" Type="String" />
+    <Property Name="address" Type="String" />
+    <Property Name="address2" Type="String" />
+    <Property Name="address3" Type="String" />
+    <Property Name="address4" Type="String" />
+    <Property Name="city" Type="String" />
+    <Property Name="city2" Type="String" />
+    <Property Name="state" Type="String" />
+    <Property Name="state2" Type="String" />
+    <Property Name="zip" Type="String" />
+    <Property Name="zip2" Type="String" />
+    <Property Name="country" Type="String" />
+    <Property Name="country2" Type="String" />
+    <Property Name="email1" Type="String" />
+    <Property Name="email2" Type="String" />
+    <Property Name="fax" Type="String" />
+    <Property Name="website" Type="String" />
+    <Property Name="badaddress" Type="String" />
+    <Property Name="bademail" Type="String" />
+    <Property Name="category" Type="String" />
+    <Property Name="salesrep" Type="String" />
+    <Property Name="saleskitsq" Type="String" />
+    <Property Name="extracovers" Type="String" />
+    <Property Name="substart" Type="DateTime" />
+    <Property Name="subend" Type="DateTime" />
+    <Property Name="subtype" Type="String" />
+    <Property Name="prizename" Type="String" />
+    <Property Name="prizedeadline" Type="DateTime" />
+    <Property Name="guidenote" Type="String" />
+    <Property Name="guidewebaddress" Type="String" />
+    <Property Name="followupmark" Type="String" />
+    <Property Name="followup" Type="DateTime" />
+    <Property Name="emaillist" Type="String" />
+    <Property Name="unsubscribed" Type="String" />
+    <Property Name="created_on" Type="DateTime" />
+    <Property Name="modified_at" Type="DateTime" Nullable="false" />
+    <Property Name="modified_by" Type="String" />
+    <Property Name="always_gal" Type="String" />
+    <Property Name="always_galn" Type="String" />
+    <Property Name="poss_gal" Type="String" />
+    <Property Name="poss_galn" Type="String" />
+    <Property Name="always_rev" Type="String" />
+    <Property Name="always_revn" Type="String" />
+    <Property Name="poss_rev" Type="String" />
+    <Property Name="poss_revn" Type="String" />
+    <Property Name="always_comp" Type="String" />
+    <Property Name="always_compn" Type="String" />
+    <Property Name="poss_comp" Type="String" />
+    <Property Name="poss_compn" Type="String" />
+    <Property Name="unsubscribed2" Type="String" />
+    <Property Name="cats_always" Type="String" />
+    <Property Name="dontsolicit" Type="String" />
+    <Property Name="sub_number" Type="String" />
+  </EntityType>
+  <EntityType Name="contestbook">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="contact_id" Type="Int32" Nullable="false" />
+    <Property Name="title_id" Type="Int32" Nullable="false" />
+    <Property Name="modified_on" Type="DateTime" />
+    <Property Name="contestbook1" Type="String" />
+    <Property Name="number" Type="String" />
+  </EntityType>
+  <EntityType Name="lineitem">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="bounding_id" Type="Int32" Nullable="false" />
+    <Property Name="title_id" Type="Int32" Nullable="false" />
+    <Property Name="waveorder_id" Type="Int32" Nullable="false" />
+    <Property Name="quantity" Type="Int32" Nullable="false" />
+    <Property Name="unit_price" Type="Decimal" Nullable="false" />
+    <Property Name="status" Type="String" />
+  </EntityType>
+  <EntityType Name="phone">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="contact_id" Type="Int32" Nullable="false" />
+    <Property Name="phone1" Type="String" />
+    <Property Name="kind" Type="String" />
+    <Property Name="note" Type="String" />
+  </EntityType>
+  <EntityType Name="review">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="title_id" Type="Int32" Nullable="false" />
+    <Property Name="rev" Type="String" />
+    <Property Name="link" Type="String" />
+    <Property Name="dated_on" Type="DateTime" />
+    <Property Name="author" Type="String" />
+  </EntityType>
+  <EntityType Name="special">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="name" Type="String" Nullable="false" />
+    <Property Name="description" Type="String" />
+    <Property Name="special_text" Type="String" />
+    <Property Name="special_image" Type="String" />
+    <Property Name="special_caption" Type="String" />
+    <Property Name="special_title" Type="String" />
+    <Property Name="av_content" Type="String" />
+    <Property Name="link" Type="String" />
+    <Property Name="sorder" Type="Int32" />
+    <Property Name="editable" Type="String" />
+    <Property Name="visible" Type="String" />
+    <Property Name="visible_home" Type="String" />
+    <Property Name="horder" Type="Int32" />
+    <Property Name="delete_able" Type="String" />
+  </EntityType>
+  <EntityType Name="taxship">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="general_tax" Type="Single" />
+    <Property Name="mass_tax" Type="Single" />
+    <Property Name="wash_tax" Type="Single" />
+    <Property Name="media_ship" Type="Single" />
+    <Property Name="priority_ship" Type="Single" />
+    <Property Name="canada_ship" Type="Single" />
+    <Property Name="intern_ship" Type="Single" />
+    <Property Name="modified_at" Type="DateTime" Nullable="false" />
+    <Property Name="modified_by" Type="String" />
+  </EntityType>
+  <EntityType Name="titleresource">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="title_id" Type="Int32" Nullable="false" />
+    <Property Name="av_desc" Type="String" />
+    <Property Name="av_content" Type="String" />
+    <Property Name="public" Type="String" />
+    <Property Name="resdate" Type="DateTime" />
+    <Property Name="restext" Type="String" />
+  </EntityType>
+  <EntityType Name="title">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="title_status" Type="String" />
+    <Property Name="title1" Type="String" />
+    <Property Name="subtitle_series" Type="String" />
+    <Property Name="pages" Type="Int32" />
+    <Property Name="headline" Type="String" />
+    <Property Name="description" Type="String" />
+    <Property Name="author_bio" Type="String" />
+    <Property Name="category" Type="String" />
+    <Property Name="sample_content" Type="String" />
+    <Property Name="awards" Type="String" />
+    <Property Name="created_on" Type="DateTime" />
+    <Property Name="modified_at" Type="DateTime" Nullable="false" />
+    <Property Name="modified_by" Type="String" />
+    <Property Name="cover" Type="String" />
+    <Property Name="permalink" Type="String" />
+  </EntityType>
+  <EntityType Name="user">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="name" Type="String" Nullable="false" />
+    <Property Name="hashed_password" Type="String" />
+  </EntityType>
+  <EntityType Name="waveorder">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="fname" Type="String" Nullable="false" />
+    <Property Name="lname" Type="String" Nullable="false" />
+    <Property Name="address" Type="String" Nullable="false" />
+    <Property Name="address2" Type="String" Nullable="false" />
+    <Property Name="city" Type="String" Nullable="false" />
+    <Property Name="state" Type="String" Nullable="false" />
+    <Property Name="zip" Type="String" Nullable="false" />
+    <Property Name="country" Type="String" Nullable="false" />
+    <Property Name="stype" Type="String" Nullable="false" />
+    <Property Name="sfname" Type="String" />
+    <Property Name="slname" Type="String" />
+    <Property Name="saddress" Type="String" Nullable="false" />
+    <Property Name="saddress2" Type="String" Nullable="false" />
+    <Property Name="scity" Type="String" Nullable="false" />
+    <Property Name="sstate" Type="String" Nullable="false" />
+    <Property Name="szip" Type="String" Nullable="false" />
+    <Property Name="scountry" Type="String" Nullable="false" />
+    <Property Name="email" Type="String" Nullable="false" />
+    <Property Name="pay_type" Type="String" Nullable="false" />
+    <Property Name="cc_number" Type="String" Nullable="false" />
+    <Property Name="exp_on" Type="DateTime" Nullable="false" />
+    <Property Name="ordered_at" Type="DateTime" />
+    <Property Name="total" Type="String" Nullable="false" />
+    <Property Name="tax" Type="String" Nullable="false" />
+    <Property Name="notes" Type="String" />
+    <Property Name="coupon_codes" Type="String" Nullable="false" />
+  </EntityType>
+</Schema>

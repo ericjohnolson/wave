@@ -26,7 +26,7 @@ namespace WavePoetry.DataAccess
                 PubDate = title.date_published,
                 Subtitle = title.subtitle,
                 AuthorName = title.author_contact.firstname + " " + title.author_contact.lastname,
-                Reviews = title.title_review.Select(r => new Review 
+                Reviews = title.title_review.Select(r => new Review
                 {
                     Id = r.id,
                     ReviewText = r.review_text.Length > 200 ? r.review_text.Substring(0, 200) + "..." : r.review_text,
@@ -97,9 +97,9 @@ namespace WavePoetry.DataAccess
             }
         }
 
-        public void Insert(Title title, int createdBy)
+        public Title Insert(Title title, int createdBy)
         {
-            wavepoetry2Entities1 dbContext = new wavepoetry2Entities1(); 
+            wavepoetry2Entities1 dbContext = new wavepoetry2Entities1();
             title newTitle = new title
             {
                 title1 = title.Name,
@@ -115,8 +115,14 @@ namespace WavePoetry.DataAccess
                 subtitle = title.Subtitle
             };
 
-            dbContext.titles.Add(newTitle);
+            var t = dbContext.titles.Add(newTitle);
+            var validationErrors = dbContext.GetValidationErrors().ToList();
+            string error = string.Empty;
+            if (validationErrors.Count() > 0)
+                error = "errors";
             dbContext.SaveChanges();
+            title.Id = t.id;
+            return title;
         }
 
         public IEnumerable<TitleDetails> LookupTitle(string searchText, int take)
@@ -129,8 +135,8 @@ namespace WavePoetry.DataAccess
                     TitleId = t.id,
                     PubDate = t.date_published
                 });
-            
-            return result; 
+
+            return result;
         }
     }
 }

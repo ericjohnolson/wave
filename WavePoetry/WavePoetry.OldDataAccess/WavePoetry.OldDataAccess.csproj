@@ -1,0 +1,194 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{45129D53-3FE3-4A95-AE2E-02583C9335D9}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>WavePoetry.OldDataAccess</RootNamespace>
+    <AssemblyName>WavePoetry.OldDataAccess</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework">
+      <HintPath>..\packages\EntityFramework.5.0.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="admabout.cs">
+      <DependentUpon>WaveOldModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="admaudio.cs">
+      <DependentUpon>WaveOldModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="admauthor.cs">
+      <DependentUpon>WaveOldModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="admcatalog.cs">
+      <DependentUpon>WaveOldModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="admcontact.cs">
+      <DependentUpon>WaveOldModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="admevent.cs">
+      <DependentUpon>WaveOldModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="admhome.cs">
+      <DependentUpon>WaveOldModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="admlink.cs">
+      <DependentUpon>WaveOldModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="atrole.cs">
+      <DependentUpon>WaveOldModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="author.cs">
+      <DependentUpon>WaveOldModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="authorresource.cs">
+      <DependentUpon>WaveOldModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="bedazzler.cs">
+      <DependentUpon>WaveOldModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="bedazzlet.cs">
+      <DependentUpon>WaveOldModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="blurb.cs">
+      <DependentUpon>WaveOldModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="bounding.cs">
+      <DependentUpon>WaveOldModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Class1.cs" />
+    <Compile Include="contact.cs">
+      <DependentUpon>WaveOldModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="contactarc.cs">
+      <DependentUpon>WaveOldModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="contactcat.cs">
+      <DependentUpon>WaveOldModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="contactfinal.cs">
+      <DependentUpon>WaveOldModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="contactgalley.cs">
+      <DependentUpon>WaveOldModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="contactnote.cs">
+      <DependentUpon>WaveOldModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="contestbook.cs">
+      <DependentUpon>WaveOldModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="lineitem.cs">
+      <DependentUpon>WaveOldModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="phone.cs">
+      <DependentUpon>WaveOldModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="review.cs">
+      <DependentUpon>WaveOldModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="special.cs">
+      <DependentUpon>WaveOldModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="taxship.cs">
+      <DependentUpon>WaveOldModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="title.cs">
+      <DependentUpon>WaveOldModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="titleresource.cs">
+      <DependentUpon>WaveOldModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="user.cs">
+      <DependentUpon>WaveOldModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="WaveOldModel.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>WaveOldModel.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="WaveOldModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>WaveOldModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="WaveOldModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>WaveOldModel.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="waveorder.cs">
+      <DependentUpon>WaveOldModel.tt</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EntityDeploy Include="WaveOldModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>WaveOldModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.Config" />
+    <None Include="packages.config" />
+    <None Include="WaveOldModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>WaveOldModel.edmx</DependentUpon>
+      <LastGenOutput>WaveOldModel.Context.cs</LastGenOutput>
+    </None>
+    <None Include="WaveOldModel.edmx.diagram">
+      <DependentUpon>WaveOldModel.edmx</DependentUpon>
+    </None>
+    <None Include="WaveOldModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>WaveOldModel.edmx</DependentUpon>
+      <LastGenOutput>WaveOldModel.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

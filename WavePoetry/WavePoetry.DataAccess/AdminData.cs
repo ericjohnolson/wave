@@ -113,7 +113,7 @@ namespace WavePoetry.DataAccess
             }).ToList();
         }
 
-        public void CreateContactCat(Category cat, int createdBy)
+        public Category CreateContactCat(Category cat, int createdBy)
         {
             wavepoetry2Entities1 dbContext = new wavepoetry2Entities1();
             contact_categories c = new contact_categories
@@ -121,8 +121,10 @@ namespace WavePoetry.DataAccess
                 name = cat.Name
             };
 
-            dbContext.contact_categories.Add(c);
+            var newCat = dbContext.contact_categories.Add(c);
             dbContext.SaveChanges();
+            cat.Id = newCat.id;
+            return cat;
         }
 
 

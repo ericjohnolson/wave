@@ -44,6 +44,7 @@ namespace WavePoetry.Model
         public string Email2 { get; set; }
         public bool Is_email2_primary { get; set; }
         public string Notes { get; set; }
+        public string Phone { get; set; }
         [DisplayName("Is Subscriber")]
         public bool Is_subscriber { get; set; }
         [DisplayName("Subscription Start Date")]

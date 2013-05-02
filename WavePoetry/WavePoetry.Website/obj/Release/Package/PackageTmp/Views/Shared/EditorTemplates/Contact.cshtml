@@ -36,6 +36,14 @@
                         <div class="editor-field">
                             @Html.ListBoxFor(model => model.SelectedCats, Model.Cats, new { style = "height:100px" })
                         </div>
+
+                        <div class="editor-label">
+                            Phone(s)
+                        </div>
+                        <div class="editor-field">
+                            @Html.EditorFor(model => model.Phone)
+                            @Html.ValidationMessageFor(model => model.Phone)
+                        </div>
                     </div>
                     <div class="span6">
                         <div class="editor-label">
@@ -69,6 +77,8 @@
                             @Html.RadioButtonFor(model => model.Is_email1_primary, true) Primary 
                             @Html.RadioButtonFor(model => model.Is_email1_primary, false) Alternative
                         </div>
+
+                        
                     </div>
                 </div>
             </fieldset>

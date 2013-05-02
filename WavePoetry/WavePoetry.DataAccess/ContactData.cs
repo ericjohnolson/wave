@@ -21,7 +21,7 @@ namespace WavePoetry.DataAccess
             }
 
             wavepoetry2Entities1 dbContext = new wavepoetry2Entities1();
-            return dbContext.contacts.Where(c => c.firstname.Contains(firstname) || c.lastname.Contains(lastname))
+            return dbContext.contacts.Where(c => c.firstname.StartsWith(firstname) || c.lastname.StartsWith(lastname))
                 .Select(c2 => new ContactDetails
                 {
                     DisplayName = c2.firstname + " " + c2.lastname,
@@ -77,6 +77,7 @@ namespace WavePoetry.DataAccess
                 Lastname = c.lastname,
                 LastUpdated = string.Format("{0} at {1}", c.contact_user.username, c.updatedat.ToShortDateString()),
                 Notes = c.notes,
+                Phone = c.phone,
                 Organization = c.organization,
                 Organization_alt = c.organization_alt,
                 State = c.state,
@@ -129,7 +130,7 @@ namespace WavePoetry.DataAccess
             return dbContext.contacts.Where(x => 
                 // OR Search
                 ((string.IsNullOrEmpty(search.LastName) && string.IsNullOrEmpty(search.FirstName) && string.IsNullOrEmpty(search.Organization) && string.IsNullOrEmpty(search.City)) ||
-                 x.lastname.Contains(search.LastName) || x.firstname.Contains(search.FirstName) || x.organization.Contains(search.Organization) || x.organization_alt.Contains(search.Organization) || x.city.Contains(search.City) || x.city_alt.Contains(search.City)) 
+                 x.lastname.StartsWith(search.LastName) || x.firstname.StartsWith(search.FirstName) || x.organization.StartsWith(search.Organization) || x.organization_alt.StartsWith(search.Organization) || x.city.StartsWith(search.City) || x.city_alt.StartsWith(search.City)) 
                  // Cat search
                  && (search.SelectedCats.Count() == 0 || x.contact_contact_category.Where(c => search.SelectedCats.Contains(c.contact_category_id)).Count() > 0) 
                  // Follow up search
@@ -154,6 +155,19 @@ namespace WavePoetry.DataAccess
                 });
         }
 
+        public IEnumerable<ContactDetails> Search(string city, string first, string last,  string org)
+        {
+            wavepoetry2Entities1 dbContext = new wavepoetry2Entities1();
+            return dbContext.contacts.Where(x =>
+                 x.lastname ==last && x.firstname == first && x.city == city &&
+                 x.organization == org
+                )
+                .Select(s => new ContactDetails
+                {
+                    Id = s.id
+                });
+        }
+
         public List<ContactCsvLine> SearchCsv(ContactSearch search)
         {
             if (string.IsNullOrEmpty(search.LastName) && string.IsNullOrEmpty(search.FirstName) && string.IsNullOrEmpty(search.Organization) && string.IsNullOrEmpty(search.City) &&
@@ -164,7 +178,7 @@ namespace WavePoetry.DataAccess
             return dbContext.contacts.Where(x =>
                 // OR Search
                 ((string.IsNullOrEmpty(search.LastName) && string.IsNullOrEmpty(search.FirstName) && string.IsNullOrEmpty(search.Organization) && string.IsNullOrEmpty(search.City)) ||
-                 x.lastname.Contains(search.LastName) || x.firstname.Contains(search.FirstName) || x.organization.Contains(search.Organization) || x.organization_alt.Contains(search.Organization) || x.city.Contains(search.City) || x.city_alt.Contains(search.City))
+                 x.lastname.StartsWith(search.LastName) || x.firstname.StartsWith(search.FirstName) || x.organization.StartsWith(search.Organization) || x.organization_alt.StartsWith(search.Organization) || x.city.StartsWith(search.City) || x.city_alt.StartsWith(search.City))
                     // Cat search
                  && (search.SelectedCats.Count() == 0 || x.contact_contact_category.Where(c => search.SelectedCats.Contains(c.contact_category_id)).Count() > 0)
                     // Follow up search
@@ -208,6 +222,7 @@ namespace WavePoetry.DataAccess
                 c.is_email1_primary = c2.Is_email1_primary;
                 c.email2 = c2.Email2;
                 c.notes = c2.Notes;
+                c.phone = c2.Phone;
                 c.is_subscriber = c2.Is_subscriber;
                 c.sub_startdate = c2.Sub_startdate;
                 c.sub_enddate = c2.Sub_enddate;
@@ -253,7 +268,7 @@ namespace WavePoetry.DataAccess
         }
 
 
-        public void Insert(Contact c2, int createdBy)
+        public int Insert(Contact c2, int createdBy)
         {
             wavepoetry2Entities1 dbContext = new wavepoetry2Entities1();
             contact newContact = new contact
@@ -265,6 +280,7 @@ namespace WavePoetry.DataAccess
                 is_email1_primary = c2.Is_email1_primary,
                 email2 = c2.Email2,
                 notes = c2.Notes,
+                phone = c2.Phone,
                 is_subscriber = c2.Is_subscriber,
                 sub_startdate = c2.Sub_startdate,
                 sub_enddate = c2.Sub_enddate,
@@ -311,6 +327,7 @@ namespace WavePoetry.DataAccess
             dbContext.SaveChanges();
             c2.Id = savedContact.id;
             InsertCategories(c2, dbContext);
+            return c2.Id;
         }
 
         private void InsertCategories(Contact contact, wavepoetry2Entities1 dbContext)

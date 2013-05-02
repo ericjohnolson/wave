@@ -28,6 +28,7 @@ namespace WavePoetry.DataAccess
         public string email2 { get; set; }
         public bool is_email2_primary { get; set; }
         public string notes { get; set; }
+        public string phone { get; set; }
         public bool is_subscriber { get; set; }
         public Nullable<System.DateTime> sub_startdate { get; set; }
         public Nullable<System.DateTime> sub_enddate { get; set; }

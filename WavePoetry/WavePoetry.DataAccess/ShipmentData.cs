@@ -39,7 +39,7 @@ namespace WavePoetry.DataAccess
                     (search.SelectedType != "Review" || c.review_all) &&
                     (search.SelectedType != "Desk" || c.desk_all) &&
                     (search.SelectedType != "Comp" || c.comp_all) &&
-                    c.contact_shipment.Where(s => search.TitlesToCreateShipmentsFor.Contains(s.title_id) && 
+                    c.contact_shipment.Where(s => search.TitlesToCreateShipmentsFor.Contains(s.title_id) &&
                         s.type == search.SelectedType && s.status == "Pending").FirstOrDefault() == null
                 );
 
@@ -219,6 +219,32 @@ namespace WavePoetry.DataAccess
             };
 
             dbContext.shipments.Add(obj);
+            dbContext.SaveChanges();
+        }
+
+        public void Insert(List<Shipment> list, int createdBy)
+        {
+            wavepoetry2Entities1 dbContext = new wavepoetry2Entities1();
+            foreach (var model in list)
+            {
+                var obj = new shipment
+                {
+
+                    title_id = model.TitleId,
+                    contact_id = model.ContactId,
+                    date_sent = model.DateSent,
+                    quantity = model.Quantity,
+                    should_followup = model.ShouldFollowUp,
+                    status = model.Status,
+                    type = model.Type,
+                    createdat = DateTime.Now,
+                    createdby = createdBy,
+                    updatedat = DateTime.Now,
+                    updatedby = createdBy,
+                };
+
+                dbContext.shipments.Add(obj);
+            }
             dbContext.SaveChanges();
         }
 
