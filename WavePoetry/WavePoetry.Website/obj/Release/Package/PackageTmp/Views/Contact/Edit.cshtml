@@ -4,15 +4,19 @@
     ViewBag.Title = Model.DisplayName;
 }
 
-<h2>@Model.DisplayName</h2>
 
 @using (Html.BeginForm("Edit", "Contact", FormMethod.Post, new { enctype = "multipart/form-data"}))
 {
+    <h2>@Model.DisplayName</h2>
+    
     @Html.ValidationSummary(true)
 
     @Html.EditorForModel()
+
+    <p style="text-align:right;"><em>Last Updated: @Model.LastUpdated</em></p>
+    @Html.HiddenFor(model => model.DisplayName)
+    @Html.HiddenFor(model => model.LastUpdated)
 }
-<p style="text-align:right;"><em>Last Updated: @Model.LastUpdated</em></p>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

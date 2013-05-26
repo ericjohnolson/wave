@@ -11,6 +11,13 @@ namespace WavePoetry.Tests
     public class WhenMigratingData
     {
         [TestMethod]
+        public void CanMigrateCats()
+        {
+            WavePoetry.DataAccess.ContactData contacts = new WavePoetry.DataAccess.ContactData();
+            contacts.updateCats();
+        }
+
+        [TestMethod]
         public void CanMigrateTitles()
         {
             Dictionary<int, int> contactMap = new Dictionary<int, int>();

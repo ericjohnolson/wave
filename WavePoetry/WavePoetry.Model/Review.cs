@@ -37,6 +37,7 @@ namespace WavePoetry.Model
 
     public class ReviewDetails
     {
+        public int Id { get; set; }
         public int TitleId { get; set; }
         public string Title { get; set; }
         public int ReviewerId { get; set; }

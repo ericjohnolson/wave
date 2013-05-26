@@ -38,6 +38,8 @@
                     </div>
                     
                     <div class="pull-left" style="margin-left:15px;">
+                        Subscription End<br /> 
+                            @Html.EditorFor(model => model.Sub_enddate)<br /> 
                         Follow Up<br /> 
                         @Html.EditorFor(model => model.NeedsFollowUp)
                     </div>
@@ -59,6 +61,7 @@
                 <td>Name</td>
                 <td>Organization</td>
                 <td>City</td>
+                <td></td>
             </tr>
         </thead>
         <tbody>
@@ -68,6 +71,7 @@
                     <td><a href="/Contact/Edit/@result.Id" >@result.DisplayName</a></td>
                     <td>@result.Organization</td>
                     <td>@result.City</td>
+                    <td><a href="/Contact/Edit/@result.Id" >View/Edit</a></td>
                 </tr>
             }
 
@@ -81,6 +85,7 @@ else
 
 <script type="text/javascript">
     $(document).ready(function () {
+        $('#Sub_enddate').datepicker();
         $("#Organization").addClass("input-medium");
         $("#Organization").attr("placeholder", "Organization");
         $("#FirstName").addClass("input-small");

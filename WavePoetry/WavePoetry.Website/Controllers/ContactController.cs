@@ -63,13 +63,20 @@ namespace WavePoetry.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                data.Insert(model, (Session["LoggedInUser"] as user).id);
+                int modelId = data.Insert(model, (Session["LoggedInUser"] as user).id);
                 TempData["SuccessMessage"] = string.Format("\"{0}, {1}\" was created.", model.Lastname, model.Firstname);
-                return RedirectToAction("Index");
+                return RedirectToAction("Edit", new { id = modelId });
             }
 
             model.LoadCats(adminData.GetAllContactCats());
             return View(model);
+        }
+
+        public ActionResult DeleteContact(int id)
+        {
+            data.Delete(id);
+            TempData["SuccessMessage"] = "Contact was deleted.";
+            return RedirectToAction("Index", "Contact");
         }
 
         public ActionResult Edit(int id)
@@ -87,11 +94,11 @@ namespace WavePoetry.Web.Controllers
             {
                 data.Update(model, (Session["LoggedInUser"] as user).id);
                 TempData["SuccessMessage"] = string.Format("\"{0}, {1}\" was updated.", model.Lastname, model.Firstname);
-                return RedirectToAction("Index");
             }
 
-            model.LoadCats(adminData.GetAllContactCats());
-            return View(model);
+            var saved = data.GetById(model.Id);
+            saved.LoadCats(adminData.GetAllContactCats());
+            return View(saved);
         }
 
         public ActionResult Index(ContactSearch search, string btnValue)

@@ -153,6 +153,7 @@ namespace WavePoetry.Model
         public MultiSelectList Cats { get; set; }
         public int[] SelectedCats { get; set; }
         public SelectList Types { get; set; }
+        public Nullable<DateTime> Sub_enddate { get; set; }
         public IEnumerable<ContactDetails> Results { get; set; }
 
         public void LoadCats(List<Category> list)

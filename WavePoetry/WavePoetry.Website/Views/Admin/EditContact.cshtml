@@ -26,6 +26,7 @@
                 <a href="/Admin/ListContactCats/" class="btn">Cancel</a>
                 <button class="btn btn-primary" name="cmdSave" type="submit">Save</button>
             </div>
+            @Html.ActionLink("Delete Contact Category", "DeleteContactCategory", new { id=Model.Id })
         </div>
     </fieldset>
 }

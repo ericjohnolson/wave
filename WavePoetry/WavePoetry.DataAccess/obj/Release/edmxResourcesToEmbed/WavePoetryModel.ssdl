@@ -173,7 +173,7 @@
     <Property Name="subtitle" Type="varchar" MaxLength="255" />
     <Property Name="author" Type="int" Nullable="false" />
     <Property Name="edition" Type="varchar" Nullable="false" MaxLength="255" />
-    <Property Name="isbn" Type="varchar" Nullable="false" MaxLength="255" />
+    <Property Name="isbn" Type="varchar" MaxLength="255" />
     <Property Name="date_published" Type="datetime" Nullable="false" />
     <Property Name="notes" Type="text" />
     <Property Name="createdby" Type="int" Nullable="false" />

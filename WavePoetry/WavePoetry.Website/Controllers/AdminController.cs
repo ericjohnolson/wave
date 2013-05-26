@@ -119,6 +119,12 @@ namespace WavePoetry.Website.Controllers
             data.CreateContactCat(cat, (Session["LoggedInUser"] as user).id);
             return RedirectToAction("ListContactCats");
         }
+
+        public ActionResult DeleteContactCategory(int id)
+        {
+            data.DeleteContactCat(id);
+            return RedirectToAction("ListContactCats");
+        }
         public ActionResult EditContact(int id)
         {
             var c = data.GetContactCatById(id);

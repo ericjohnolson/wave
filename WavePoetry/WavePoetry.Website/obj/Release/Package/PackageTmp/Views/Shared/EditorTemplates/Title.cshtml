@@ -1,4 +1,5 @@
-﻿@model WavePoetry.Model.Title
+﻿@using WavePoetry.DataAccess
+@model WavePoetry.Model.Title
 
 <div class="tabbable">
     <ul class="nav nav-tabs">
@@ -75,7 +76,19 @@
                         <a href="/Title/Search/" class="btn">Cancel</a>
                         <button class="btn btn-primary" name="cmdSave" type="submit">Save</button>
                     </div>
+                @if (Model.Id > 0)
+                {  
+                    if (HttpContext.Current.Session["LoggedInUser"] != null)
+                    {
+                        var user = (HttpContext.Current.Session["LoggedInUser"] as user);
+                        if (user.is_admin)
+                        {
+                            @Html.ActionLink("Delete Title", "DeleteTitle", new { id=Model.Id })
+                        }
+                    } 
+                }
                 </div>
+                
             </fieldset>
 
         </div>

@@ -1,4 +1,5 @@
-﻿@model WavePoetry.Model.Shipment
+﻿@using WavePoetry.DataAccess
+@model WavePoetry.Model.Shipment
 
 
 <div class="tabbable">
@@ -81,8 +82,16 @@
                 
             </div>
             @if (Model.Id > 0)
-            {   
-                    @Html.ActionLink("Delete Shipment", "DeleteShipment", new { id=Model.Id, type=Model.Redirect, contactid=Model.ContactId, titleid=Model.TitleId })
+            {  
+                if (HttpContext.Current.Session["LoggedInUser"] != null)
+                {
+                    var user = (HttpContext.Current.Session["LoggedInUser"] as user);
+                    if (user.is_admin)
+                    {
+                        @Html.ActionLink("Delete Shipment", "DeleteShipment", new { id = Model.Id, type = Model.Redirect, contactid = Model.ContactId, titleid = Model.TitleId })
+          
+                    }
+                } 
             }
         </div>
     </fieldset>

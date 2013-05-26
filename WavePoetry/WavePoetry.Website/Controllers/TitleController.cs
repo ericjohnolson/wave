@@ -61,12 +61,19 @@ namespace WavePoetry.Web.Controllers
             Validate(model);
             if (ModelState.IsValid)
             {
-                data.Insert(model, (Session["LoggedInUser"] as user).id);
+                Title saved = data.Insert(model, (Session["LoggedInUser"] as user).id);
                 TempData["SuccessMessage"] = string.Format("\"{0}\" was created.", model.Name);
-                return RedirectToAction("Search");
+                return RedirectToAction("Edit", new { id = saved.Id });
             }
 
             return View(model);
+        }
+
+        public ActionResult DeleteTitle(int id)
+        {
+            data.Delete(id);
+            TempData["SuccessMessage"] = "Title was deleted.";
+            return RedirectToAction("Search", "Title");
         }
 
         public ActionResult Edit(int id)
@@ -79,16 +86,17 @@ namespace WavePoetry.Web.Controllers
         [HttpPost]
         public ActionResult Edit(Title model)
         {
-            LoadLists(model);
             Validate(model);
 
             if (ModelState.IsValid)
             {
                 data.Update(model, (Session["LoggedInUser"] as user).id);
                 TempData["SuccessMessage"] = string.Format("\"{0}\" was updated.", model.Name);
-                return RedirectToAction("Search");
             }
-            return View(model);
+
+            var saved = data.GetById(model.Id);
+            LoadLists(saved);
+            return View(saved);
         }
 
         public ActionResult Search(TitleSearch search)

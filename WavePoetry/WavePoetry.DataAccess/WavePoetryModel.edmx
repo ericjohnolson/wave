@@ -178,7 +178,7 @@
           <Property Name="subtitle" Type="varchar" MaxLength="255" />
           <Property Name="author" Type="int" Nullable="false" />
           <Property Name="edition" Type="varchar" Nullable="false" MaxLength="255" />
-          <Property Name="isbn" Type="varchar" Nullable="false" MaxLength="255" />
+          <Property Name="isbn" Type="varchar" MaxLength="255" />
           <Property Name="date_published" Type="datetime" Nullable="false" />
           <Property Name="notes" Type="text" />
           <Property Name="createdby" Type="int" Nullable="false" />
@@ -431,7 +431,7 @@
           <Property Name="subtitle" Type="String" />
           <Property Name="author" Type="Int32" Nullable="false" />
           <Property Name="edition" Type="String" Nullable="false" />
-          <Property Name="isbn" Type="String" Nullable="false" />
+          <Property Name="isbn" Type="String" />
           <Property Name="date_published" Type="DateTime" Nullable="false" />
           <Property Name="notes" Type="String" />
           <Property Name="createdby" Type="Int32" Nullable="false" />

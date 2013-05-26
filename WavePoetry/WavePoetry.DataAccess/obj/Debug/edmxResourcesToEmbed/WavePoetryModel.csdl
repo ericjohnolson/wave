@@ -226,7 +226,7 @@
     <Property Name="subtitle" Type="String" />
     <Property Name="author" Type="Int32" Nullable="false" />
     <Property Name="edition" Type="String" Nullable="false" />
-    <Property Name="isbn" Type="String" Nullable="false" />
+    <Property Name="isbn" Type="String" />
     <Property Name="date_published" Type="DateTime" Nullable="false" />
     <Property Name="notes" Type="String" />
     <Property Name="createdby" Type="Int32" Nullable="false" />
