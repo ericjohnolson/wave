@@ -38,7 +38,7 @@ namespace WavePoetry.Web.Controllers
                 else
                     search.HideOptions = true;
             }
-            else if (btnValue == "Find Pending Shipments")
+            else if (btnValue == "Find Pending Shipments" && search.SelectedTitles != null)
             {
                 search.SelectedTitlesCsv = String.Join(",", search.SelectedTitles);
                 search.ShipmentResults = data.SearchForShipments(search);
@@ -81,6 +81,9 @@ namespace WavePoetry.Web.Controllers
                 item.SubscriberNumber = item.SubNumber.HasValue ? item.SubNumber.Value.ToString() : "";
                 foreach (var title in item.TitleList)
                     item.Titles += title.TitleName + " (" + title.Quantity + "),";
+
+                item.FollowUp = item.FollowUpShipments.Count() > 0 ? "Yes" : "No";
+
             }
 
             CsvFileDescription outputFileDescription = new CsvFileDescription

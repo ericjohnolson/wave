@@ -191,6 +191,10 @@ namespace WavePoetry.Model
         public string Country { get; set; }
         [CsvColumn(FieldIndex = 11)]
         public string SubscriberNumber { get; set; }
+        [CsvColumn(FieldIndex = 12)]
+        public string PrimaryEmail { get; set; }
+        [CsvColumn(FieldIndex = 13)]
+        public string AltEmail { get; set; }
 
         public Nullable<int> SubNumber { get; set; }
     }

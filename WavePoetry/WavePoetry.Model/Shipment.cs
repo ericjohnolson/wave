@@ -88,9 +88,16 @@ namespace WavePoetry.Model
         public string SubscriberNumber { get; set; }
         [CsvColumn(FieldIndex = 12)]
         public string Titles { get; set; }
+        [CsvColumn(FieldIndex = 13)]
+        public string PrimaryEmail { get; set; }
+        [CsvColumn(FieldIndex = 14)]
+        public string AltEmail { get; set; }
+        [CsvColumn(FieldIndex = 15)]
+        public string FollowUp { get; set; }
         
         public IEnumerable<TitleToSend> TitleList { get; set; }
         public Nullable<int> SubNumber { get; set; }
+        public IEnumerable<int> FollowUpShipments { get; set; }
     }
 
     public class ShipmentSearch

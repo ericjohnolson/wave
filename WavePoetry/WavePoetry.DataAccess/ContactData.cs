@@ -229,7 +229,9 @@ namespace WavePoetry.DataAccess
                    Title = c.is_primary ? c.title : c.title_alt,
                    City = c.is_primary ? c.city : c.city_alt,
                    Organization = c.is_primary ? c.organization : c.organization_alt,
-                   SubNumber = c.is_subscriber ? c.sub_number : null
+                   SubNumber = c.is_subscriber ? c.sub_number : null,
+                   PrimaryEmail = c.email1,
+                   AltEmail = c.email2
                }).ToList();
 
         }
