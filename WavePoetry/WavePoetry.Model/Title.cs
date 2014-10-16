@@ -58,6 +58,10 @@ namespace WavePoetry.Model
         public int TotalCompSent { get; set; }
         public int TotalDonationPending { get; set; }
         public int TotalDonationSent { get; set; }
+
+        // Exporting Shipments
+        public string ExportIds { get; set; }
+        public bool IsExporting { get; set; }
     }
 
     public class TitleDetails

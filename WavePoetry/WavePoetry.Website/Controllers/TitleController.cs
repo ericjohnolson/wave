@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using LINQtoCSV;
 using WavePoetry.DataAccess;
 using WavePoetry.Model;
 
@@ -18,35 +20,7 @@ namespace WavePoetry.Web.Controllers
             data = new TitleData();
         }
 
-        [AllowAnonymous]
-        [HttpPost]
-        public JsonResult LookupTitle(string searchText, string maxResults)
-        {
-            int take = Convert.ToInt32(maxResults);
-            IEnumerable<TitleDetails> titles = data.LookupTitle(searchText, take);
-            var titles2 = titles.Select(t => new TitleDetails
-            {
-                Title = t.Title + " (" + t.PubDate.ToShortDateString() + ")",
-                TitleId = t.TitleId,
-                PubDate = t.PubDate
-            });
-            return Json(titles2);
-        }
-
-        [AllowAnonymous]
-        public JsonResult LookupTitle(string term)
-        {
-            int take = 20;
-            IEnumerable<TitleDetails> titles = data.LookupTitle(term, take);
-
-            return Json(titles.Select(t => new TitleDetails
-            {
-                Title = t.Title + " (" + t.PubDate.ToShortDateString() + ")",
-                TitleId = t.TitleId,
-                PubDate = t.PubDate
-            }), JsonRequestBehavior.AllowGet);
-        }
-
+        #region public methods
         public ActionResult Create()
         {
             var model = new Title { PubDate = DateTime.Now.Date };
@@ -86,6 +60,9 @@ namespace WavePoetry.Web.Controllers
         [HttpPost]
         public ActionResult Edit(Title model)
         {
+            if (model.IsExporting)
+                return ExportCsv(model);
+
             Validate(model);
 
             if (ModelState.IsValid)
@@ -99,6 +76,43 @@ namespace WavePoetry.Web.Controllers
             return View(saved);
         }
 
+        public FileResult ExportCsv(Title model)
+        {
+            List<int> ids = model.ExportIds.Split(',').Select(int.Parse).ToList();
+            List<ContactCsvLine> items = data.GetCsv(ids);
+            ContactController cntlr = new ContactController();
+            return cntlr.CreateCsv(items);
+        }
+
+        [AllowAnonymous]
+        [HttpPost]
+        public JsonResult LookupTitle(string searchText, string maxResults)
+        {
+            int take = Convert.ToInt32(maxResults);
+            IEnumerable<TitleDetails> titles = data.LookupTitle(searchText, take);
+            var titles2 = titles.Select(t => new TitleDetails
+            {
+                Title = t.Title + " (" + t.PubDate.ToShortDateString() + ")",
+                TitleId = t.TitleId,
+                PubDate = t.PubDate
+            });
+            return Json(titles2);
+        }
+
+        [AllowAnonymous]
+        public JsonResult LookupTitle(string term)
+        {
+            int take = 20;
+            IEnumerable<TitleDetails> titles = data.LookupTitle(term, take);
+
+            return Json(titles.Select(t => new TitleDetails
+            {
+                Title = t.Title + " (" + t.PubDate.ToShortDateString() + ")",
+                TitleId = t.TitleId,
+                PubDate = t.PubDate
+            }), JsonRequestBehavior.AllowGet);
+        }
+
         public ActionResult Search(TitleSearch search)
         {
             var results = data.Search(search);
@@ -106,6 +120,21 @@ namespace WavePoetry.Web.Controllers
             return View(search);
         }
 
+        [AllowAnonymous]
+        [HttpPost]
+        public JsonResult SetFollowUp(string idList, bool shouldFollowUp)
+        {
+            if (string.IsNullOrEmpty(idList))
+                return Json(false, JsonRequestBehavior.AllowGet);
+
+            List<int> ids = idList.Split(',').Select(int.Parse).ToList();
+            int totalUpdated = data.SetFollowUp(ids, shouldFollowUp, (Session["LoggedInUser"] as user).id);
+            return Json(true, JsonRequestBehavior.AllowGet);
+        }
+
+        #endregion
+
+        #region private methods
         private void Validate(Title model)
         {
             if (model.Author < 1)
@@ -122,5 +151,6 @@ namespace WavePoetry.Web.Controllers
             var contacts = new List<SelectListItem> { new SelectListItem { Text = contactName, Value = contactId } };
             model.ContactSelects = new SelectList(contacts, "Value", "Text", null);
         }
+        #endregion
     }
 }

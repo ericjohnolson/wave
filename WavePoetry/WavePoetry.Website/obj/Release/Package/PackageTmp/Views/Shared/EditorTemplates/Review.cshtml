@@ -1,4 +1,5 @@
-﻿@model WavePoetry.Model.Review
+﻿@using WavePoetry.DataAccess
+@model WavePoetry.Model.Review
 
 
 <div class="tabbable">
@@ -71,6 +72,18 @@
                 <a href="/Review/Search/" class="btn">Back to Review List</a>
                 <button class="btn btn-primary" name="cmdSave" type="submit">Save</button>
             </div>
+             @if (Model.Id > 0)
+             {
+                 if (HttpContext.Current.Session["LoggedInUser"] != null)
+                 {
+                     var user = (HttpContext.Current.Session["LoggedInUser"] as user);
+                     if (user.is_admin)
+                     {
+                        @Html.ActionLink("Delete Review", "DeleteReview", new { id = Model.Id })
+          
+                     }
+                 }
+             }
         </div>
     </fieldset>
 

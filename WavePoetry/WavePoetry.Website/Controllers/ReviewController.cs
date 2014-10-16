@@ -46,6 +46,13 @@ namespace WavePoetry.Web.Controllers
             return View(model);
         }
 
+        public ActionResult DeleteReview(int id)
+        {
+            data.Delete(id);
+            TempData["SuccessMessage"] = "Review was deleted.";
+            return RedirectToAction("Search");
+        }
+
         public ActionResult Edit(int id)
         {
             var model = data.GetById(id);

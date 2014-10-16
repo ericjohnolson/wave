@@ -172,5 +172,46 @@ namespace WavePoetry.DataAccess
 
             dbContext.SaveChanges();
         }
+
+        public List<ContactCsvLine> GetCsv(List<int> ids)
+        {
+            if (ids.Count == 0)
+                return new List<ContactCsvLine>();
+
+            return dbContext.shipments.Where(x => ids.Contains(x.id))
+               .Select(s => new ContactCsvLine
+               {
+                   FirstName = s.shipment_contact.firstname,
+                   LastName = s.shipment_contact.lastname,
+                   AddressLine1 = s.shipment_contact.is_primary ? s.shipment_contact.addressline1 : s.shipment_contact.addressline1_alt,
+                   AddressLine2 = s.shipment_contact.is_primary ? s.shipment_contact.addressline2 : s.shipment_contact.addressline2_alt,
+                   State = s.shipment_contact.is_primary ? s.shipment_contact.state : s.shipment_contact.state_alt,
+                   Zip = s.shipment_contact.is_primary ? s.shipment_contact.zip : s.shipment_contact.zip_alt,
+                   Country = s.shipment_contact.is_primary ? s.shipment_contact.country : s.shipment_contact.country_alt,
+                   Title = s.shipment_contact.is_primary ? s.shipment_contact.title : s.shipment_contact.title_alt,
+                   City = s.shipment_contact.is_primary ? s.shipment_contact.city : s.shipment_contact.city_alt,
+                   Organization = s.shipment_contact.is_primary ? s.shipment_contact.organization : s.shipment_contact.organization_alt,
+                   SubNumber = s.shipment_contact.is_subscriber ? s.shipment_contact.sub_number : null,
+                   PrimaryEmail = s.shipment_contact.email1,
+                   AltEmail = s.shipment_contact.email2,
+                   FollowUpTitleList = s.shipment_contact.contact_shipment.Where(cs => cs.should_followup).Select(cs2 => cs2.shipment_title.title1)
+               }).ToList();
+        }
+
+        public int SetFollowUp(List<int> ids, bool shouldFollowUp, int updatedById)
+        {
+            int updatedCount = 0;
+            var ships = dbContext.shipments.Where(s => ids.Contains(s.id));
+
+            foreach (shipment s in ships)
+            {
+                s.should_followup = shouldFollowUp;
+                s.updatedat = DateTime.Now;
+                s.updatedby = updatedById;
+                updatedCount++;
+            }
+            dbContext.SaveChanges();
+            return updatedCount;
+        }
     }
 }

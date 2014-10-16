@@ -110,5 +110,15 @@ namespace WavePoetry.DataAccess
                 dbContext.reviews.Add(newReview);
                 dbContext.SaveChanges();
         }
+
+        public void Delete(int id)
+        {
+            var model = dbContext.reviews.FirstOrDefault(x => x.id == id);
+            if (model == null)
+                return;
+
+            dbContext.reviews.Remove(model);
+            dbContext.SaveChanges();
+        }
     }
 }

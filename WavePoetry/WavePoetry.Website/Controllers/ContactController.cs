@@ -22,35 +22,6 @@ namespace WavePoetry.Web.Controllers
             adminData = new AdminData();
         }
 
-        [AllowAnonymous]
-        [HttpPost]
-        public JsonResult LookupAuthor(string searchText, string maxResults)
-        {
-            int take = Convert.ToInt32(maxResults);
-            IEnumerable<ContactDetails> authors = data.LookupContact(searchText, take);
-            var contacts = authors.Select(t => new ContactDetails
-            {
-                DisplayName = t.DisplayName + " (" + t.Organization + ")",
-                Id = t.Id,
-                Organization = t.Organization
-            });
-            return Json(contacts);
-        }
-
-        [AllowAnonymous]
-        public JsonResult LookupAuthor(string term)
-        {
-            int take = 20;
-            IEnumerable<ContactDetails> authors = data.LookupContact(term, take);
-            var contacts = authors.Select(t => new ContactDetails
-            {
-                DisplayName = t.DisplayName + " (" + t.Organization + ")",
-                Id = t.Id,
-                Organization = t.Organization
-            });
-            return Json(contacts, JsonRequestBehavior.AllowGet);
-        }
-
         public ActionResult Create()
         {
             var model = new Contact();
@@ -70,6 +41,38 @@ namespace WavePoetry.Web.Controllers
 
             model.LoadCats(adminData.GetAllContactCats());
             return View(model);
+        }
+
+        public FileResult CreateCsv(ContactSearch search)
+        {
+            List<ContactCsvLine> items = data.SearchCsv(search);
+
+            return CreateCsv(items);
+        }
+
+        public FileResult CreateCsv(List<ContactCsvLine> items)
+        {
+            foreach (var item in items)
+            {
+                item.SubscriberNumber = item.SubNumber.HasValue ? item.SubNumber.Value.ToString() : "";
+                item.TitlesForFollowUp = string.Join(", ", item.FollowUpTitleList.ToArray());
+            }
+
+            CsvFileDescription outputFileDescription = new CsvFileDescription
+            {
+                EnforceCsvColumnAttribute = true
+            };
+
+            CsvContext cc = new CsvContext();
+            using (MemoryStream ms = new MemoryStream())
+            {
+                using (TextWriter tw = new StreamWriter(ms))
+                {
+                    cc.Write(items, tw, outputFileDescription);
+                }
+
+                return File(ms.ToArray(), "text/csv", "ContactList.csv");
+            }
         }
 
         public ActionResult DeleteContact(int id)
@@ -112,29 +115,47 @@ namespace WavePoetry.Web.Controllers
             return View(search);
         }
 
-        public FileResult CreateCsv(ContactSearch search)
+        [AllowAnonymous]
+        [HttpPost]
+        public JsonResult LookupAuthor(string searchText, string maxResults)
         {
-            List<ContactCsvLine> items = data.SearchCsv(search);
-            
-            foreach (var item in items)
-                item.SubscriberNumber = item.SubNumber.HasValue ? item.SubNumber.Value.ToString() : "";
-
-            CsvFileDescription outputFileDescription = new CsvFileDescription
+            int take = Convert.ToInt32(maxResults);
+            IEnumerable<ContactDetails> authors = data.LookupContact(searchText, take);
+            var contacts = authors.Select(t => new ContactDetails
             {
-                EnforceCsvColumnAttribute = true
-            };
-
-            CsvContext cc = new CsvContext();
-            using (MemoryStream ms = new MemoryStream())
-            {
-                using (TextWriter tw = new StreamWriter(ms))
-                {
-                    cc.Write(items, tw, outputFileDescription);
-                }
-
-                return File(ms.ToArray(), "text/csv", "ContactList.csv");
-            }
+                DisplayName = t.DisplayName + " (" + t.Organization + ")",
+                Id = t.Id,
+                Organization = t.Organization
+            });
+            return Json(contacts);
         }
+
+        [AllowAnonymous]
+        public JsonResult LookupAuthor(string term)
+        {
+            int take = 20;
+            IEnumerable<ContactDetails> authors = data.LookupContact(term, take);
+            var contacts = authors.Select(t => new ContactDetails
+            {
+                DisplayName = t.DisplayName + " (" + t.Organization + ")",
+                Id = t.Id,
+                Organization = t.Organization
+            });
+            return Json(contacts, JsonRequestBehavior.AllowGet);
+        }
+
+        [AllowAnonymous]
+        [HttpPost]
+        public JsonResult RemoveFollowUp(string idList)
+        {
+            if (string.IsNullOrEmpty(idList))
+                return Json(false, JsonRequestBehavior.AllowGet);
+
+            List<int> ids = idList.Split(',').Select(int.Parse).ToList();
+            int totalUpdated = data.RemoveFollowUp(ids, (Session["LoggedInUser"] as user).id);
+            return Json(true, JsonRequestBehavior.AllowGet);
+        }
+
 
     }
 }

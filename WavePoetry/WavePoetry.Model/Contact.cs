@@ -146,6 +146,9 @@ namespace WavePoetry.Model
         public string LastName { get; set; }
         public string Organization { get; set; }
         public string City { get; set; }
+        public string Address { get; set; }
+        public string Zip { get; set; }
+        public string Notes { get; set; }
         [DisplayName("Follow Up")]
         public bool NeedsFollowUp { get; set; }
         public string TypePossible { get; set; }
@@ -164,6 +167,13 @@ namespace WavePoetry.Model
                 "Name",
                 SelectedCats
             );
+        }
+
+        public bool HasCriteria()
+        {
+            return !(string.IsNullOrEmpty(this.LastName) && string.IsNullOrEmpty(this.FirstName) && string.IsNullOrEmpty(this.Organization) && string.IsNullOrEmpty(this.City) &&
+                this.SelectedCats.Count() == 0 && !this.NeedsFollowUp && string.IsNullOrEmpty(this.TypeAlways) && string.IsNullOrEmpty(this.TypePossible) &&
+                string.IsNullOrEmpty(this.Zip) && string.IsNullOrEmpty(this.Address) && string.IsNullOrEmpty(this.Notes) && !this.Sub_enddate.HasValue);
         }
     }
 
@@ -195,7 +205,10 @@ namespace WavePoetry.Model
         public string PrimaryEmail { get; set; }
         [CsvColumn(FieldIndex = 13)]
         public string AltEmail { get; set; }
+        [CsvColumn(FieldIndex = 14)]
+        public string TitlesForFollowUp { get; set; }
 
         public Nullable<int> SubNumber { get; set; }
+        public IEnumerable<string> FollowUpTitleList { get; set; }
     }
 }

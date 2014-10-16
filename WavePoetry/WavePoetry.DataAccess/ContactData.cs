@@ -43,6 +43,23 @@ namespace WavePoetry.DataAccess
 
         }
 
+        public int RemoveFollowUp(List<int> ids, int updatedById)
+        {
+            int updatedCount = 0;
+            var ships = dbContext.shipments.Where(s => s.should_followup && ids.Contains(s.contact_id));
+
+            foreach (shipment s in ships)
+            {
+                s.should_followup = false;
+                s.updatedat = DateTime.Now;
+                s.updatedby = updatedById;
+                updatedCount++;
+            }
+            dbContext.SaveChanges();
+            return updatedCount;
+
+        }
+        
         public Contact GetById(int id)
         {
             var c = dbContext.contacts.FirstOrDefault(t => t.id == id);
@@ -147,39 +164,16 @@ namespace WavePoetry.DataAccess
         }
         
         /// <summary>
-        /// TODO: DONT" FORGET SEARCH CSV!
+        /// TODO: DONT FORGET SEARCH CSV!
         /// </summary>
         /// <param name="search"></param>
         /// <returns></returns>
         public IEnumerable<ContactDetails> Search(ContactSearch search)
         {
-            if (string.IsNullOrEmpty(search.LastName) && string.IsNullOrEmpty(search.FirstName) && string.IsNullOrEmpty(search.Organization) && string.IsNullOrEmpty(search.City) &&
-                search.SelectedCats.Count() == 0 && !search.NeedsFollowUp && string.IsNullOrEmpty(search.TypeAlways) && string.IsNullOrEmpty(search.TypePossible) &&
-                !search.Sub_enddate.HasValue)
+            if (!search.HasCriteria())
                 return new List<ContactDetails>();
 
-            return dbContext.contacts.Where(x =>
-                // OR Search
-               ((string.IsNullOrEmpty(search.LastName) && string.IsNullOrEmpty(search.FirstName) && string.IsNullOrEmpty(search.Organization) && string.IsNullOrEmpty(search.City)) ||
-                x.lastname.StartsWith(search.LastName) || x.firstname.StartsWith(search.FirstName) || x.organization.StartsWith(search.Organization) || x.organization_alt.StartsWith(search.Organization) || x.city.StartsWith(search.City) || x.city_alt.StartsWith(search.City))
-                   // Cat search
-                && (search.SelectedCats.Count() == 0 || x.contact_contact_category.Where(c => search.SelectedCats.Contains(c.contact_category_id)).Count() > 0)
-                   // Follow up search
-                && (!search.NeedsFollowUp || x.contact_shipment.Where(s => s.should_followup).Count() > 0)
-                   // Sub end search
-                && (!search.Sub_enddate.HasValue || x.sub_enddate == search.Sub_enddate.Value)
-                   // Always Search
-                && (string.IsNullOrEmpty(search.TypeAlways) || ((search.TypeAlways != "Galleys" || x.galley_all) &&
-                   (search.TypeAlways != "Review" || x.review_all) &&
-                   (search.TypeAlways != "Desk" || x.desk_all) &&
-                   (search.TypeAlways != "Comp" || x.comp_all)))
-                   // Possible Search
-                && (string.IsNullOrEmpty(search.TypePossible) || ((search.TypePossible != "Galleys" || x.galley_pos) &&
-                   (search.TypePossible != "Review" || x.review_pos) &&
-                   (search.TypePossible != "Desk" || x.desk_pos) &&
-                   (search.TypePossible != "Comp" || x.comp_pos)))
-
-               )
+            return SearchContacts(search)
                .Select(s => new ContactDetails
                {
                    City = s.is_primary ? s.city : s.city_alt,
@@ -189,34 +183,13 @@ namespace WavePoetry.DataAccess
                });
 
         }
+        
         public List<ContactCsvLine> SearchCsv(ContactSearch search)
-        {
-            if (string.IsNullOrEmpty(search.LastName) && string.IsNullOrEmpty(search.FirstName) && string.IsNullOrEmpty(search.Organization) && string.IsNullOrEmpty(search.City) &&
-                search.SelectedCats.Count() == 0 && !search.NeedsFollowUp && string.IsNullOrEmpty(search.TypeAlways) && string.IsNullOrEmpty(search.TypePossible) &&
-                !search.Sub_enddate.HasValue)
+        { 
+            if (!search.HasCriteria())
                 return new List<ContactCsvLine>();
 
-            return dbContext.contacts.Where(x =>
-                // OR Search
-               ((string.IsNullOrEmpty(search.LastName) && string.IsNullOrEmpty(search.FirstName) && string.IsNullOrEmpty(search.Organization) && string.IsNullOrEmpty(search.City)) ||
-                x.lastname.StartsWith(search.LastName) || x.firstname.StartsWith(search.FirstName) || x.organization.StartsWith(search.Organization) || x.organization_alt.StartsWith(search.Organization) || x.city.StartsWith(search.City) || x.city_alt.StartsWith(search.City))
-                   // Cat search
-                && (search.SelectedCats.Count() == 0 || x.contact_contact_category.Where(c => search.SelectedCats.Contains(c.contact_category_id)).Count() > 0)
-                   // Follow up search
-                && (!search.NeedsFollowUp || x.contact_shipment.Where(s => s.should_followup).Count() > 0)
-                   // Sub end search
-                && (!search.Sub_enddate.HasValue || x.sub_enddate == search.Sub_enddate.Value)
-                   // Always Search
-                && (string.IsNullOrEmpty(search.TypeAlways) || ((search.TypeAlways != "Galleys" || x.galley_all) &&
-                   (search.TypeAlways != "Review" || x.review_all) &&
-                   (search.TypeAlways != "Desk" || x.desk_all) &&
-                   (search.TypeAlways != "Comp" || x.comp_all)))
-                   // Possible Search
-                && (string.IsNullOrEmpty(search.TypePossible) || ((search.TypePossible != "Galleys" || x.galley_pos) &&
-                   (search.TypePossible != "Review" || x.review_pos) &&
-                   (search.TypePossible != "Desk" || x.desk_pos) &&
-                   (search.TypePossible != "Comp" || x.comp_pos)))
-               )
+            return SearchContacts(search)
                .Select(c => new ContactCsvLine
                {
                    FirstName = c.firstname,
@@ -231,9 +204,35 @@ namespace WavePoetry.DataAccess
                    Organization = c.is_primary ? c.organization : c.organization_alt,
                    SubNumber = c.is_subscriber ? c.sub_number : null,
                    PrimaryEmail = c.email1,
-                   AltEmail = c.email2
+                   AltEmail = c.email2,
+                   FollowUpTitleList = c.contact_shipment.Where(s => s.should_followup).Select(s =>  s.shipment_title.title1)
                }).ToList();
 
+        }
+
+        private IQueryable<contact> SearchContacts(ContactSearch search)
+        {
+            return dbContext.contacts.Where(x => ((string.IsNullOrEmpty(search.LastName) && string.IsNullOrEmpty(search.FirstName) && string.IsNullOrEmpty(search.Organization) && string.IsNullOrEmpty(search.City) && string.IsNullOrEmpty(search.Zip) &&
+                            string.IsNullOrEmpty(search.Address) && string.IsNullOrEmpty(search.Notes)) ||
+                            x.lastname.StartsWith(search.LastName) || x.firstname.StartsWith(search.FirstName) || x.organization.StartsWith(search.Organization) || x.organization_alt.StartsWith(search.Organization) ||
+                            x.city.StartsWith(search.City) || x.city_alt.StartsWith(search.City) || x.zip.StartsWith(search.Zip) || x.zip_alt.StartsWith(search.Zip) || x.addressline1.Contains(search.Address) ||
+                            x.addressline1_alt.Contains(search.Address) || x.notes.Contains(search.Notes))
+                // Cat search
+                            && (search.SelectedCats.Count() == 0 || x.contact_contact_category.Where(c => search.SelectedCats.Contains(c.contact_category_id)).Count() > 0)
+                // Follow up search
+                            && (!search.NeedsFollowUp || x.contact_shipment.Where(s => s.should_followup).Count() > 0)
+                // Sub end search
+                            && (!search.Sub_enddate.HasValue || x.sub_enddate == search.Sub_enddate.Value)
+                // Always Search
+                            && (string.IsNullOrEmpty(search.TypeAlways) || ((search.TypeAlways != "Galleys" || x.galley_all) &&
+                                (search.TypeAlways != "Review" || x.review_all) &&
+                                (search.TypeAlways != "Desk" || x.desk_all) &&
+                                (search.TypeAlways != "Comp" || x.comp_all)))
+                // Possible Search
+                            && (string.IsNullOrEmpty(search.TypePossible) || ((search.TypePossible != "Galleys" || x.galley_pos) &&
+                                (search.TypePossible != "Review" || x.review_pos) &&
+                                (search.TypePossible != "Desk" || x.desk_pos) &&
+                                (search.TypePossible != "Comp" || x.comp_pos))));
         }
 
         public void Update(Contact c2, int updatedby)
@@ -292,7 +291,6 @@ namespace WavePoetry.DataAccess
 
             InsertCategories(c2, dbContext);
         }
-
 
         public int Insert(Contact c2, int createdBy)
         {
@@ -356,20 +354,6 @@ namespace WavePoetry.DataAccess
 
         }
 
-        private void InsertCategories(Contact contact, wavepoetry2Entities1 dbContext)
-        {
-            var existingCats = dbContext.contact_to_category.Where(c => c.contact_id == contact.Id);
-            foreach (var cat in existingCats)
-                dbContext.contact_to_category.Remove(cat);
-
-
-
-            foreach (var id in contact.SelectedCats)
-                dbContext.contact_to_category.Add(new contact_to_category { contact_id = contact.Id, contact_category_id = id });
-            dbContext.SaveChanges();
-
-        }
-
         public void Delete(int id)
         {
             var model = dbContext.contacts.FirstOrDefault(x => x.id == id);
@@ -389,5 +373,22 @@ namespace WavePoetry.DataAccess
 
             dbContext.SaveChanges();
         }
+
+        #region private methods
+        private void InsertCategories(Contact contact, wavepoetry2Entities1 dbContext)
+        {
+            var existingCats = dbContext.contact_to_category.Where(c => c.contact_id == contact.Id);
+            foreach (var cat in existingCats)
+                dbContext.contact_to_category.Remove(cat);
+
+
+
+            foreach (var id in contact.SelectedCats)
+                dbContext.contact_to_category.Add(new contact_to_category { contact_id = contact.Id, contact_category_id = id });
+            dbContext.SaveChanges();
+
+        }
+
+        #endregion
     }
 }
