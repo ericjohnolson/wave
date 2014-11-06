@@ -210,5 +210,6 @@ namespace WavePoetry.Model
 
         public Nullable<int> SubNumber { get; set; }
         public IEnumerable<string> FollowUpTitleList { get; set; }
+        public int Id { get; set; }
     }
 }

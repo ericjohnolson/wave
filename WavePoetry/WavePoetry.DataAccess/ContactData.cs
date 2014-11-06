@@ -189,9 +189,10 @@ namespace WavePoetry.DataAccess
             if (!search.HasCriteria())
                 return new List<ContactCsvLine>();
 
-            return SearchContacts(search)
+            var contacts = SearchContacts(search)
                .Select(c => new ContactCsvLine
                {
+                   Id = c.id,
                    FirstName = c.firstname,
                    LastName = c.lastname,
                    AddressLine1 = c.is_primary ? c.addressline1 : c.addressline1_alt,
@@ -204,10 +205,18 @@ namespace WavePoetry.DataAccess
                    Organization = c.is_primary ? c.organization : c.organization_alt,
                    SubNumber = c.is_subscriber ? c.sub_number : null,
                    PrimaryEmail = c.email1,
-                   AltEmail = c.email2,
-                   FollowUpTitleList = c.contact_shipment.Where(s => s.should_followup).Select(s =>  s.shipment_title.title1)
+                   AltEmail = c.email2
                }).ToList();
-
+            
+            foreach (var c in contacts)
+            {
+                c.SubscriberNumber = c.SubNumber.HasValue ? c.SubNumber.Value.ToString() : "";
+                List<string> titlesToFollowUp = dbContext.shipments.Where(x => x.contact_id == c.Id && x.should_followup).Select(s =>  s.shipment_title.title1).ToList();
+                    
+                if(titlesToFollowUp.Count > 0)
+                    c.TitlesForFollowUp = string.Join(", ", titlesToFollowUp.ToArray());
+            }
+            return contacts;
         }
 
         private IQueryable<contact> SearchContacts(ContactSearch search)

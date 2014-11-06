@@ -193,9 +193,9 @@ namespace WavePoetry.DataAccess
                    Organization = s.shipment_contact.is_primary ? s.shipment_contact.organization : s.shipment_contact.organization_alt,
                    SubNumber = s.shipment_contact.is_subscriber ? s.shipment_contact.sub_number : null,
                    PrimaryEmail = s.shipment_contact.email1,
-                   AltEmail = s.shipment_contact.email2,
-                   FollowUpTitleList = s.shipment_contact.contact_shipment.Where(cs => cs.should_followup).Select(cs2 => cs2.shipment_title.title1)
+                   AltEmail = s.shipment_contact.email2
                }).ToList();
+
         }
 
         public int SetFollowUp(List<int> ids, bool shouldFollowUp, int updatedById)

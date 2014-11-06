@@ -52,12 +52,6 @@ namespace WavePoetry.Web.Controllers
 
         public FileResult CreateCsv(List<ContactCsvLine> items)
         {
-            foreach (var item in items)
-            {
-                item.SubscriberNumber = item.SubNumber.HasValue ? item.SubNumber.Value.ToString() : "";
-                item.TitlesForFollowUp = string.Join(", ", item.FollowUpTitleList.ToArray());
-            }
-
             CsvFileDescription outputFileDescription = new CsvFileDescription
             {
                 EnforceCsvColumnAttribute = true
