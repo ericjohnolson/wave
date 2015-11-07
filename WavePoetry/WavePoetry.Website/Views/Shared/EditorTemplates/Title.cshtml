@@ -117,6 +117,7 @@
                                         <td>Comps</td>
                                         <td>Reviews</td>
                                         <td>Donations</td>
+                                        <td>Awards</td>
                                         <td><strong>Total</strong></td>
                                     </tr>
                                 </thead>
@@ -128,7 +129,8 @@
                                         <td>@Model.TotalCompPending</td>
                                         <td>@Model.TotalReviewPending</td>
                                         <td>@Model.TotalDonationPending</td>
-                                        <td>@(Model.TotalGalleyPending + Model.TotalDeskPending + Model.TotalCompPending + Model.TotalReviewPending + Model.TotalDonationPending)</td>
+                                        <td>@Model.TotalAwardPending</td>
+                                        <td>@(Model.TotalGalleyPending + Model.TotalDeskPending + Model.TotalCompPending + Model.TotalReviewPending + Model.TotalDonationPending + Model.TotalAwardPending)</td>
                                     </tr>
                                     <tr>
                                         <td>Sent</td>
@@ -137,7 +139,8 @@
                                         <td>@Model.TotalCompSent</td>
                                         <td>@Model.TotalReviewSent</td>
                                         <td>@Model.TotalDonationSent</td>
-                                        <td>@(Model.TotalGalleySent + Model.TotalDeskSent + Model.TotalCompSent + Model.TotalReviewSent + Model.TotalDonationSent)</td>
+                                        <td>@Model.TotalAwardSent</td>
+                                        <td>@(Model.TotalGalleySent + Model.TotalDeskSent + Model.TotalCompSent + Model.TotalReviewSent + Model.TotalDonationSent + Model.TotalAwardSent)</td>
                                     </tr>
                                     <tr>
                                         <td><strong>Total</strong></td>
@@ -146,7 +149,8 @@
                                         <td><strong>@(Model.TotalCompPending + Model.TotalCompSent)</strong></td>
                                         <td><strong>@(Model.TotalReviewPending + Model.TotalReviewSent)</strong></td>
                                         <td><strong>@(Model.TotalDonationPending + Model.TotalDonationSent)</strong></td>
-                                        <td><strong>@(Model.TotalGalleyPending + Model.TotalDeskPending + Model.TotalCompPending + Model.TotalReviewPending + Model.TotalDonationPending + Model.TotalGalleySent + Model.TotalDeskSent + Model.TotalCompSent + Model.TotalReviewSent + Model.TotalDonationSent)</strong></td>
+                                        <td><strong>@(Model.TotalAwardPending + Model.TotalAwardSent)</strong></td>
+                                        <td><strong>@(Model.TotalGalleyPending + Model.TotalDeskPending + Model.TotalCompPending + Model.TotalReviewPending + Model.TotalDonationPending + Model.TotalAwardPending + Model.TotalGalleySent + Model.TotalDeskSent + Model.TotalCompSent + Model.TotalReviewSent + Model.TotalDonationSent + Model.TotalAwardSent)</strong></td>
                                     </tr>
 
                                 </tbody>

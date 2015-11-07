@@ -36,7 +36,8 @@ namespace WavePoetry.Model
                 new KeyValuePair<string, string>("Review", "Review"),
                 new KeyValuePair<string, string>("Desk", "Desk"),
                 new KeyValuePair<string, string>("Comp", "Comp"),
-                new KeyValuePair<string, string>("Donation", "Donation")
+                new KeyValuePair<string, string>("Donation", "Donation"),
+                new KeyValuePair<string, string>("Award", "Award")
             };
         }
 

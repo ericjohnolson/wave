@@ -79,6 +79,10 @@ namespace WavePoetry.DataAccess
                     vm.TotalReviewPending += s.Quantity;
                 if (s.Status == "Sent" && s.Type == "Review")
                     vm.TotalReviewSent += s.Quantity;
+                if (s.Status == "Pending" && s.Type == "Award")
+                    vm.TotalAwardPending += s.Quantity;
+                if (s.Status == "Sent" && s.Type == "Award")
+                    vm.TotalAwardSent += s.Quantity;
             }
             return vm;
         }
