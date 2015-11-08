@@ -62,6 +62,50 @@ namespace WavePoetry.Model
         public SelectList Titles { get; set; }
     }
 
+    /// <summary>
+    /// Represents a collection of Shipments where multiple contact and title IDs can be selected
+    /// </summary>
+    public class ShipmentBatch : Shipment
+    {
+        [Required, DisplayName("Contacts")]
+        public List<int> SelectedContacts { get; set; }
+        [Required, DisplayName("Titles")]
+        public List<int> SelectedTitles { get; set; }
+
+        new public MultiSelectList Contacts { get; set; }
+        new public MultiSelectList Titles { get; set; }
+
+        public ShipmentBatch() : base()
+        {
+            SelectedContacts = new List<int>();
+            SelectedTitles = new List<int>();
+        }
+
+        public List<Shipment> CreateShipmentCollection()
+        {
+            List<Shipment> shipments = new List<Shipment>();
+
+            foreach (int titleId in SelectedTitles)
+            {
+                foreach (int contactId in SelectedContacts)
+                {
+                    Shipment shipment = new Shipment();
+                    shipment.Status = Status;
+                    shipment.Type = Type;
+                    shipment.DateSent = DateSent;
+                    shipment.Quantity = Quantity;
+                    shipment.ShouldFollowUp = ShouldFollowUp;
+                    shipment.ContactId = contactId;
+                    shipment.TitleId = titleId;
+
+                    shipments.Add(shipment);
+                }
+            }
+
+            return shipments;
+        }
+    }
+
     public class ShipmentCsvLine
     {
         [CsvColumn(FieldIndex = 1)]

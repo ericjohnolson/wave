@@ -349,6 +349,7 @@
     <Content Include="Views\Shared\EditorTemplates\Shipment.cshtml" />
     <Content Include="Views\Shipment\Edit.cshtml" />
     <Content Include="Views\Shipment\Create.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\ShipmentBatch.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

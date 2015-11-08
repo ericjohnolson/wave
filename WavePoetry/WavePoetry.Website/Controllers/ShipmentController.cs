@@ -108,21 +108,21 @@ namespace WavePoetry.Web.Controllers
 
         public ActionResult Create()
         {
-            var model = new Shipment();
+            var model = new ShipmentBatch();
             ParseQueryString(Request, model, true);
             LoadLists(model);
             return View(model);
         }
 
         [HttpPost]
-        public ActionResult Create(Shipment model)
+        public ActionResult Create(ShipmentBatch model)
         {
             LoadLists(model);
             Validate(model);
 
             if (ModelState.IsValid)
             {
-                data.Insert(model, (Session["LoggedInUser"] as user).id);
+                data.Insert(model.CreateShipmentCollection(), (Session["LoggedInUser"] as user).id);
                 TempData["SuccessMessage"] = string.Format("Shipment was created.");
 
                 if (model.Redirect == "title")
@@ -185,6 +185,30 @@ namespace WavePoetry.Web.Controllers
                 ModelState.AddModelError(string.Empty, "Please fix the errors below.");
         }
 
+        private void Validate(ShipmentBatch model)
+        {
+            // Make sure a contact and title was seelected
+            if (model.SelectedContacts.Count < 1)
+                ModelState.AddModelError("SelectedContacts", "Please select a valid Contact from the auto complete choices");
+            if (model.SelectedTitles.Count < 1)
+                ModelState.AddModelError("SelectedTitles", "Please select a valid Title from the auto complete choices");
+
+            // Make sure each contact and title has a non-zero ID
+            foreach (int contactId in model.SelectedContacts)
+            {
+                if (contactId < 1)
+                    ModelState.AddModelError("SelectedContacts", "Please select a valid Contact from the auto complete choices");
+            }
+            foreach (int titleId in model.SelectedTitles)
+            {
+                if (titleId < 1)
+                    ModelState.AddModelError("SelectedTitles", "Please select a valid Title from the auto complete choices");
+            }
+
+            if (!ModelState.IsValid)
+                ModelState.AddModelError(string.Empty, "Please fix the errors below.");
+        }
+
         private void ParseQueryString(HttpRequestBase Request, Shipment model, bool isCreate)
         {
             model.Redirect = string.Empty;
@@ -208,6 +232,33 @@ namespace WavePoetry.Web.Controllers
             }
         }
 
+        private void ParseQueryString(HttpRequestBase Request, ShipmentBatch model, bool isCreate)
+        {
+            model.Redirect = string.Empty;
+            if (!string.IsNullOrEmpty(Request.QueryString["title"]))
+            {
+                model.Redirect = "title";
+                if (isCreate)
+                {
+                    int titleId = Convert.ToInt32(Request.QueryString["title"]);
+                    model.TitleId = titleId;
+                    model.SelectedTitles.Add(titleId);
+                    model.TitleName = reviewData.GetTitleDisplayNameById(model.TitleId);
+                }
+            }
+            else if (!string.IsNullOrEmpty(Request.QueryString["contact"]))
+            {
+                model.Redirect = "contact";
+                if (isCreate)
+                {
+                    int contactId = Convert.ToInt32(Request.QueryString["contact"]);
+                    model.ContactId = contactId;
+                    model.SelectedContacts.Add(contactId);
+                    model.ContactName = reviewData.GetContactDisplayNameById(model.ContactId);
+                }
+            }
+        }
+
         private void LoadLists(Shipment model)
         {
             var titleId = model.TitleId.ToString();
@@ -218,6 +269,18 @@ namespace WavePoetry.Web.Controllers
             var titles = new List<SelectListItem> { new SelectListItem { Text = titleName, Value = titleId } };
             model.Contacts = new SelectList(contacts, "Value", "Text", null);
             model.Titles = new SelectList(titles, "Value", "Text", null);
+        }
+
+        private void LoadLists(ShipmentBatch model)
+        {
+            var titleId = model.TitleId.ToString();
+            var titleName = string.IsNullOrEmpty(model.TitleName) ? "Search for a Title" : model.TitleName;
+            var contactId = model.ContactId.ToString();
+            var contactName = string.IsNullOrEmpty(model.ContactName) ? "Search for a Contact" : model.ContactName;
+            var contacts = new List<SelectListItem> { new SelectListItem { Text = contactName, Value = contactId } };
+            var titles = new List<SelectListItem> { new SelectListItem { Text = titleName, Value = titleId } };
+            model.Contacts = new MultiSelectList(contacts, "Value", "Text", null);
+            model.Titles = new MultiSelectList(titles, "Value", "Text", null);
         }
     }
 }

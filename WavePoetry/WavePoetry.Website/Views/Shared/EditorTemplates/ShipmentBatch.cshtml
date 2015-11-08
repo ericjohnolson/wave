@@ -1,0 +1,130 @@
+﻿@using WavePoetry.DataAccess
+@model WavePoetry.Model.ShipmentBatch
+
+
+<div class="tabbable">
+
+    <fieldset>
+        <legend></legend>
+        @Html.HiddenFor(model => model.Redirect)
+        @Html.HiddenFor(model => model.ContactId)
+        @Html.HiddenFor(model => model.TitleId)
+
+        <div class="editor-label">
+            @Html.DisplayNameFor(model => model.ShouldFollowUp)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.ShouldFollowUp)
+            @Html.ValidationMessageFor(model => model.ShouldFollowUp)
+        </div>
+
+        <div class="editor-label">
+            @Html.DisplayNameFor(model => model.SelectedTitles)
+        </div>
+        <div class="editor-field">
+            @Html.ListBoxFor(model => model.SelectedTitles, Model.Titles, new { @class = "chzn-select" })
+            @Html.ValidationMessageFor(model => model.SelectedTitles)
+        </div>
+
+        <div class="editor-label">
+            @Html.DisplayNameFor(model => model.SelectedContacts)
+        </div>
+        <div class="editor-field">
+            @Html.ListBoxFor(model => model.SelectedContacts, Model.Contacts, new { @class = "chzn-select" })
+            @Html.ValidationMessageFor(model => model.SelectedContacts)
+        </div>
+
+        <div class="editor-label">
+            @Html.DisplayNameFor(model => model.Type)
+        </div>
+        <div class="editor-field">
+            @Html.DropDownListFor(model => model.Type, Model.Types, new { @class = "test" })
+            @Html.ValidationMessageFor(model => model.Type)
+        </div>
+
+        <div class="editor-label">
+            @Html.DisplayNameFor(model => model.Status)
+        </div>
+        <div class="editor-field">
+            @Html.DropDownListFor(model => model.Status, Model.StatusTypes, new { @class = "test" })
+            @Html.ValidationMessageFor(model => model.Status)
+        </div>
+
+        <div class="editor-label">
+            @Html.DisplayNameFor(model => model.Quantity)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Quantity)
+            @Html.ValidationMessageFor(model => model.Quantity)
+        </div>
+
+        <div class="editor-label">
+            @Html.DisplayNameFor(model => model.DateSent)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.DateSent)
+            @Html.ValidationMessageFor(model => model.DateSent)
+        </div>
+
+        <div class="form-actions">
+
+            <div class=" pull-right">
+                @if (Model.Redirect == "contact")
+                {
+                    <a href="/Contact/Edit/@Model.ContactId" class="btn" style="margin-left:5px;">Back to Contact</a>
+                }
+                else
+                {
+                    <a href="/Title/Edit/@Model.TitleId" class="btn">Back to Title</a>
+                }
+                <button class="btn btn-primary" name="cmdSave" type="submit">Save</button>
+
+            </div>
+
+        </div>
+    </fieldset>
+
+</div>
+
+<script src="@Url.Content("~/Scripts/chosen/chosen.jquery.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/chosen/ajax-chosen.min.js")" type="text/javascript"></script>
+<link href="@Url.Content("~/Scripts/chosen/chosen.css")" rel="stylesheet" type="text/css" />
+<script>
+
+    $(document).ready(function () {
+        // Init items
+        $('#DateSent').datepicker();
+
+        $("#SelectedContacts").ajaxChosen({
+            type: 'GET',
+            url: '/Contact/LookupAuthor',
+            dataType: 'json'
+        }, function (data) {
+            var results = [];
+
+            $.each(data, function (i, val) {
+                results.push({ value: val.Id, text: val.DisplayName });
+            });
+
+            return results;
+        });
+
+
+        $("#SelectedTitles").ajaxChosen({
+            type: 'GET',
+            url: '/Title/LookupTitle',
+            dataType: 'json'
+        }, function (data) {
+            var results = [];
+
+            $.each(data, function (i, val) {
+                results.push({ value: val.TitleId, text: val.Title });
+            });
+
+            return results;
+        });
+
+
+    });
+
+</script>
